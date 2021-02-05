@@ -1,0 +1,150 @@
+.btn:not(:disabled):not(.disabled) {
+  background-color: #19647e;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.navbar.navbar-dark.navbar-expand-lg.navigation-clean-search {
+  background-color: #31d0aa;
+  font-size: 1.1rem;
+}
+
+.navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text {
+  color: white !important;
+  font-size: 1.1rem;
+}
+
+.footer-basic {
+  background-color: #505050 !important;
+}
+
+.social {
+  color: white;
+}
+
+.list-inline, .list-unstyled {
+  color: white;
+}
+
+.far.fa-calendar-alt.m-auto.text-primary {
+  font-size: 3rem;
+  color: #19647e !important;
+}
+
+.fas.fa-users.m-auto.text-primary {
+  font-size: 3rem;
+  color: #19647e !important;
+}
+
+.fas.fa-pencil-alt.m-auto.text-primary {
+  font-size: 3rem;
+  color: #19647e !important;
+}
+
+.h3, h3 {
+  color: #2e282a;
+}
+
+.mx-auto.features-icons-item.mb-5.mb-lg-0.mb-lg-3 {
+  border: 3px solid #2e282a;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  height: 250px;
+  background-color: #fbfcee!important;
+}
+
+.d-flex.features-icons-icon {
+  margin: 10px;
+  padding: 10px;
+}
+
+.pag_inicial {
+  background-image: url("../../assets/img/img04b.jpg") !important;
+  background-repeat: round;
+  max-width: 1800px;
+}
+
+.pag_inicial_cards {
+  color: #2e282a;
+}
+
+.bg-gradient-primary {
+  background-color: #31d0aa;
+  background-image: none;
+}
+
+.img-logo {
+  width: 100%;
+}
+
+.logo {
+  font-family: 'Comfortaa';
+  font-size: 2.9rem !important;
+  color: #19647e !important;
+  font-weight: bold;
+}
+
+.botao-custom {
+  color: #fff;
+  background-color: #19647e !important;
+}
+
+.logo-profile {
+  font-size: 1.5rem;
+}
+
+.textoMaterias {
+  color: #2e282a !important;
+}
+
+.paginas {
+  background-color: #31deaa !important;
+  border-color: #505050 !important;
+  color: #2e282a !important;
+}
+
+.cor-fonte-pagina {
+  color: #505050;
+}
+
+@media screen and (max-width: 992px) {
+  .pag_inicial_texto {
+    font-size: 3.5em !important;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .pag_inicial_texto {
+    font-size: 4em !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .pag_inicial_texto {
+    font-size: 3.5em !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .pag_inicial_texto {
+    font-size: 3em !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .pag_inicial_texto {
+    font-size: 2.5em !important;
+  }
+}
+
+.pag_inicial_texto {
+  font-family: 'Comfortaa';
+  color: #19647e;
+  font-size: 5em;
+  font-weight: 700;
+}
+
+.seletor-lang{
+  
+}

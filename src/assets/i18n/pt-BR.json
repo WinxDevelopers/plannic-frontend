@@ -1,0 +1,51 @@
+{
+    "VER_TRADUZIDO": "PT",
+    "INDEX": {
+        "PLANNIC": "Plannic é um planejador acadêmico criado para os estudantes.",
+        "CALENDARIO": "Calendário Personalizado",
+        "CALENDARIO-DESC": "Crie o seu calendário personalizado de estudo.",
+        "COMPARTILHAR": "Compartilhar",
+        "COMPARTILHAR-DESC": "Compartilhe seu conhecimento e seu material de estudo com outros alunos",
+        "ESTUDO": "Métodos de estudo",
+        "ESTUDO-DESC": "Escolha o método de estudo mais apropriado para você.",
+        "HOME": "Home",
+        "QUEM-SOMOS": "Quem Somos",
+        "PRIVACIDADE": "Política de Privacidade"
+    },
+    "PADRAO": {
+        "CADASTRE-SE": "Cadastre-se",
+        "ENTRAR": "Entrar"
+    },
+    "CRUD-USUARIO": {
+        "BEM-VINDO": "Bem vindo!",
+        "CAMPOS": "Por favor, preencher todos os campos",
+        "EMAIL-ERR": "Por favor, insira um e-mail válido",
+        "CONECTADO": "Mantenha-me conectado",
+        "LOGIN": "Login",
+        "SENHA-FORGOT": "Esqueceu a senha?",
+        "CONTA": "Crie sua conta.",
+        "CONTA-OK": "Já possui uma conta? Entre aqui!",
+        "REGISTRAR": "Criar conta",
+        "NOME": "Nome completo",
+        "EMAIL": "E-mail",
+        "SENHA": "Digite a senha",
+        "SENHA2": "Digite a senha novamente",
+        "SENHA-ERR": "Senhas diferentes"
+    },
+    "DASHBOARD": {
+        "CADASTRO": "Cadastro",
+        "CALENDARIO": "Calendário",
+        "MATERIAS": "Matérias",
+        "SAIR": "Sair",
+        "ALTERAR-IMG": "Alterar Imagem",
+        "PERFORMANCE": "Performance",
+        "DADOS": "Dados do Usuário",
+        "EMAIL": "E-mail",
+        "NOME": "Nome",
+        "SOBRENOME": "Sobrenome",
+        "SALVAR": "Salvar",
+        "PERFIL": "Perfil",
+        "CONFIGURACOES": "Configurações",
+        "ATIVIDADE": "Atividade"
+    }
+}
