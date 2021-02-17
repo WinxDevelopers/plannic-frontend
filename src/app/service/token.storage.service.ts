@@ -1,38 +1,29 @@
 import { Injectable } from '@angular/core';
-
-const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
-  constructor() { }
+  constructor(private localStorage:LocalStorage) { }
 
-  signOut(): void {
-    window.sessionStorage.clear();
+  setItem(key, value) {
+    return this.localStorage.setItem(key, value);
   }
 
-  public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+  getItem(key) {
+    return this.localStorage.getItem(key);
   }
 
-  public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
+  removeItem(key) {
+    return this.localStorage.removeItem(key);
   }
 
-  public saveUser(user: any): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+  clear() {
+    this.localStorage.clear();
   }
 
-  public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
-
-    return {};
+  getLength() {
+    return this.localStorage.length;
   }
 }

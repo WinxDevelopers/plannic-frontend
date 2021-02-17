@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { TokenStorageService } from 'src/app/service/token.storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-
+const USER_TOKEN = 'token';
 
 @Component({
   selector: 'app-login',
@@ -14,24 +14,30 @@ export class LoginComponent implements OnInit {
     email: null,
     password: null
   };
-  isLoggedIn = false;
-  isLoginFailed = false;
+
   errorMessage = '';
   emailOk: boolean = true;
   formOk: boolean = true;
-  roles: string[] = [];
+  redirectTo:string = '';
 
-  constructor(private authService: LoginService, private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private authService: LoginService, 
+              private tokenStorage: TokenStorageService, 
+              private router: Router,
+              private route:ActivatedRoute) { }
   email: String;
   senha: String;
 
   ngOnInit(): void {
     document.getElementById("body").classList.add("bg-gradient-primary");
-
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().roles;
-    }
+    this.tokenStorage.getItem(USER_TOKEN)
+      .subscribe((token) => {
+        if (token) {
+          this.router.navigate(['/dashboard']);
+        }
+      });
+    this.route.queryParams.subscribe((params:Params) => {
+      this.redirectTo = params.redirectTo || '/dashboard';
+    });
   }
 
   emailOK(email) {
@@ -45,17 +51,19 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  redirect() {
+    this.router.navigate([this.redirectTo]);
+  }
+
   onSubmit(email, password) {
     this.authService.login(email, password)
       .then(token => {
-          console.log(token);
-          this.tokenStorage.saveToken(token);          
-          //this.tokenStorage.saveUser(data);  
-          this.isLoginFailed = false;
-          this.isLoggedIn = true;
-          this.roles = this.tokenStorage.getUser().roles;
-          this.router.navigate(['/dashboard']);
-      })
+          this.tokenStorage.setItem(USER_TOKEN, token).subscribe(() => {
+            window.location.reload();
+            this.redirect();
+            //CORRIGIR REDIRECT
+          });
+        })
       .catch(e => {
         alert("Login não realizado");
         console.log(e);
@@ -73,9 +81,5 @@ export class LoginComponent implements OnInit {
       if (this.emailOK(email))
         this.onSubmit(email, password);
     }
-  }
-
-  reloadPage(): void {
-    window.location.reload();
   }
 }

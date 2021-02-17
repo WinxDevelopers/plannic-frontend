@@ -30,7 +30,8 @@
         "EMAIL": "E-mail",
         "SENHA": "Password",
         "SENHA2": "Password again",
-        "SENHA-ERR": "Different passwords"
+        "SENHA-ERR": "Different passwords",
+        "SENHA-ERR2": "The password must contain at least 8 characters, 1 lowercase character, 1 uppercase character, 1 number and 1 special character"
     },
     "DASHBOARD": {
         "CADASTRO": "Register",

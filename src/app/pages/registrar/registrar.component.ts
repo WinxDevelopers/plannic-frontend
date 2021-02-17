@@ -7,11 +7,13 @@ import { LoginService } from 'src/app/service/login.service';
 })
 export class RegistrarComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService) {}
 
   confPass: string;
   emailOk: boolean = true;
   passOk: boolean = true;
+  passMinOk: boolean = true;
+  passConfOk: boolean = true;
   formOk: boolean = true;
   form: any = {
     nome: null,
@@ -21,7 +23,12 @@ export class RegistrarComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  letrasMaiusculas = /[A-Z]/;
+  letrasMinusculas = /[a-z]/; 
+  numeros = /[0-9]/;
+  caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
 
+  
   ngOnInit() {
     document.getElementById("body").classList.add("bg-gradient-primary");
   }
@@ -29,7 +36,6 @@ export class RegistrarComponent implements OnInit {
   onSubmit({ email, password, nome }): void {
     this.loginService.register(email, password, nome).subscribe(
       data => {
-        console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         alert("Cadastro realizado com sucesso!")
@@ -45,11 +51,35 @@ export class RegistrarComponent implements OnInit {
   }
 
   passOK(password) {
+    this.passConf(password);
+    this.passMin(password);
+    if (this.passConfOk && this.passMinOk) {
+      return this.passOk = true;
+    } else {
+      return this.passOk = false;
+    }
+  }
+
+  passConf(password){
     if (password === this.confPass) {
-      this.passOk = true;
+      this.passConfOk = true;
       return true;
     } else {
-      this.passOk = false;
+      this.passConfOk = false;
+      return false;
+    }
+  }
+
+  passMin(password) {
+    if (password.length >= 8 &&
+        this.letrasMaiusculas.test(password) &&  
+        this.letrasMinusculas.test(password) &&  
+        this.numeros.test(password)&&  
+        this.caracteresEspeciais.test(password)){
+      this.passMinOk = true;
+      return true;
+    } else {
+      this.passMinOk = false;
       return false;
     }
   }

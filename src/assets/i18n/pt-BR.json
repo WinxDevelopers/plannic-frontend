@@ -30,7 +30,8 @@
         "EMAIL": "E-mail",
         "SENHA": "Digite a senha",
         "SENHA2": "Digite a senha novamente",
-        "SENHA-ERR": "Senhas diferentes"
+        "SENHA-ERR": "Senhas diferentes",
+        "SENHA-ERR2": "A senha deve conter, no minímo, 8 caracteres, 1 maiúsculo, 1 minúsculo, 1 número e um caracter especial"
     },
     "DASHBOARD": {
         "CADASTRO": "Cadastro",
