@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { TokenStorageService } from 'src/app/service/token.storage.service';
+
+const USER_TOKEN = 'token'
 
 @Component({
   selector: 'app-index',
@@ -8,9 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
 export class IndexComponent implements OnInit {
   public isPortugues:boolean = true;
   public lang;
+  public isLogged:boolean;
 
   constructor(
-    public translate: TranslateService
+    public translate: TranslateService,
+    private tokenStorage: TokenStorageService,
   ) {
     this.lang = localStorage.getItem('lang') || 'pt-BR';
     translate.addLangs(['pt-BR', 'en']);
@@ -18,6 +23,14 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById("body").classList.remove("bg-gradient-primary");
+    this.tokenStorage.getItem(USER_TOKEN)
+      .subscribe((token) => {
+        if (!token) {
+          this.isLogged = false;
+        }else{
+          this.isLogged = true;
+        }
+      });
   }
 
   switchLang(lang: string): void {

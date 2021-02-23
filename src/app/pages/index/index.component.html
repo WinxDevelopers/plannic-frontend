@@ -1,104 +1,114 @@
-<header class="masthead text-white text-center">
-    <div class="overlay"></div>
-    <nav class="navbar navbar-dark navbar-expand-lg navigation-clean-search">
-        <div class="container">
-            <a class="navbar-brand logo" href="/" style="width: 240px;height: 70px;padding: 3px;">
-                <img class="float-left" src="assets/img/logo.png" style="height: 60px;padding: 5px;">
-                Plannic
-            </a>
-            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <span class="navbar-text"><a class="login" href="/registrar"
-                                style="padding: 5px;">{{'PADRAO.CADASTRE-SE' | translate}}</a>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/login">
-                            <button class="btn btn-primary .botao-custom" type="button">{{'PADRAO.ENTRAR' | translate}}</button>
-                        </a>
-                    </li>
-                    <li class="nav-item" style="margin-top: 5px; margin-left: 5px;">
-                        <select class="form-control form-control-sm" #langSelect (change)="switchLang(langSelect.value)">
-                            <option *ngFor="let lang of translate.getLangs()" [value]="lang"
-                                [selected]="lang === translate.currentLang">{{ lang }}</option>
-                        </select>
-                    </li>
-                </ul>
+<div *ngIf="!isLogged">
+    <header class="masthead text-white text-center">
+        <div class="overlay"></div>
+        <nav class="navbar navbar-dark navbar-expand-lg navigation-clean-search">
+            <div class="container">
+                <a class="navbar-brand logo" href="/" style="width: 240px;height: 70px;padding: 3px;">
+                    <img class="float-left" src="assets/img/logo.png" style="height: 60px;padding: 5px;">
+                    Plannic
+                </a>
+                <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <span class="navbar-text"><a class="login" routerLink="/registrar"
+                                    style="padding: 5px;">{{'PADRAO.CADASTRE-SE' | translate}}</a>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/login">
+                                <button class="btn btn-primary .botao-custom" type="button">{{'PADRAO.ENTRAR' |
+                                    translate}}</button>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 5px; margin-left: 5px;">
+                            <select class="form-control form-control-sm" #langSelect
+                                (change)="switchLang(langSelect.value)">
+                                <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                                    [selected]="lang === translate.currentLang">{{ lang }}</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
-<div class="row no-gutters" style="height: 80px;"></div>
-<section class="features-icons bg-light text-center" style="margin-top: 10px;margin-bottom: 10px;">
-    <div class="container pag_inicial" style="height: 500px;">
-        <div class="row">
-            <div class="col-xl-9 mx-auto" style="height: 482px;">
-                <h1 class="mb-5 pag_inicial_texto"
-                    style="margin-right:40px;margin-left:40px;margin-top: 100px;text-shadow: 3px 2px 2px var(--dark);height: 350px;">
-                    {{'INDEX.PLANNIC' | translate}}</h1>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="features-icons bg-light text-center">
+        </nav>
+    </header>
     <div class="row no-gutters" style="height: 80px;"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
-                    <div class="d-flex features-icons-icon"><i class="far fa-calendar-alt m-auto text-primary"
-                            data-bs-hover-animate="pulse"></i></div>
-                    <h3>{{'INDEX.CALENDARIO' | translate}}</h3>
-                    <p class="lead mb-0">{{'INDEX.CALENDARIO-DESC' | translate}}</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
-                    <div class="d-flex features-icons-icon"><i class="fas fa-users m-auto text-primary"
-                            data-bs-hover-animate="pulse"></i></div>
-                    <h3>{{'INDEX.COMPARTILHAR' | translate}}</h3>
-                    <p class="lead mb-0">{{'INDEX.COMPARTILHAR-DESC' | translate}}</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
-                    <div class="d-flex features-icons-icon"><i class="fas fa-pencil-alt m-auto text-primary"
-                            data-bs-hover-animate="pulse"></i></div>
-                    <h3>{{'INDEX.ESTUDO' | translate}}</h3>
-                    <p class="lead mb-0">{{'INDEX.ESTUDO-DESC' | translate}}</p>
+    <section class="features-icons bg-light text-center" style="margin-top: 10px;margin-bottom: 10px;">
+        <div class="container pag_inicial" style="height: 500px;">
+            <div class="row">
+                <div class="col-xl-9 mx-auto" style="height: 482px;">
+                    <h1 class="mb-5 pag_inicial_texto"
+                        style="margin-right:40px;margin-left:40px;margin-top: 100px;text-shadow: 3px 2px 2px var(--dark);height: 350px;">
+                        {{'INDEX.PLANNIC' | translate}}</h1>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row no-gutters" style="height: 74px;"></div>
-</section>
-<section class="showcase">
-    <div class="container-fluid p-0">
-        <div class="row no-gutters">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img"
-                style="background-image:url(&quot;bg-showcase-1.jpg&quot;);"><span></span></div>
+    </section>
+    <section class="features-icons bg-light text-center">
+        <div class="row no-gutters" style="height: 80px;"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
+                        <div class="d-flex features-icons-icon"><i class="far fa-calendar-alt m-auto text-primary"
+                                data-bs-hover-animate="pulse"></i></div>
+                        <h3>{{'INDEX.CALENDARIO' | translate}}</h3>
+                        <p class="lead mb-0">{{'INDEX.CALENDARIO-DESC' | translate}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
+                        <div class="d-flex features-icons-icon"><i class="fas fa-users m-auto text-primary"
+                                data-bs-hover-animate="pulse"></i></div>
+                        <h3>{{'INDEX.COMPARTILHAR' | translate}}</h3>
+                        <p class="lead mb-0">{{'INDEX.COMPARTILHAR-DESC' | translate}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3 pag_inicial_cards">
+                        <div class="d-flex features-icons-icon"><i class="fas fa-pencil-alt m-auto text-primary"
+                                data-bs-hover-animate="pulse"></i></div>
+                        <h3>{{'INDEX.ESTUDO' | translate}}</h3>
+                        <p class="lead mb-0">{{'INDEX.ESTUDO-DESC' | translate}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="row no-gutters" style="height: 74px;"></div>
+    </section>
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-lg-6 order-lg-2 text-white showcase-img"
+                    style="background-image:url(&quot;bg-showcase-1.jpg&quot;);"><span></span></div>
+            </div>
+        </div>
+    </section>
+    <!-- Start: Footer Basic -->
+    <div class="footer-basic">
+        <footer>
+            <!--
+                <div class="social"><a href="https://www.instagram.com"><i class="icon ion-social-instagram"></i></a><a
+                    href="https://www.twitter.com"><i class="icon ion-social-twitter"></i></a><a
+                    href="https://www.facebook.com"><i class="icon ion-social-facebook"></i></a>
+            </div> 
+            -->
+            <!-- Start: Links -->
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/">{{'INDEX.HOME' | translate}}</a></li>
+                <li class="list-inline-item"><a href="#">{{'INDEX.QUEM-SOMOS' | translate}}</a></li>
+                <li class="list-inline-item"><a href="#">{{'INDEX.PRIVACIDADE' | translate}}</a></li>
+            </ul><!-- End: Links -->
+            <!-- Start: Copyright -->
+            <p class="copyright">Copyright © Plannic 2021</p><!-- End: Copyright -->
+        </footer>
     </div>
-</section><!-- Start: Footer Basic -->
-<div class="footer-basic">
-    <footer>
-        <!-- Start: Social Icons -->
-        <div class="social"><a href="https://www.instagram.com"><i class="icon ion-social-instagram"></i></a><a
-                href="https://www.twitter.com"><i class="icon ion-social-twitter"></i></a><a
-                href="https://www.facebook.com"><i class="icon ion-social-facebook"></i></a>
-        </div><!-- End: Social Icons -->
-        <!-- Start: Links -->
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="/">{{'INDEX.HOME' | translate}}</a></li>
-            <li class="list-inline-item"><a href="#">{{'INDEX.QUEM-SOMOS' | translate}}</a></li>
-            <li class="list-inline-item"><a href="#">{{'INDEX.PRIVACIDADE' | translate}}</a></li>
-        </ul><!-- End: Links -->
-        <!-- Start: Copyright -->
-        <p class="copyright">Winx © 2021</p><!-- End: Copyright -->
-    </footer>
-</div><!-- End: Footer Basic -->
+    <!-- End: Footer Basic -->
+</div>
+<app-loged *ngIf="isLogged"></app-loged>
+
+<a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

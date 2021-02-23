@@ -20,7 +20,6 @@ export class LoginService {
     let token;
     return this.http
     .get(`https://plannic-back.herokuapp.com/authenticate/${email}/${password}`, {responseType: 'text'})
-    .toPromise()
   }
 
   register(email: string, password: string, nome: string): Observable<any> {

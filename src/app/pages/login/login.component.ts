@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
   emailOk: boolean = true;
   formOk: boolean = true;
   redirectTo:string = '';
+  roles: string[] = [];
+  isLoggedIn = false;
+  isLoginFailed = false;
 
   constructor(private authService: LoginService, 
               private tokenStorage: TokenStorageService, 
@@ -29,15 +32,33 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     document.getElementById("body").classList.add("bg-gradient-primary");
-    this.tokenStorage.getItem(USER_TOKEN)
-      .subscribe((token) => {
-        if (token) {
-          this.router.navigate(['/dashboard']);
-        }
-      });
     this.route.queryParams.subscribe((params:Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
     });
+  }
+
+  redirect() {
+    this.router.navigate([this.redirectTo]);
+  }
+
+  onSubmit(email, password): void {
+    this.authService.login(email, password).subscribe(
+      data => {
+        console.log(data)
+        this.tokenStorage.setItem('token', data);
+        this.tokenStorage.setItem('user', data);
+
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        //this.roles = this.tokenStorage.getItem('user').roles;
+        this.router.navigate(['']);
+
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isLoginFailed = true;
+      }
+    );
   }
 
   emailOK(email) {
@@ -50,26 +71,6 @@ export class LoginComponent implements OnInit {
       return false;
     }
   }
-
-  redirect() {
-    this.router.navigate([this.redirectTo]);
-  }
-
-  onSubmit(email, password) {
-    this.authService.login(email, password)
-      .then(token => {
-          this.tokenStorage.setItem(USER_TOKEN, token).subscribe(() => {
-            window.location.reload();
-            this.redirect();
-            //CORRIGIR REDIRECT
-          });
-        })
-      .catch(e => {
-        alert("Login não realizado");
-        console.log(e);
-      });
-  }
-
   formOK(): void {
     const { email, password } = this.form;
     if (!email || !password) {

@@ -7,7 +7,7 @@ import { LoginService } from 'src/app/service/login.service';
 })
 export class RegistrarComponent implements OnInit {
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService) { }
 
   confPass: string;
   emailOk: boolean = true;
@@ -23,12 +23,7 @@ export class RegistrarComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-  letrasMaiusculas = /[A-Z]/;
-  letrasMinusculas = /[a-z]/; 
-  numeros = /[0-9]/;
-  caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
 
-  
   ngOnInit() {
     document.getElementById("body").classList.add("bg-gradient-primary");
   }
@@ -60,7 +55,7 @@ export class RegistrarComponent implements OnInit {
     }
   }
 
-  passConf(password){
+  passConf(password) {
     if (password === this.confPass) {
       this.passConfOk = true;
       return true;
@@ -71,11 +66,15 @@ export class RegistrarComponent implements OnInit {
   }
 
   passMin(password) {
+    let letrasMaiusculas = /[A-Z]/;
+    let letrasMinusculas = /[a-z]/;
+    let numeros = /[0-9]/;
+    let caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
     if (password.length >= 8 &&
-        this.letrasMaiusculas.test(password) &&  
-        this.letrasMinusculas.test(password) &&  
-        this.numeros.test(password)&&  
-        this.caracteresEspeciais.test(password)){
+      letrasMaiusculas.test(password) &&
+      letrasMinusculas.test(password) &&
+      numeros.test(password) &&
+      caracteresEspeciais.test(password)) {
       this.passMinOk = true;
       return true;
     } else {
