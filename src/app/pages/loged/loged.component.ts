@@ -19,7 +19,7 @@ export class LogedComponent implements OnInit {
         if (!token) {
           this.router.navigate(['../']);
         }else{
-          this.router.navigate(['dashboard/relatorios']);          
+          this.router.navigate(['dashboard/calendario']);          
         }
       });
   }

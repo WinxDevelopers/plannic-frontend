@@ -3,7 +3,6 @@ import { LoginService } from 'src/app/service/login.service';
 import { TokenStorageService } from 'src/app/service/token.storage.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-const USER_TOKEN = 'token';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +33,12 @@ export class LoginComponent implements OnInit {
     document.getElementById("body").classList.add("bg-gradient-primary");
     this.route.queryParams.subscribe((params: Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
+    });
+    this.tokenStorage.getItem('token')
+    .subscribe((token) => {
+      if (token) {
+        this.router.navigate(['dashboard/calendario']);          
+      }
     });
   }
 

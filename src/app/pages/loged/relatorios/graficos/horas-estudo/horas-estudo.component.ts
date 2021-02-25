@@ -53,7 +53,7 @@ export class HorasEstudoComponent{
   public chartType: string = 'radar';
 
   public chartDatasets: Array<any> = [
-    { data: this.notas.payload.map(i => i.horas) }
+    { data: this.notas.payload.map(i => i.horas), label: 'Horas' }
   ];
 
   public chartLabels: Array<any> = this.notas.payload.map(i => i.materia);
