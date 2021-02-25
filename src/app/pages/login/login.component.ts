@@ -18,21 +18,21 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   emailOk: boolean = true;
   formOk: boolean = true;
-  redirectTo:string = '';
+  redirectTo: string = '';
   roles: string[] = [];
   isLoggedIn = false;
   isLoginFailed = false;
 
-  constructor(private authService: LoginService, 
-              private tokenStorage: TokenStorageService, 
-              private router: Router,
-              private route:ActivatedRoute) { }
+  constructor(private authService: LoginService,
+    private tokenStorage: TokenStorageService,
+    private router: Router,
+    private route: ActivatedRoute) { }
   email: String;
   senha: String;
 
   ngOnInit(): void {
     document.getElementById("body").classList.add("bg-gradient-primary");
-    this.route.queryParams.subscribe((params:Params) => {
+    this.route.queryParams.subscribe((params: Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
     });
   }
@@ -45,13 +45,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe(
       data => {
         console.log(data)
-        this.tokenStorage.setItem('token', data);
+        this.tokenStorage.setItem('token', data).subscribe(() => {
+          this.router.navigate(['/dashboard/relatorios']);
+        });
         this.tokenStorage.setItem('user', data);
-
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        //this.roles = this.tokenStorage.getItem('user').roles;
-        this.router.navigate(['/dashboard']);
+
 
       },
       err => {

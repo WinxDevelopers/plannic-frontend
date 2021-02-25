@@ -1,4 +1,24 @@
 
-<div class="col-6">
-  <chart-barras></chart-barras>
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">{{'LOGED.RELATORIOS' | translate}}</h3>
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="row">
+        <!-- Médias por matéria -->
+        <chart-notas-materia class="col-6"></chart-notas-materia>
+        <!-- Tipos de Nota -->
+        <chart-notas-tipo class="col-6"></chart-notas-tipo>
+      </div>
+      <hr>
+      <div class="row">
+        <!-- Horas de Estudo -->
+        <chart-horas-estudo class="col-6"></chart-horas-estudo>
+        <!-- Tipos de Estudo -->
+        <chart-notas-estudo class="col-6"></chart-notas-estudo>
+      </div>
+      <hr>
+      <!-- Evolução da Nota -->
+      <chart-notas-evolucao></chart-notas-evolucao>
+    </div>
+  </div>
 </div>

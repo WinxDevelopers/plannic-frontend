@@ -1,18 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'chart-barras',
-  templateUrl: './barras.component.html'
+  selector: 'chart-notas-tipo',
+  templateUrl: './notas-tipo.component.html'
 })
-export class BarrasComponent {
+export class NotasTipoComponent{
+  public notas = {
+    payload: [
+      {
+        materia: "História",
+        nota: 5.5,
+        tipo_nota: "Prova",
+        data_nota: "01/01/2021"
+      },
+      {
+        materia: "História",
+        nota: 9.5,
+        tipo_nota: "Trabalho",
+        data_nota: "01/01/2021"
+      },
+    ]
+  }
 
   public chartType: string = 'bar';
 
   public chartDatasets: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset' }
+    { data: this.notas.payload.map(i => i.nota), label: 'Notas' }
   ];
 
-  public chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+  public chartLabels: Array<any> = this.notas.payload.map(i => i.tipo_nota);
 
   public chartColors: Array<any> = [
     {
@@ -35,10 +51,21 @@ export class BarrasComponent {
       borderWidth: 2,
     }
   ];
-
+  
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+      scales: {
+        xAxes: [{
+          stacked: true
+          }],
+        yAxes: [
+        {
+          stacked: true
+        }
+      ]
+    }
   };
+
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 

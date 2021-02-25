@@ -34,19 +34,40 @@
         "SENHA-ERR2": "A senha deve conter, no minímo, 8 caracteres, 1 maiúsculo, 1 minúsculo, 1 número e um caracter especial"
     },
     "LOGED": {
+        "OLA": "Olá",
         "RELATORIOS": "Relatórios",
+        "RELATORIO": "Relatório",
         "CALENDARIO": "Calendário",
         "MATERIAS": "Matérias",
-        "SAIR": "Sair",
-        "ALTERAR-IMG": "Alterar Imagem",
-        "PERFORMANCE": "Performance",
+        "MATERIA": "Matéria",
+        "METODOS": "Métodos de Estudo",
+        "METODO": "Método de Estudo",
+        "CONFIGURACOES": "Configurações",
+        "SAIR": "Sair"
+    },
+    "GRAFICOS": {
+        "NOTA_MATERIA": "Médias por matéria",
+        "NOTA_EVOLUCAO": "Evolução das Notas",
+        "NOTA_TIPO": "Tipos de Nota",
+        "NOTA_ESTUDO": "Tipos de Estudo",
+        "HORAS_ESTUDO": "Horas de Estudo"
+    },
+    "CRUD-GERAL":{
+        "CRIAR": "Criar",
+        "VER": "Ver",
+        "EDITAR": "Editar",
+        "EXCLUIR": "Excluir"
+    },
+    "MATERIAS":{
+        "NOME": "Nome",
+        "TEMPO": "Tempo Estudado (em horas)",
+        "MEDIA": "Média das Notas",
+        "ACOES": "Ações"
+    },
+    "CONFIGURACOES":{
         "DADOS": "Dados do Usuário",
         "EMAIL": "E-mail",
         "NOME": "Nome",
-        "SOBRENOME": "Sobrenome",
-        "SALVAR": "Salvar",
-        "PERFIL": "Perfil",
-        "CONFIGURACOES": "Configurações",
-        "ATIVIDADE": "Atividade"
+        "SALVAR": "Salvar"
     }
 }

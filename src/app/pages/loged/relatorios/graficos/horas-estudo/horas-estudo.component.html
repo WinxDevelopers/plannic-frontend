@@ -1,0 +1,13 @@
+<h4 class="text-gray-500">{{'GRAFICOS.HORAS_ESTUDO' | translate}}</h4>
+<div style="display: block">
+  <canvas mdbChart
+      [chartType]="chartType"
+      [datasets]="chartDatasets"
+      [labels]="chartLabels"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+</div>

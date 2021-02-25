@@ -34,19 +34,41 @@
         "SENHA-ERR2": "The password must contain at least 8 characters, 1 lowercase character, 1 uppercase character, 1 number and 1 special character"
     },
     "LOGED": {
+        "OLA": "Hello",
         "RELATORIOS": "Reports",
+        "RELATORIO": "Report",
         "CALENDARIO": "Calendar",
         "MATERIAS": "Subjects",
-        "SAIR": "Logout",
-        "ALTERAR-IMG": "Change Image",
-        "PERFORMANCE": "Performance",
-        "DADOS": "User",
+        "MATERIA": "Subject",
+        "METODOS": "Study Methods",
+        "METODO": "Study Method",
+        "CONFIGURACOES": "Settings",
+        "SAIR": "Logout"
+    },
+    "GRAFICOS": {
+        "NOTA_MATERIA": "Average of Banknotes",
+        "NOTA_EVOLUCAO": "Evolution",
+        "NOTA_TIPO": "Types",
+        "NOTA_ESTUDO": "Study",
+        "HORAS_ESTUDO": "Hours"
+    },
+    "CRUD-GERAL":{
+        "SALVAR": "Save",
+        "VER": "Show",
+        "CRIAR": "Create",
+        "EDITAR": "Edit",
+        "EXCLUIR": "Delete"
+    },
+    "MATERIAS":{
+        "NOME": "Name",
+        "TEMPO": "Studied Time (in hours)",
+        "MEDIA": "Grades Average",
+        "ACOES": "Actions"
+    },
+    "CONFIGURACOES":{
+        "DADOS": "User Data",
         "EMAIL": "E-mail",
         "NOME": "Name",
-        "SOBRENOME": "Last Name",
-        "SALVAR": "Save",
-        "PERFIL": "Profile",
-        "CONFIGURACOES": "Settings",
-        "ATIVIDADE": "Activity Log"
+        "SALVAR": "Save"
     }
 }

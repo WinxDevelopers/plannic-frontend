@@ -1,3 +1,5 @@
+import { MetodosComponent } from './pages/loged/metodos/metodos.component';
+import { ConfigComponent } from './pages/loged/config/config.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
 import { RelatoriosComponent } from './pages/loged/relatorios/relatorios.component';
@@ -16,9 +18,11 @@ const routes: Routes = [
     path: 'dashboard',
     component: LogedComponent,
     children: [
-      { path: '', component: RelatoriosComponent },
+      { path: 'relatorios', component: RelatoriosComponent },
       { path: 'materias', component: MateriasComponent },
-      { path: 'calendario', component: CalendarioComponent }
+      { path: 'calendario', component: CalendarioComponent },
+      { path: 'configuracoes', component: ConfigComponent },
+      { path: 'metodos', component: MetodosComponent }
     ]
   }
 ];

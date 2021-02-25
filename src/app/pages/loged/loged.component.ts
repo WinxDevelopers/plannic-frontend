@@ -14,18 +14,14 @@ export class LogedComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById("body").classList.remove("bg-gradient-primary");
-    /* this.tokenStorage.getItem(USER_TOKEN)
+    this.tokenStorage.getItem(USER_TOKEN)
       .subscribe((token) => {
         if (!token) {
-          this.router.navigate(['/']);
+          this.router.navigate(['../']);
+        }else{
+          this.router.navigate(['dashboard/relatorios']);          
         }
-      }); */
+      });
   }
-
-  deslogar() {
-    this.tokenStorage.removeItem(USER_TOKEN).subscribe(() => {
-      
-    });
-  }  
 
 }
