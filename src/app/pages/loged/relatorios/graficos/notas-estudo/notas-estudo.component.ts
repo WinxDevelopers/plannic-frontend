@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'chart-notas-estudo',
   templateUrl: './notas-estudo.component.html'
 })
-export class NotasEstudoComponent{
+export class NotasEstudoComponent {
   public notas = {
     payload: [
       {
@@ -31,7 +31,7 @@ export class NotasEstudoComponent{
     ]
   }
 
-  public chartType: string = 'bar';
+  public chartType: string = 'pie';
 
   public chartDatasets: Array<any> = [
     { data: this.notas.payload.map(i => i.nota), label: 'Notas' }
@@ -60,19 +60,9 @@ export class NotasEstudoComponent{
       borderWidth: 2,
     }
   ];
-  
+
   public chartOptions: any = {
-    responsive: true,
-      scales: {
-        xAxes: [{
-          stacked: true
-          }],
-        yAxes: [
-        {
-          stacked: true
-        }
-      ]
-    }
+    responsive: true
   };
 
   public chartClicked(e: any): void { }
