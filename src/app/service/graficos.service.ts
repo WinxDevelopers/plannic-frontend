@@ -29,6 +29,12 @@ export class GraficosService {
             {responseType: 'text'})
       }
 
+    notaMateria(idUsuario: number): Observable<any> {
+        return this.http
+        .get(`${this.LOGIN_SERVICE_URL}/notavsmateira//${idUsuario}`, 
+            {responseType: 'text'})
+    }
+
     notaMaior(idUsuario: number): Observable<any> {
         return this.http
         .get(`${this.LOGIN_SERVICE_URL}/notasMateria/notamaior/${idUsuario}`, 
