@@ -15,11 +15,11 @@ export class MateriaService {
     }
     constructor(private http: HttpClient) { }
 
-    create(nome: string, descricao: string): Observable<any> {
+    create(materia: string, descricao: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro', {
-            //idUsuario,
-            nome,
-            descricao,
+            'idUsuario':7,
+            materia,
+            descricao
         }, this.httpOptions);
     }
 
