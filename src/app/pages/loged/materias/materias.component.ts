@@ -55,7 +55,8 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   del(idMateria) {
-    this.materiaService.delete(idMateria);
+    console.log(idMateria)
+    this.materiaService.delete(idMateria).subscribe(()=> this.getAll());
   }
 
   getAll() {

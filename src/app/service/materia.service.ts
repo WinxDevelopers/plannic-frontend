@@ -35,8 +35,8 @@ export class MateriaService {
         }, this.httpOptions);
     }
 
-    delete(idmateria: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `materia/${idmateria}`, this.httpOptions);
+    delete(id: number): Observable<any> {
+        return this.http.delete(this.LOGIN_SERVICE_URL + `materia/${id}`, this.httpOptions);
     }
 
     getAllById(idUsuario = this.idUsuario): Observable<any> {
