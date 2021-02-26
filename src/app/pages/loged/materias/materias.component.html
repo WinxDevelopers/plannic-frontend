@@ -8,7 +8,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Criar Matéria</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{'MATERIAS.CRIAR' | translate}}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -17,25 +17,25 @@
               <div class="form-row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="small mb-1" for="nome-materia">Nome</label>
+                    <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
                     <input class="form-control" id="nome-materia" name="nome-materia" type="text"
-                    [(ngModel)]="form.nome" placeholder="Nome..." />
+                    [(ngModel)]="form.nome" placeholder="{{'MATERIAS.NOME' | translate}}"/>
                   </div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="small mb-1" for="descricao">Descrição da Matéria</label>
+                    <label class="small mb-1" for="descricao">{{'MATERIAS.DESCRICAO' | translate}}</label>
                     <input class="form-control" id="descricao" name="descricao" type="text"
-                    [(ngModel)]="form.descricao" placeholder="Descrição..." />
+                    [(ngModel)]="form.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-              <button (click)="save()" type="button" class="btn btn-primary">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
+              <button (click)="save()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR' | translate}}</button>
             </div>
           </div>
         </div>

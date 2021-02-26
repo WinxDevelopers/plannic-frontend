@@ -63,7 +63,11 @@
         "NOME": "Name",
         "TEMPO": "Studied Time (in hours)",
         "MEDIA": "Grades Average",
-        "ACOES": "Actions"
+        "ACOES": "Actions",
+        "CIRAR": "Create",
+        "DESCRICAO": "Description",
+        "FECHAR": "Close",
+        "SALVAR": "Save"
     },
     "CONFIGURACOES":{
         "DADOS": "User Data",

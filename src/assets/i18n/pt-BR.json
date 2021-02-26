@@ -62,7 +62,11 @@
         "NOME": "Nome",
         "TEMPO": "Tempo Estudado (em horas)",
         "MEDIA": "Média das Notas",
-        "ACOES": "Ações"
+        "ACOES": "Ações",
+        "CIRAR": "Criar Matéria",
+        "DESCRICAO": "Descrição",
+        "FECHAR": "Fechar",
+        "SALVAR": "Salvar"
     },
     "CONFIGURACOES":{
         "DADOS": "Dados do Usuário",
