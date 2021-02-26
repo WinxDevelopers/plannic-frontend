@@ -15,24 +15,42 @@
             </div>
             <div class="modal-body">
               <div class="form-row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                    <input class="form-control" id="nome-materia" name="nome-materia" type="text"
-                    [(ngModel)]="form.nome" placeholder="{{'MATERIAS.NOME' | translate}}"/>
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="nomeMateria">Nome da Matéria</label>
+                          <select class="form-control">
+                              <option>Option</option>
+                          </select>
+                      </div>
                   </div>
-                </div>
               </div>
               <div class="form-row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="small mb-1" for="descricao">{{'MATERIAS.DESCRICAO' | translate}}</label>
-                    <input class="form-control" id="descricao" name="descricao" type="text"
-                    [(ngModel)]="form.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="tipoAvaliacao">Tipo de Avaliação</label>
+                          <select class="form-control">
+                              <option>Option</option>
+                          </select>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
+              <div class="form-row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="dataNota">Data da Nota</label>
+                          <input class="form-control" type="date"/>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="small mb-1" for="nota">Nota</label>
+                          <input class="form-control" id="nota" name="nota"
+                              type="text" placeholder="Nota">
+                      </div>
+                  </div>
+              </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'NOTAS.FECHAR' | translate}}</button>
               <button (click)="save()" type="button" class="btn btn-primary">{{'NOTAS.SALVAR' | translate}}</button>
