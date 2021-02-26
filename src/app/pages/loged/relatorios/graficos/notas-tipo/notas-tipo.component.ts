@@ -1,34 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { GraficosService } from 'src/app/service/graficos.service';
 
 @Component({
   selector: 'chart-notas-tipo',
   templateUrl: './notas-tipo.component.html'
 })
-export class NotasTipoComponent{
-  public notas = {
-    payload: [
-      {
-        materia: "História",
-        nota: 5.5,
-        tipo_nota: "Prova",
-        data_nota: "01/01/2021"
-      },
-      {
-        materia: "História",
-        nota: 9.5,
-        tipo_nota: "Trabalho",
-        data_nota: "01/01/2021"
-      },
-    ]
+export class NotasTipoComponent implements OnInit{
+  constructor(private graficoService: GraficosService) { this.getNotas() }
+  public idUsuario = localStorage.getItem('idUsuario');
+  public notas;
+  public notasGrafico;
+  public chartDatasets: Array<any>;
+  public chartLabels: Array<any>;
+
+  ngOnInit() {
+    this.getNotas();
   }
 
   public chartType: string = 'bar';
-
-  public chartDatasets: Array<any> = [
-    { data: this.notas.payload.map(i => i.nota), label: 'Notas' }
-  ];
-
-  public chartLabels: Array<any> = this.notas.payload.map(i => i.tipo_nota);
 
   public chartColors: Array<any> = [
     {
@@ -69,4 +58,17 @@ export class NotasTipoComponent{
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
+  getNotas() {
+    this.graficoService.notaTipo(this.idUsuario).subscribe(
+      (notas) => {
+        notas = JSON.parse(notas);
+        this.notas = notas;
+        console.log(this.notas)
+        this.chartDatasets = [
+          { data: this.notas.map(i => i.nota), label: 'Notas' }
+        ];     
+        this.chartLabels = this.notas.map(i => i.tipoNota);
+      }
+    )
+  }
 }
