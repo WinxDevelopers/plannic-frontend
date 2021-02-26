@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     email: null,
     password: null
   };
-
+  dadosLogin;
   errorMessage = '';
   emailOk: boolean = true;
   formOk: boolean = true;
@@ -49,9 +49,13 @@ export class LoginComponent implements OnInit {
   onSubmit(email, password): void {
     this.authService.login(email, password).subscribe(
       data => {
-        console.log(data)
-        this.tokenStorage.setItem('token', data).subscribe(() => {
-          this.router.navigate(['/dashboard/relatorios']);
+        this.dadosLogin = JSON.parse(data);
+        this.tokenStorage.setItem('nomeUsuario', this.dadosLogin.nome).subscribe(() => {
+          this.tokenStorage.setItem('idUsuario', this.dadosLogin.idUsuario).subscribe(() => {
+            this.tokenStorage.setItem('token', this.dadosLogin.token).subscribe(() => {
+              this.router.navigate(['/dashboard/relatorios']);
+            });
+          });
         });
         this.tokenStorage.setItem('user', data);
         this.isLoginFailed = false;

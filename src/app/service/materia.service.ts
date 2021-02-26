@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class MateriaService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
-
+    public token = localStorage.getItem('token')
     httpOptions = {
-        headers: new HttpHeaders({ 'Content-type': 'application/json' }),
+        headers: new HttpHeaders({ 'Content-type': 'application/json',
+                                   'Authorization': `Bearer ${this.token}` }),
         responseType: 'text' as 'json'
     }
     constructor(private http: HttpClient) { }

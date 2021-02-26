@@ -19,7 +19,7 @@ export class MateriasComponent implements AfterViewInit {
   materias: Materia[]
   constructor(private materiaService: MateriaService) {
     this.dataSource = new MatTableDataSource<Materia>(ELEMENT_DATA)
-    //this.getAll();
+    this.getAll();
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -44,7 +44,7 @@ export class MateriasComponent implements AfterViewInit {
   getAll() {
     this.materiaService.getAll().subscribe(
       (materias: Materia[]) => {
-        this.dataSource = new MatTableDataSource<Materia>(materias)
+        console.log(materias);
       }
     )
   }
