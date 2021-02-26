@@ -17,33 +17,23 @@ export class GraficosService {
     }
     constructor(private http: HttpClient) { }
 
-    notaEvolucao(idUsuario: number, idMateria: number): Observable<any> {
-        return this.http
-        .get(`${this.LOGIN_SERVICE_URL}/notasMateria/${idUsuario}/${idMateria}`, 
-            {responseType: 'text'})
-      }
+    notaEvolucao(idUsuario: string, idMateria: number): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${idUsuario}/${idMateria}`, this.httpOptions)
+    };
 
-    notaTipo(idUsuario: number): Observable<any> {
-        return this.http
-        .get(`${this.LOGIN_SERVICE_URL}/notavstipo/${idUsuario}`, 
-            {responseType: 'text'})
-      }
+    notaTipo(idUsuario: string): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notastipo/${idUsuario}`, this.httpOptions)
+    };
 
-    notaMateria(idUsuario: number): Observable<any> {
-        return this.http
-        .get(`${this.LOGIN_SERVICE_URL}/notavsmateira//${idUsuario}`, 
-            {responseType: 'text'})
-    }
+    notaMateria(idUsuario: string): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${idUsuario}`, this.httpOptions)
+    };
 
-    notaMaior(idUsuario: number): Observable<any> {
-        return this.http
-        .get(`${this.LOGIN_SERVICE_URL}/notasMateria/notamaior/${idUsuario}`, 
-            {responseType: 'text'})
-    }
+    notaMaior(idUsuario: string): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamaior/${idUsuario}`, this.httpOptions)
+    };
 
-    notaMenor(idUsuario: number): Observable<any> {
-        return this.http
-        .get(`${this.LOGIN_SERVICE_URL}/notasMateria/notamenor/${idUsuario}`, 
-            {responseType: 'text'})
-    }
+    notaMenor(idUsuario: string): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamenor/${idUsuario}`, this.httpOptions)
+    };
 }
