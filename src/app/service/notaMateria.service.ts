@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class MateriaService {
+export class NotaMateriaService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
-    
+
     httpOptions = {
         headers: new HttpHeaders({ 'Content-type': 'application/json',
                                    'Authorization': `Bearer ${this.token}` }),
@@ -17,28 +17,33 @@ export class MateriaService {
     }
     constructor(private http: HttpClient) { }
 
-    create(materia: string, descricao: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro', {
+    create(notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
+        return this.http.post(this.LOGIN_SERVICE_URL + 'notasMateria/cadastro', {
             'idUsuario':7,
-            materia,
-            descricao
+            'idMateria':1,
+            notaMateria,
+            tipoNota, 
+            dataNota
         }, this.httpOptions);
     }
 
-    update(id: number, nome: string, descricao: string): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'materia', {
+    update(id: number, notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
+        return this.http.put(this.LOGIN_SERVICE_URL + 'notasMateria', {
+            'idUsuario':7,
+            'idMateria':1,
             id,
-            nome,
-            descricao,
+            notaMateria,
+            tipoNota,   
+            dataNota
         }, this.httpOptions);
     }
 
     delete(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `materia/${id}`, this.httpOptions);
+        return this.http.delete(this.LOGIN_SERVICE_URL + `notasMateria/${id}`, this.httpOptions);
     }
 
     getAll(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'materia', this.httpOptions)
+        return this.http.get(this.LOGIN_SERVICE_URL + 'notasMateria', this.httpOptions)
     };
 
 }
