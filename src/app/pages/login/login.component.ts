@@ -35,11 +35,11 @@ export class LoginComponent implements OnInit {
       this.redirectTo = params.redirectTo || '/dashboard';
     });
     this.tokenStorage.getItem('token')
-    .subscribe((token) => {
-      if (token) {
-        this.router.navigate(['dashboard/calendario']);          
-      }
-    });
+      .subscribe((token) => {
+        if (token) {
+          this.router.navigate(['dashboard/calendario']);
+        }
+      });
   }
 
   redirect() {
@@ -52,10 +52,8 @@ export class LoginComponent implements OnInit {
         this.dadosLogin = JSON.parse(data);
         localStorage.setItem('idUsuario', this.dadosLogin.idUsuario)
         localStorage.setItem('nome', this.dadosLogin.nome)
-        this.tokenStorage.setItem('token', this.dadosLogin.token).subscribe(() => {
-          this.router.navigate(['/dashboard/relatorios']);
-        });
-        this.tokenStorage.setItem('user', data);
+        localStorage.setItem('token', this.dadosLogin.token)
+        this.router.navigate(['/dashboard/relatorios']);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
 

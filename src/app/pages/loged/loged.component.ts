@@ -10,18 +10,16 @@ const USER_TOKEN = 'token'
 })
 export class LogedComponent implements OnInit {
 
-  constructor(private tokenStorage: TokenStorageService,private router: Router) {}
+  constructor(private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit() {
     document.getElementById("body").classList.remove("bg-gradient-primary");
-    this.tokenStorage.getItem(USER_TOKEN)
-      .subscribe((token) => {
-        if (!token) {
-          this.router.navigate(['../']);
-        }else{
-          this.router.navigate(['dashboard/calendario']);          
-        }
-      });
+    const token = localStorage.getItem(USER_TOKEN)
+    if (!token) {
+      this.router.navigate(['../']);
+    } else {
+      this.router.navigate(['dashboard/calendario']);
+    }
   }
 
 }

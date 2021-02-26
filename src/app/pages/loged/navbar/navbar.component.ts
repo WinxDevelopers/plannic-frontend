@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/app/service/token.storage.service';
 
 @Component({
   selector: 'dash-navbar',
@@ -6,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  public nome: string = "sdibds";
+
   constructor() { }
 
   ngOnInit() {
+    this.nome = localStorage.getItem('nome')
   }
 
 }
