@@ -90,6 +90,10 @@
   background-color: #19647e !important;
 }
 
+.botao-custom:hover{
+  background-color: #114758 !important;
+}
+
 .logo-profile {
   font-size: 1.5rem;
 }
