@@ -10,5 +10,4 @@ res.sendFile(path.join(`${__dirname}/dist/plannic/index.html`));
 
 const PORT = process.env.PORT || 4200;
 	app.listen(PORT, function () {
- 	    console.log('Plannic running on port ' + PORT);
  	});

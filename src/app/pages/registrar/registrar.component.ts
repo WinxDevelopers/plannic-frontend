@@ -107,7 +107,6 @@ export class RegistrarComponent implements OnInit {
 
   formOK(): void {
     const { email, password, nome } = this.form;
-    console.log(password, this.confPass);
     if (!email || !password || !nome) {
       this.formOk = false;
       this.passOk = false;
