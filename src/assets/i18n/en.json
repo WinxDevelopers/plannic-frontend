@@ -40,6 +40,8 @@
         "CALENDARIO": "Calendar",
         "MATERIAS": "Subjects",
         "MATERIA": "Subject",
+        "NOTA": "Grade",
+        "NOTAS": "Grades",
         "METODOS": "Study Methods",
         "METODO": "Study Method",
         "CONFIGURACOES": "Settings",
@@ -58,6 +60,16 @@
         "CRIAR": "Create",
         "EDITAR": "Edit",
         "EXCLUIR": "Delete"
+    },
+    "NOTAS":{
+        "NOME": "Grade",
+        "NOME_MATERIA": "Name of Subject",
+        "TIPO_AVALIACAO": "Type of Avaliation",
+        "DATA": "Date",
+        "ACOES": "Actions",
+        "CRIAR": "Include Grade",
+        "FECHAR": "Close",
+        "SALVAR": "Save"
     },
     "MATERIAS":{
         "NOME": "Name",

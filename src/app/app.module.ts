@@ -32,6 +32,7 @@ import { ConfigComponent } from './pages/loged/config/config.component';
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import { NotasEstudoComponent } from './pages/loged/relatorios/graficos/notas-estudo/notas-estudo.component';
+import { NotasComponent } from './pages/loged/notas/notas.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -59,7 +60,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     HorasEstudoComponent,
     CalendarioComponent,
     ConfigComponent,
-    MetodosComponent
+    MetodosComponent,
+    NotasComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { MetodosComponent } from './pages/loged/metodos/metodos.component';
+import { NotasComponent } from './pages/loged/notas/notas.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'materias', component: MateriasComponent },
       { path: 'calendario', component: CalendarioComponent },
       { path: 'configuracoes', component: ConfigComponent },
-      { path: 'metodos', component: MetodosComponent }
+      { path: 'metodos', component: MetodosComponent },
+      { path: 'notas', component: NotasComponent }
     ]
   }
 ];

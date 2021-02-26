@@ -40,6 +40,8 @@
         "CALENDARIO": "Calendário",
         "MATERIAS": "Matérias",
         "MATERIA": "Matéria",
+        "NOTA": "Nota",
+        "NOTAS": "Notas",
         "METODOS": "Métodos de Estudo",
         "METODO": "Método de Estudo",
         "CONFIGURACOES": "Configurações",
@@ -57,6 +59,16 @@
         "VER": "Ver",
         "EDITAR": "Editar",
         "EXCLUIR": "Excluir"
+    },
+    "NOTAS":{
+        "NOME": "Nota",
+        "NOME_MATERIA": "Nome Matéria",
+        "TIPO_AVALIACAO": "Tipo de Avaliação",
+        "DATA": "Data",
+        "ACOES": "Ações",
+        "CRIAR": "Adicionar Nota",
+        "FECHAR": "Fechar",
+        "SALVAR": "Salvar"
     },
     "MATERIAS":{
         "NOME": "Nome",
