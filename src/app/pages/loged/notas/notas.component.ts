@@ -16,8 +16,9 @@ export class NotasComponent implements AfterViewInit {
   displayedColumns: string[] = ["materia", "nota", "tipo", "data", 'acoes'];
   dataSource = new MatTableDataSource();;
   form: any = {
+    idMateria: null,
+    tipoNota: null,
     nota: null,
-    tipo: null,
     data: null
   };
   idForEdit;
@@ -36,11 +37,13 @@ export class NotasComponent implements AfterViewInit {
   }
 
   save() {
-    if (this.form.nome && this.form.descricao &&
-      !this.notas.includes(this.form.nome))
-      this.notaMateriaService.create(this.form.nota, this.form.tipo, this.form.data).subscribe(
+    if (this.form.tipoNota && this.form.nota && this.form.data){
+      let data = new Date(this.form.data)
+      this.form.data = data.getFullYear() + +
+      this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipo, this.form.data).subscribe(
         () => this.refresh()
       );
+    }
   }
 
   openEditModal(idNota) {
@@ -83,7 +86,7 @@ export class NotasComponent implements AfterViewInit {
           data = data.split(" ");
           data = data[0] + " " + data[1];
           return {
-            idNotaMateria: n.idNotaMateria,
+            id: n.idNotaMateria,
             materia: mat,
             nota: n.notaMateria,
             tipo: n.tipoNota,

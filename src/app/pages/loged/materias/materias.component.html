@@ -37,7 +37,7 @@
             <div class="modal-footer">
               <button  (click)="closeModal()" type="button" class="btn btn-secondary" data-dismiss="modal">{{'MATERIAS.FECHAR' |
                 translate}}</button>
-              <button (click)="save()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR' | translate}}</button>
+              <button (click)="save()" type="button" class="btn btn-primary" data-dismiss="modal">{{'MATERIAS.SALVAR' | translate}}</button>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
                   type="submit" style="width: 30px;height: 30px;padding-left: 8px;padding-bottom: 0px;padding-top: 0px;"
                   data-toggle="modal" data-target="#editarmateria">
                   <i class="fa fa-edit" style="font-size: 15px;"></i>
-                </button> -->
+                </button>
                 <div class="modal fade" id="editarmateria" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -102,11 +102,11 @@
                         <button (click)="closeModal()" type="button" class="btn btn-secondary"
                           data-dismiss="modal">{{'MATERIAS.FECHAR' |
                           translate}}</button>
-                        <button (click)="edit()" type="button" class="btn btn-primary">{{'CRUD-GERAL.EDITAR' | translate}}</button>
+                        <button (click)="edit()" type="button" class="btn btn-primary" data-dismiss="modal">{{'CRUD-GERAL.EDITAR' | translate}}</button>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <button (click)="del(element.idMateria)" class="btn btn-outline-danger" title="Excluir"
                   style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
                   type="submit">

@@ -12,14 +12,16 @@ import { Materia } from 'src/app/interface/materia';
 
 export class MateriasComponent implements AfterViewInit {
   displayedColumns: string[] = ['nome', 'tempo', 'media', 'acoes'];
-  dataSource = new MatTableDataSource<Materia>();
+  dataSource = new MatTableDataSource();
   form: any = {
     nome: null,
     descricao: null,
   };
   idforEdit;
   materias: Materia[] = []
-  constructor(private materiaService: MateriaService, private userService: UserService) { this.getAllById() }
+  constructor(private materiaService: MateriaService, private usuarioService: UserService) {
+    this.refresh();
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -31,7 +33,7 @@ export class MateriasComponent implements AfterViewInit {
     if (this.form.nome && this.form.descricao &&
       !this.materias.includes(this.form.nome))
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
-        () => this.getAllById()
+        () => this.refresh()
       );
   }
 
@@ -43,7 +45,6 @@ export class MateriasComponent implements AfterViewInit {
         this.form.descricao = materia.descricao;
       }
     })
-    //this.materiaService.update(idMateria, this.form.nome, this.form.descricao);
   }
 
   closeModal() {
@@ -57,18 +58,23 @@ export class MateriasComponent implements AfterViewInit {
 
   del(idMateria) {
     console.log(idMateria)
-    this.materiaService.delete(idMateria).subscribe(() => this.getAllById());
+    this.materiaService.delete(idMateria).subscribe(() => this.refresh());
   }
 
-  getAllById() {
-    /*this.userService.getAllById("materias") .subscribe(
-      (materias) => {
-        console.log(materias)
-        materias = JSON.parse(materias);
-        this.materias = materias;
-        materias = materias.map((m) => { return { idMateria: m.idMateria, nome: m.materia, tempo: 123, media: 456 } })
-        this.dataSource.data = materias
-      }
-    ) */
+  refresh() {
+    this.usuarioService.getAllById().subscribe(
+      (stringData: string) => {
+        let data = JSON.parse(stringData)
+        data = data[0]
+        this.materias = data.materias;
+        this.dataSource.data = this.materias.map(m => {
+          return {
+            idMateria: m.idMateria,
+            nome: m.materia,
+            tempo: m.tempo || "----",
+            media: m.media || "----",
+          }
+        });
+      })
   }
 }

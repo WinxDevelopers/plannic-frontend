@@ -12,29 +12,31 @@ export class NotaMateriaService {
     public IdUsuario = localStorage.getItem('IdUsuario')
 
     httpOptions = {
-        headers: new HttpHeaders({ 'Content-type': 'application/json',
-                                   'Authorization': `Bearer ${this.token}` }),
+        headers: new HttpHeaders({
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${this.token}`
+        }),
         responseType: 'text' as 'json'
     }
     constructor(private http: HttpClient) { }
 
-    create(notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
+    create(idMateria: number, notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'notasMateria/cadastro', {
-            'idUsuario':7,
-            'idMateria':1,
+            idUsuario: this.IdUsuario,
+            idMateria: idMateria,
             notaMateria,
-            tipoNota, 
+            tipoNota,
             dataNota
         }, this.httpOptions);
     }
 
     update(id: number, notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'notasMateria', {
-            'idUsuario':7,
-            'idMateria':1,
+            'idUsuario': 7,
+            'idMateria': 1,
             id,
             notaMateria,
-            tipoNota,   
+            tipoNota,
             dataNota
         }, this.httpOptions);
     }

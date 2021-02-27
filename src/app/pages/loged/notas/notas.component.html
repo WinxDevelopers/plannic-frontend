@@ -19,8 +19,8 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1" for="nomeMateria">{{'NOTAS.NOME_MATERIA' | translate}}</label>
-                    <select class="form-control">
-                      <option *ngFor="let materia of materias">{{materia.materia}}</option>
+                    <select [(ngModel)]="form.idMateria" class="form-control">
+                      <option *ngFor="let materia of materias" value="materia.idMateria">{{materia.materia}}</option>
                     </select>
                   </div>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' | translate}}</label>
-                    <select class="form-control">
+                    <select [(ngModel)]="form.tipoNota" class="form-control">
                       <option *ngFor="let tipo of tipos">{{tipo}}</option>
                     </select>
                   </div>
@@ -39,7 +39,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
-                    <input class="form-control" type="date" />
+                    <input [(ngModel)]="form.data" class="form-control" type="date" />
                   </div>
                 </div>
               </div>
@@ -47,14 +47,14 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="small mb-1" for="nota">{{'NOTAS.NOME' | translate}}</label>
-                    <input class="form-control" id="nota" name="nota" type="number" placeholder="Nota">
+                    <input [(ngModel)]="form.nota" class="form-control" id="nota" name="nota" type="number" placeholder="Nota">
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'NOTAS.FECHAR' |
                   translate}}</button>
-                <button (click)="save()" type="button" class="btn btn-primary">{{'NOTAS.SALVAR' | translate}}</button>
+                <button (click)="save()" type="button" data-dismiss="modal" class="btn btn-primary">{{'NOTAS.SALVAR' | translate}}</button>
               </div>
             </div>
           </div>
