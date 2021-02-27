@@ -5,13 +5,12 @@ import { GraficosService } from 'src/app/service/graficos.service';
   selector: 'chart-notas-materia',
   templateUrl: './notas-materia.component.html'
 })
-export class NotasMateriaComponent{
+export class NotasMateriaComponent {
   constructor(private graficoService: GraficosService) { this.getNotas() }
   public idUsuario = localStorage.getItem('idUsuario');
   public notas;
   public chartDatasets: Array<any>;
   public chartLabels: Array<any>;
-  
 
   public chartType: string = 'horizontalBar';
 
@@ -39,18 +38,18 @@ export class NotasMateriaComponent{
 
   public chartOptions: any = {
     responsive: true,
-      scales: {
-        xAxes: [{
-          stacked: true
-          }],
-        yAxes: [
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [
         {
           stacked: true
         }
       ]
     }
   };
-  
+
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
@@ -61,7 +60,7 @@ export class NotasMateriaComponent{
         this.notas = notas;
         this.chartDatasets = [
           { data: this.notas.map(i => i.nota), label: 'Matéria' }
-        ];     
+        ];
         this.chartLabels = this.notas.map(i => i.materia);
       }
     )

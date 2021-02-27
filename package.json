@@ -35,7 +35,7 @@
     "angular-bootstrap-md": "^10.1.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^4.6.0",
-    "chart.js": "^2.5.0",
+    "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
     "express": "^4.17.1",
     "fullcalendar": "^5.5.1",
