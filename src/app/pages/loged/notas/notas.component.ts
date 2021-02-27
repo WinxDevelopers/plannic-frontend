@@ -23,6 +23,7 @@ export class NotasComponent implements AfterViewInit {
   idForEdit;
   notas: NotaMateria[]
   materias: Materia[]
+  tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"]
   constructor(private notaMateriaService: NotaMateriaService,
     private usuarioService: UserService) {
     this.refresh();
