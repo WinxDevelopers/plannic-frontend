@@ -1,0 +1,13 @@
+<div *ngIf="buscaTutor">
+  <h4 class="text-black-500"  *ngFor="let notaMenor of notaMenor">
+    <i class="fa fa-exclamation-circle"></i>
+    {{'BADGES.BUSQUETUTOR1' | translate}} {{this.notaMenor.idMateria}} {{'BADGES.BUSQUETUTOR2' | translate}} <a href="../dashboard/tutor">tutor</a>?
+  </h4>
+</div>
+
+<div *ngIf="sejaTutor">
+  <h4 class="text-black-500"  *ngFor="let notaMaior of notaMaior">
+    <i class="fas fa-award"></i>
+    {{'BADGES.SEJATUTOR1' | translate}} {{this.notaMaior.idMateria}} {{'BADGES.SEJATUTOR2' | translate}} <a href="../dashboard/tutor">tutor</a>?
+  </h4>
+</div>

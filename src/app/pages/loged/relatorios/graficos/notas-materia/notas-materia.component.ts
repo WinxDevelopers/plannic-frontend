@@ -1,46 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { GraficosService } from 'src/app/service/graficos.service';
 
 @Component({
   selector: 'chart-notas-materia',
   templateUrl: './notas-materia.component.html'
 })
 export class NotasMateriaComponent{
-  public notas = {
-    payload: [
-      {
-        materia: "História",
-        nota: 7.5,
-        tipo_nota: "Média",
-        data_nota: "01/01/2021"
-      },
-      {
-        materia: "Matemática",
-        nota: 9.5,
-        tipo_nota: "Média",
-        data_nota: "01/01/2021"
-      },
-      {
-        materia: "Física",
-        nota: 4.5,
-        tipo_nota: "Média",
-        data_nota: "01/01/2021"
-      },
-      {
-        materia: "Biologia",
-        nota: 3.5,
-        tipo_nota: "Média",
-        data_nota: "01/01/2021"
-      }
-    ]
-  }
+  constructor(private graficoService: GraficosService) { this.getNotas() }
+  public idUsuario = localStorage.getItem('idUsuario');
+  public notas;
+  public chartDatasets: Array<any>;
+  public chartLabels: Array<any>;
+  
 
   public chartType: string = 'horizontalBar';
-
-  public chartDatasets: Array<any> = [
-    { data: this.notas.payload.map(i => i.nota), label: 'Matérias' }
-  ];
-
-  public chartLabels: Array<any> = this.notas.payload.map(i => i.materia);
 
   public chartColors: Array<any> = [
     {
@@ -81,4 +54,16 @@ export class NotasMateriaComponent{
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
+  getNotas() {
+    this.graficoService.notaMateria(this.idUsuario).subscribe(
+      (notas) => {
+        notas = JSON.parse(notas);
+        this.notas = notas;
+        this.chartDatasets = [
+          { data: this.notas.map(i => i.nota), label: 'Matéria' }
+        ];     
+        this.chartLabels = this.notas.map(i => i.materia);
+      }
+    )
+  }
 }
