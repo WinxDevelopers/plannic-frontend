@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
-import { TokenStorageService } from 'src/app/service/token.storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +10,6 @@ export class RegistrarComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private tokenStorage: TokenStorageService,
     private router: Router,) { }
 
   confPass: string;
@@ -31,17 +29,14 @@ export class RegistrarComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById("body").classList.add("bg-gradient-primary");
-    this.tokenStorage.getItem('token')
-    .subscribe((token) => {
-      if (token) {
-        this.router.navigate(['dashboard/calendario']);          
-      }
-    });
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['dashboard/calendario']);
+    }
   }
 
   onSubmit({ email, password, nome }): void {
     this.loginService.register(email, password, nome).subscribe(
-      data => {
+      () => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         alert("Cadastro realizado com sucesso!")

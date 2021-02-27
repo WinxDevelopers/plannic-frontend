@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
-import { TokenStorageService } from 'src/app/service/token.storage.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 
@@ -23,7 +22,6 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
 
   constructor(private authService: LoginService,
-    private tokenStorage: TokenStorageService,
     private router: Router,
     private route: ActivatedRoute) { }
   email: String;
@@ -34,12 +32,9 @@ export class LoginComponent implements OnInit {
     this.route.queryParams.subscribe((params: Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
     });
-    this.tokenStorage.getItem('token')
-      .subscribe((token) => {
-        if (token) {
-          this.router.navigate(['dashboard/calendario']);
-        }
-      });
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['dashboard/calendario']);
+    }
   }
 
   redirect() {

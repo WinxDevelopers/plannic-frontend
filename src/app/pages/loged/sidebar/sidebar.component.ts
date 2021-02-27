@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TokenStorageService } from 'src/app/service/token.storage.service';
 
 @Component({
   selector: 'dash-sidebar',
@@ -10,7 +9,6 @@ import { TokenStorageService } from 'src/app/service/token.storage.service';
 export class SidebarComponent implements OnInit {
 
   constructor(
-    private tokenStorage: TokenStorageService,
     private router: Router,
     public translate: TranslateService) { }
 
@@ -22,8 +20,7 @@ export class SidebarComponent implements OnInit {
     window.location.reload();
   }
   deslogar() {
-    this.tokenStorage.removeItem('token').subscribe(() => {
-      this.router.navigate(['../']);
-    });
+    localStorage.clear();
+    this.router.navigate(['../']);
   }  
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from 'src/app/service/token.storage.service';
 
 @Component({
   selector: 'dash-navbar',

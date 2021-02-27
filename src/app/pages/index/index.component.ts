@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TokenStorageService } from 'src/app/service/token.storage.service';
 import { Router } from '@angular/router';
 
 
@@ -15,7 +14,6 @@ export class IndexComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
-    private tokenStorage: TokenStorageService,
     private router: Router
   ) {
     this.lang = localStorage.getItem('lang') || 'pt-BR';
@@ -24,22 +22,13 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById("body").classList.remove("bg-gradient-primary");
-    this.tokenStorage.getItem('token')
-      .subscribe((token) => {
-        if (!token) {
-          this.isLogged = false;
-        }else{
-          this.isLogged = true;
-        }
-      });
-      this.tokenStorage.getItem('token')
-      .subscribe((token) => {
-        if (!token) {
-          this.router.navigate(['../']);
-        }else{
-          this.router.navigate(['dashboard/calendario']);          
-        }
-      });
+    if (!localStorage.getItem('token')) {
+      this.isLogged = false;
+      this.router.navigate(['../']);
+    }else{
+      this.isLogged = true;
+      this.router.navigate(['dashboard/calendario']);          
+    }
   }
 
   switchLang(lang: string): void {
