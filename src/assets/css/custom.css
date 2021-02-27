@@ -211,3 +211,7 @@
   max-width: 90%;
   font-family: Comfortaa;
 }
+
+.table th, .table td {
+  padding: 0.75rem !important;
+}
