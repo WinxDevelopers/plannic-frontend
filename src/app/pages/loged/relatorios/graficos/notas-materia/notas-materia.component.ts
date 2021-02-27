@@ -59,7 +59,6 @@ export class NotasMateriaComponent{
       (notas) => {
         notas = JSON.parse(notas);
         this.notas = notas;
-        console.log(this.notas)
         this.chartDatasets = [
           { data: this.notas.map(i => i.nota), label: 'Matéria' }
         ];     

@@ -129,5 +129,11 @@
         "MAPA3": "You don't have to follow a strict rule to create a mind map, but there are some guidelines that can guide you through this process.",
         "MAPA4": "There are several online tools where you can create your mind map, however, it is best to do it manually, as the brain absorbs information better when written by hand.",
         "MAPA5": "The first thing you should do is take a sheet of paper, and after studying a certain topic, place the main subject of that topic in the middle of the sheet. After that, create connections between the main subject, with the other information covered in the topic. Use drawings, assemble graphics or insert symbols. From this you will develop the study and organize the main information on the topic."
+    },
+    "BADGES":{
+        "BUSQUETUTOR1": "Unfortunately your grade in  ",
+        "BUSQUETUTOR2": " it's low. You took less than 4, you would like to get one  ",
+        "SEJATUTOR1": "Your grade in ",
+        "SEJATUTOR2": " It's very good. You would not want to help other users by being "   
     }
 }
