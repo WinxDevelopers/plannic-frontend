@@ -29,7 +29,7 @@ export class AgendamentosComponent {
   idforEdit;
   materias: Materia[] = []
   agendamentos: Agendamento[] = []
-  metodos = ["Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
+  metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
   recorrencias = ["Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
   constructor(private agendamentoService: AgendamentoService, private usuarioService: UserService) {
     this.refresh();
