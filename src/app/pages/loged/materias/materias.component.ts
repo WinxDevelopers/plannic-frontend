@@ -31,10 +31,11 @@ export class MateriasComponent implements AfterViewInit {
 
   save() {
     if (this.form.nome && this.form.descricao &&
-      !this.materias.includes(this.form.nome))
+      !this.materias.includes(this.form.nome)) {
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
         () => this.refresh()
       );
+    }
   }
 
   openEditModal(idMateria) {
@@ -57,7 +58,6 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   del(idMateria) {
-    console.log(idMateria)
     this.materiaService.delete(idMateria).subscribe(() => this.refresh());
   }
 
