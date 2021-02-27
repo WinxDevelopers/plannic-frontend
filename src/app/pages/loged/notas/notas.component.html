@@ -2,7 +2,7 @@
   <h3 class="text-dark mb-4">{{'LOGED.NOTAS' | translate}}</h3>
   <div class="card shadow">
     <div class="card-header py-3">
-      <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal" data-target="#addNota">{{'CRUD-GERAL.CRIAR' | translate}} {{'LOGED.NOTA' | translate}}</button>
+      <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal" data-target="#addNota">{{'NOTAS.CRIAR' | translate}}</button>
       <div class="modal fade" id="addNota" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarNota"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -15,24 +15,42 @@
             </div>
             <div class="modal-body">
               <div class="form-row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                    <input class="form-control" id="nome-materia" name="nome-materia" type="text"
-                    [(ngModel)]="form.nome" placeholder="{{'MATERIAS.NOME' | translate}}"/>
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="nomeMateria">{{'NOTAS.NOME_MATERIA' | translate}}</label>
+                          <select class="form-control">
+                              <option>Option</option>
+                          </select>
+                      </div>
                   </div>
-                </div>
               </div>
               <div class="form-row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="small mb-1" for="descricao">{{'MATERIAS.DESCRICAO' | translate}}</label>
-                    <input class="form-control" id="descricao" name="descricao" type="text"
-                    [(ngModel)]="form.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' | translate}}</label>
+                          <select class="form-control">
+                              <option>Option</option>
+                          </select>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
+              <div class="form-row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
+                          <input class="form-control" type="date"/>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="small mb-1" for="nota">{{'NOTAS.NOME' | translate}}</label>
+                          <input class="form-control" id="nota" name="nota"
+                              type="text" placeholder="Nota">
+                      </div>
+                  </div>
+              </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'NOTAS.FECHAR' | translate}}</button>
               <button (click)="save()" type="button" class="btn btn-primary">{{'NOTAS.SALVAR' | translate}}</button>
