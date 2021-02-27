@@ -80,9 +80,11 @@ export class NotasComponent implements AfterViewInit {
               mat = materia.materia
             }
           })
-          data = n.dataNota.replace("T", " ").replace(".", " ").replace("00:00:00", "");
-          data = data.split(" ");
-          data = data[0] + " " + data[1];
+          if (n.dataNota) {
+            data = n.dataNota.replace("T", " ").replace(".", " ").replace("00:00:00", "");
+            data = data.split(" ");
+            data = data[0] + " " + data[1];
+          }
           return {
             id: n.idNotaMateria,
             materia: mat,

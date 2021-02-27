@@ -40,6 +40,8 @@
         "CALENDARIO": "Calendário",
         "MATERIAS": "Matérias",
         "MATERIA": "Matéria",
+        "AGENDAMENTO": "Agendamento",
+        "AGENDAMENTOS": "Agendamentos",
         "NOTA": "Nota",
         "NOTAS": "Notas",
         "METODOS": "Métodos de Estudo",
@@ -134,5 +136,14 @@
         "BUSQUETUTOR2": " está baixa. Você tirou menos de 4, gostaria de buscar um ",
         "SEJATUTOR1": "Sua nota em ",
         "SEJATUTOR2": " está muito boa. Você não gostaria de ajudar outros usuários sendo "      
+    },
+    "AGENDAMENTOS":{
+        "MATERIA": "Matéria",
+        "INTERVALO": "Intervalo de Tempo",
+        "INICIO": "Início",
+        "FIM": "Fim",
+        "RECORRENCIA": "Recorrência",
+        "METODO": "Método de Estudo",
+        "ACOES": "Ações"
     }
 }

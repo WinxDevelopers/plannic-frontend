@@ -40,6 +40,8 @@
         "CALENDARIO": "Calendar",
         "MATERIAS": "Subjects",
         "MATERIA": "Subject",
+        "AGENDAMENTO": "Scheduling",
+        "AGENDAMENTOS": "Schedules",
         "NOTA": "Grade",
         "NOTAS": "Grades",
         "METODOS": "Study Methods",
@@ -135,5 +137,14 @@
         "BUSQUETUTOR2": " it's low. You took less than 4, you would like to get one  ",
         "SEJATUTOR1": "Your grade in ",
         "SEJATUTOR2": " It's very good. You would not want to help other users by being "   
+    },
+    "AGENDAMENTOS":{
+        "MATERIA": "Subject",
+        "INTERVALO": "Time Range",
+        "INICIO": "Begin",
+        "FIM": "End",
+        "RECORRENCIA": "Recurrence",
+        "METODO": "Study Method",
+        "ACOES": "Actions"
     }
 }

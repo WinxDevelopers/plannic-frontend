@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class AgendamentoService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
+    public idUsuario = localStorage.getItem('idUsuario')
     
     httpOptions = {
         headers: new HttpHeaders({ 'Content-type': 'application/json',
@@ -17,12 +18,12 @@ export class AgendamentoService {
     }
     constructor(private http: HttpClient) { }
 
-    create(idMateria: number, timestampInicio: Date, timestampFim: Date, recorrencia: string, tipoEstudo: string): Observable<any> {
+    create(idMateria: number, date: string, timestampInicio: string, timestampFim: string, recorrencia: string, tipoEstudo: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'agendamento/cadastro', {
-            "idUsuario": 1,
+            idUsuario: this.idUsuario,
             idMateria,
-            timestampInicio,
-            timestampFim,
+            timestampInicio: date+"T"+timestampInicio,
+            timestampFim: date+"T"+timestampFim,
             recorrencia,
             tipoEstudo
         }, this.httpOptions);
@@ -30,7 +31,7 @@ export class AgendamentoService {
 
     update(idAgendamento: number, idMateria: number, timestampInicio: Date, timestampFim: Date, recorrencia: string, tipoEstudo: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'agendamento', {
-            "idUsuario": 1,
+            idUsuario: this.idUsuario,
             idAgendamento,
             idMateria,
             timestampInicio,

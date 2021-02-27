@@ -1,0 +1,166 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">{{'LOGED.AGENDAMENTOS' | translate}}</h3>
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal"
+        data-target="#criarmateria">{{'CRUD-GERAL.CRIAR' | translate}} {{'LOGED.AGENDAMENTO' | translate}}</button>
+      <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
+                    <select [(ngModel)]="form.idMateria" class="form-control">
+                      <option *ngFor="let materia of materias" value="{{materia.idMateria}}">{{materia.materia}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.INTERVALO' | translate}}</label>
+                    <input type="date" class="form-control mb-1 col-md-8" id="inicio" name="inicio"
+                      [(ngModel)]="form.intervaloData" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                    <div class="row">
+                      <div class="col-md-4">
+                        <input type="time" class="form-control" id="inicio" name="inicio"
+                          [(ngModel)]="form.intervaloInicio" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                      </div>
+                      <div class="col-md-4">
+                        <input class="form-control" id="fim" name="fim" type="time"
+                          [(ngModel)]="form.intervaloFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
+                    <select [(ngModel)]="form.recorrencia" class="form-control">
+                      <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="small mb-1">{{'AGENDAMENTOS.METODO' | translate}}</label>
+                    <select [(ngModel)]="form.metodo" class="form-control">
+                      <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button (click)="closeModal()" type="button" class="btn btn-secondary"
+                data-dismiss="modal">{{'MATERIAS.FECHAR' |
+                translate}}</button>
+              <button (click)="save()" type="button" class="btn btn-primary" data-dismiss="modal">{{'MATERIAS.SALVAR' |
+                translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+        <div class="mat-elevation-z8">
+          <table style="width: 99%; height: auto;" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="materia">
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.MATERIA' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.materia}} </td>
+            </ng-container>
+            <ng-container matColumnDef="intervalo">
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.INTERVALO' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.intervalo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="recorrencia">
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.RECORRENCIA' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.recorrencia}} </td>
+            </ng-container>
+            <ng-container matColumnDef="tipoEstudo">
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.METODO' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.tipoEstudo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="acoes">
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.ACOES' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                <!-- <button   (click)="openEditModal(element.idAgendamento)" class="btn btn-outline-success" title="Editar"
+                  type="submit" style="width: 30px;height: 30px;padding-left: 8px;padding-bottom: 0px;padding-top: 0px;"
+                  data-toggle="modal" data-target="#editarmateria">
+                  <i class="fa fa-edit" style="font-size: 15px;"></i>
+                </button>
+                <div class="modal fade" id="editarmateria" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{'CRUD-GERAL.EDITAR' | translate}}</h5>
+                        <button (click)="closeModal()" type="button" class="close" data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
+                              <input class="form-control" id="nome-materia" name="nome-materia" type="text"
+                                [(ngModel)]="form.nome" placeholder="{{'MATERIAS.NOME' | translate}}" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="small mb-1" for="descricao">{{'MATERIAS.DESCRICAO' | translate}}</label>
+                              <input class="form-control" id="descricao" name="descricao" type="text"
+                                [(ngModel)]="form.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button (click)="closeModal()" type="button" class="btn btn-secondary"
+                          data-dismiss="modal">{{'MATERIAS.FECHAR' |
+                          translate}}</button>
+                        <button (click)="edit()" type="button" class="btn btn-primary" data-dismiss="modal">{{'CRUD-GERAL.EDITAR' | translate}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <button (click)="del(element.idAgendamento)" class="btn btn-outline-danger" title="Excluir"
+                  style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
+                  type="submit">
+                  <i class="fa fa-trash-alt" style="font-size: 15px;"></i>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <br>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { AgendamentosComponent } from './pages/loged/agendamentos/agendamentos.component';
 import { MetodosComponent } from './pages/loged/metodos/metodos.component';
 import { NotasComponent } from './pages/loged/notas/notas.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
@@ -19,12 +20,13 @@ const routes: Routes = [
     path: 'dashboard',
     component: LogedComponent,
     children: [
-      { path: 'relatorios', component: RelatoriosComponent },
-      { path: 'materias', component: MateriasComponent },
       { path: 'calendario', component: CalendarioComponent },
-      { path: 'configuracoes', component: ConfigComponent },
+      { path: 'relatorios', component: RelatoriosComponent },
+      { path: 'agendamentos', component: AgendamentosComponent },
+      { path: 'materias', component: MateriasComponent },
+      { path: 'notas', component: NotasComponent },
       { path: 'metodos', component: MetodosComponent },
-      { path: 'notas', component: NotasComponent }
+      { path: 'configuracoes', component: ConfigComponent },
     ]
   }
 ];
