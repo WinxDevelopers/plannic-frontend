@@ -9,7 +9,6 @@ export class NotasTipoComponent implements OnInit{
   constructor(private graficoService: GraficosService) { this.getNotas() }
   public idUsuario = localStorage.getItem('idUsuario');
   public notas;
-  public notasGrafico;
   public chartDatasets: Array<any>;
   public chartLabels: Array<any>;
 
@@ -63,7 +62,6 @@ export class NotasTipoComponent implements OnInit{
       (notas) => {
         notas = JSON.parse(notas);
         this.notas = notas;
-        console.log(this.notas)
         this.chartDatasets = [
           { data: this.notas.map(i => i.nota), label: 'Notas' }
         ];     

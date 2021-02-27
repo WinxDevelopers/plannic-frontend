@@ -26,13 +26,14 @@ import { HorasEstudoComponent } from './pages/loged/relatorios/graficos/horas-es
 import { NotasTipoComponent } from './pages/loged/relatorios/graficos/notas-tipo/notas-tipo.component';
 import { NotasEvolucaoComponent } from './pages/loged/relatorios/graficos/notas-evolucao/notas-evolucao.component';
 import { NotasMateriaComponent } from './pages/loged/relatorios/graficos/notas-materia/notas-materia.component';
+import { BadgesComponent } from './pages/loged/relatorios/graficos/badges/badges.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
 import { MetodosComponent } from './pages/loged/metodos/metodos.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
-import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import { NotasEstudoComponent } from './pages/loged/relatorios/graficos/notas-estudo/notas-estudo.component';
 import { NotasComponent } from './pages/loged/notas/notas.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -58,6 +59,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NotasTipoComponent,
     NotasEstudoComponent,
     HorasEstudoComponent,
+    BadgesComponent,
     CalendarioComponent,
     ConfigComponent,
     MetodosComponent,
