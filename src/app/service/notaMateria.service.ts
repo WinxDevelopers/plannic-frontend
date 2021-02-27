@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class NotaMateriaService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
-    public IdUsuario = localStorage.getItem('IdUsuario')
+    public IdUsuario = localStorage.getItem('idUsuario')
 
     httpOptions = {
         headers: new HttpHeaders({
@@ -20,7 +20,7 @@ export class NotaMateriaService {
     }
     constructor(private http: HttpClient) { }
 
-    create(idMateria: number, notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
+    create(idMateria: number, notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'notasMateria/cadastro', {
             idUsuario: this.IdUsuario,
             idMateria: idMateria,

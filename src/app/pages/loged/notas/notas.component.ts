@@ -38,9 +38,7 @@ export class NotasComponent implements AfterViewInit {
 
   save() {
     if (this.form.tipoNota && this.form.nota && this.form.data){
-      let data = new Date(this.form.data)
-      this.form.data = data.getFullYear() + +
-      this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipo, this.form.data).subscribe(
+      this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipoNota, this.form.data).subscribe(
         () => this.refresh()
       );
     }
@@ -97,10 +95,3 @@ export class NotasComponent implements AfterViewInit {
   }
 
 }
-/* const ELEMENT_DATA: Nota[] = [
-  { id: 1, nomeMateria: "Matemática", tipoAvaliacao: "Teste individual", dataNota: "13/10/2016", nota: 87 },
-  { id: 2, nomeMateria: "Inglês", tipoAvaliacao: "Trabalho individual", dataNota: "05/06/2017", nota: 90 },
-  { id: 3, nomeMateria: "Física", tipoAvaliacao: "Prova individual", dataNota: "08/07/2020", nota: 68 },
-  { id: 4, nomeMateria: "Geografia", tipoAvaliacao: "Prova em dupla", dataNota: "21/04/2019", nota: 71 },
-  { id: 5, nomeMateria: "Português", tipoAvaliacao: "Trabalho em grupo", dataNota: "17/08/2020", nota: 38 },
-]; */
