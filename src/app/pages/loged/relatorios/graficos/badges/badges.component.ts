@@ -44,7 +44,6 @@ export class BadgesComponent implements OnInit{
         } else {
           notaMaior = JSON.parse(notaMaior);
           this.notaMaior = notaMaior;
-          console.log(this.notaMaior[0]);
           this.sejaTutor = true;
         }
       }
