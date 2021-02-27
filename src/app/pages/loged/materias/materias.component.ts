@@ -1,3 +1,4 @@
+import { UserService } from './../../../service/user.service';
 import { MateriaService } from './../../../service/materia.service';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,7 +19,7 @@ export class MateriasComponent implements AfterViewInit {
   };
   idforEdit;
   materias: Materia[] = []
-  constructor(private materiaService: MateriaService) { this.getAll() }
+  constructor(private materiaService: MateriaService, private userService: UserService) { this.getAllById() }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -30,7 +31,7 @@ export class MateriasComponent implements AfterViewInit {
     if (this.form.nome && this.form.descricao &&
       !this.materias.includes(this.form.nome))
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
-        () => this.getAll()
+        () => this.getAllById()
       );
   }
 
@@ -56,18 +57,19 @@ export class MateriasComponent implements AfterViewInit {
 
   del(idMateria) {
     console.log(idMateria)
-    this.materiaService.delete(idMateria).subscribe(()=> this.getAll());
+    this.materiaService.delete(idMateria).subscribe(() => this.getAllById());
   }
 
-  getAll() {
-    this.materiaService.getAll().subscribe(
+  getAllById() {
+    /*this.userService.getAllById("materias") .subscribe(
       (materias) => {
+        console.log(materias)
         materias = JSON.parse(materias);
         this.materias = materias;
         materias = materias.map((m) => { return { idMateria: m.idMateria, nome: m.materia, tempo: 123, media: 456 } })
         this.dataSource.data = materias
       }
-    )
+    ) */
   }
 }
 

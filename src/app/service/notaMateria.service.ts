@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class NotaMateriaService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
+    public IdUsuario = localStorage.getItem('IdUsuario')
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-type': 'application/json',
@@ -43,7 +44,8 @@ export class NotaMateriaService {
     }
 
     getAll(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'notasMateria', this.httpOptions)
+        let id = this.IdUsuario;
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${id}`, this.httpOptions)
     };
 
 }

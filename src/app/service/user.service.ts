@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
 
 const API_URL = `${environment.API_URL}`;
 
@@ -10,6 +9,17 @@ const API_URL = `${environment.API_URL}`;
   providedIn: 'root'
 })
 export class UserService {
+  public idUsuario = localStorage.getItem('idUsuario')
+  public token = localStorage.getItem('token')
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    }),
+    responseType: 'text' as 'json'
+  }
+
   constructor(private http: HttpClient) { }
 
   getPublicContent(): Observable<any> {
@@ -27,4 +37,9 @@ export class UserService {
   getAdminBoard(): Observable<any> {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
+
+  getAllById() {
+    let id = this.idUsuario;
+    return this.http.get(API_URL + `usuario/${id}`, this.httpOptions)
+  };
 }
