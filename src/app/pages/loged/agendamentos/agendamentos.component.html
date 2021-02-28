@@ -2,11 +2,6 @@
   <h3 class="text-dark mb-4">{{'LOGED.AGENDAMENTOS' | translate}}</h3>
   <div class="card shadow">
     <div class="card-header py-3">
-      <button (click)="info()" class="btn btn-outline-success" title="Excluir"
-          style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
-          type="submit">
-        <i class="fa fa-question-circle" style="font-size: 15px;"></i>
-      </button>
       <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal"
         data-target="#criarmateria">{{'CRUD-GERAL.CRIAR' | translate}} {{'LOGED.AGENDAMENTO' | translate}}</button>
       <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -25,7 +20,8 @@
                   <div class="form-group">
                     <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
                     <select [(ngModel)]="form.idMateria" class="form-control">
-                      <option *ngFor="let materia of materias" value="{{materia.idMateria}}">{{materia.nomeMateria}}</option>
+                      <option *ngFor="let materia of materias" value="{{materia.idMateria}}">{{materia.nomeMateria}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -42,13 +38,13 @@
                     <div class="row">
                       <div class="col-md-4">
                         <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' | translate}}</label>
-                        <input type="time" class="form-control" id="inicio" name="inicio"
-                          [(ngModel)]="form.horaInicio" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                        <input type="time" class="form-control" id="inicio" name="inicio" [(ngModel)]="form.horaInicio"
+                          placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                       </div>
                       <div class="col-md-4">
                         <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' | translate}}</label>
-                        <input class="form-control" id="fim" name="fim" type="time"
-                          [(ngModel)]="form.horaFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                        <input class="form-control" id="fim" name="fim" type="time" [(ngModel)]="form.horaFim"
+                          placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
                       </div>
                     </div>
                   </div>
@@ -68,6 +64,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1">{{'AGENDAMENTOS.METODO' | translate}}</label>
+                    <span data-dismiss="modal" routerLink="../metodos"> <i class="fa fa-question-circle" style="font-size: 15px;"></i></span>
                     <select [(ngModel)]="form.metodo" class="form-control">
                       <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
                     </select>
