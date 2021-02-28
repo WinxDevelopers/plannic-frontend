@@ -16,7 +16,7 @@ export class MateriasComponent implements AfterViewInit {
   form: any = {
     nome: null,
     descricao: null,
-    outra:null
+    outra: null
   };
   idforEdit;
   materias: Materia[] = []
@@ -33,7 +33,7 @@ export class MateriasComponent implements AfterViewInit {
 
   save() {
     if (this.form.nome && !this.materias.includes(this.form.nome || this.form.outra)) {
-      if(!this.form.outra) {
+      if (!this.form.outra) {
         this.form.nome = this.form.nome;
       } else {
         this.form.nome = this.form.outra;
