@@ -1,6 +1,7 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
+import allLocales from '@fullcalendar/core/locales-all';
 
 @Component({
   selector: 'app-calendario',
@@ -25,7 +26,10 @@ export class CalendarioComponent {
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
+    eventsSet: this.handleEvents.bind(this),
+    locales: allLocales,
+    locale: localStorage.getItem('lang')
+
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -44,7 +48,14 @@ export class CalendarioComponent {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt('Please enter a new title for your event');
+    let lg = localStorage.getItem('lang'); 
+    let title;
+    if(lg == 'pt-BR'){
+      title = prompt('Digite o nome do evento.');
+    }
+    else{
+      title = prompt('Please enter a new title for your event');
+    }
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
@@ -61,8 +72,16 @@ export class CalendarioComponent {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
+    let lg = localStorage.getItem('lang'); 
+    if(lg == 'pt-BR'){
+      if (confirm(`Deseja excluir esse evento - '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove();
+      }
+    }
+    else{
+      if (confirm(`Are you sure you want to delete the event - '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove();
+      }
     }
   }
 
