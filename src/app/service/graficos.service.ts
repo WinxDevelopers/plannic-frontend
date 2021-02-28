@@ -25,6 +25,10 @@ export class GraficosService {
         return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notastipo/${idUsuario}`, this.httpOptions)
     };
 
+    notaEstudo(idUsuario: string): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvstipo/${idUsuario}`, this.httpOptions)
+    };
+
     notaMateria(idUsuario: string): Observable<any> {
         return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsMateria/${idUsuario}`, this.httpOptions)
     };
