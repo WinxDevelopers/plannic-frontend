@@ -26,7 +26,7 @@ export class GraficosService {
     };
 
     notaMateria(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasmateria/${idUsuario}`, this.httpOptions)
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${idUsuario}`, this.httpOptions)
     };
 
     notaMaior(idUsuario: string): Observable<any> {

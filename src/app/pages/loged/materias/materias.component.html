@@ -19,8 +19,9 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                    <input class="form-control" id="nome-materia" name="nome-materia" type="text"
-                      [(ngModel)]="form.nome" placeholder="{{'MATERIAS.NOME' | translate}}" />
+                    <select [(ngModel)]="form.nome" class="form-control">
+                      <option *ngFor="let nomeMateria of nomeMaterias">{{nomeMateria}}</option>
+                    </select>
                   </div>
                 </div>
               </div>

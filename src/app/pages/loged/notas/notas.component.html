@@ -20,7 +20,7 @@
                   <div class="form-group">
                     <label class="small mb-1" for="nomeMateria">{{'NOTAS.NOME_MATERIA' | translate}}</label>
                     <select [(ngModel)]="form.idMateria" class="form-control">
-                      <option [value]="materia.idMateria" *ngFor="let materia of materias">{{materia.materia}}</option>
+                      <option [value]="materia.idMateria" *ngFor="let materia of materias">{{materia.nomeMateria}}</option>
                     </select>
                   </div>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
-                    <input [(ngModel)]="form.data" class="form-control" type="date" />
+                    <input [(ngModel)]="form.data" class="form-control" type="date"/>
                   </div>
                 </div>
               </div>

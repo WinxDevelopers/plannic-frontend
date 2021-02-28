@@ -22,6 +22,7 @@ export class NotasComponent implements AfterViewInit {
     data: null
   };
   idForEdit;
+  dataFinal;
   notas: NotaMateria[]
   materias: Materia[]
   tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"]
@@ -38,7 +39,8 @@ export class NotasComponent implements AfterViewInit {
 
   save() {
     if (this.form.tipoNota && this.form.nota && this.form.data){
-      this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipoNota, this.form.data).subscribe(
+      this.dataFinal = this.form.data + "T00:00:00";
+      this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipoNota, this.dataFinal).subscribe(
         () => this.refresh()
       );
     }
@@ -77,7 +79,7 @@ export class NotasComponent implements AfterViewInit {
           let data;
           this.materias.forEach(materia => {
             if (materia.idMateria === n.idMateria) {
-              mat = materia.materia
+              mat = materia.nomeMateria
             }
           })
           if (n.dataNota) {

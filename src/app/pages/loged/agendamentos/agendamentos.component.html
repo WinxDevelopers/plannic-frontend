@@ -20,7 +20,7 @@
                   <div class="form-group">
                     <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
                     <select [(ngModel)]="form.idMateria" class="form-control">
-                      <option *ngFor="let materia of materias" value="{{materia.idMateria}}">{{materia.materia}}</option>
+                      <option *ngFor="let materia of materias" value="{{materia.idMateria}}">{{materia.nomeMateria}}</option>
                     </select>
                   </div>
                 </div>

@@ -18,19 +18,19 @@ export class MateriaService {
     }
     constructor(private http: HttpClient) { }
 
-    create(materia: string, descricao: string): Observable<any> {
+    create(nomeMateria: string, descricao: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro', {
             idUsuario: this.idUsuario,
-            materia,
+            nomeMateria,
             descricao
         }, this.httpOptions);
     }
 
-    update(idMateria: number, materia: string, descricao: string): Observable<any> {
+    update(idMateria: number, nomeMateria: string, descricao: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'materia', {
             idMateria,
             idUsuario: this.idUsuario,
-            materia,
+            nomeMateria,
             descricao,
         }, this.httpOptions);
     }
