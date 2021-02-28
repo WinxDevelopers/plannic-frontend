@@ -19,6 +19,7 @@ export class MateriasComponent implements AfterViewInit {
   };
   idforEdit;
   materias: Materia[] = []
+  nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês", "Outra"]
   constructor(private materiaService: MateriaService, private usuarioService: UserService) {
     this.refresh();
   }
@@ -30,8 +31,7 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   save() {
-    if (this.form.nome && this.form.descricao &&
-      !this.materias.includes(this.form.nome)) {
+    if (this.form.nome && !this.materias.includes(this.form.nome)) {
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
         () => this.refresh()
       );
@@ -42,7 +42,7 @@ export class MateriasComponent implements AfterViewInit {
     this.idforEdit = idMateria;
     this.materias.forEach((materia) => {
       if (materia.idMateria == idMateria) {
-        this.form.nome = materia.materia;
+        this.form.nome = materia.nomeMateria;
         this.form.descricao = materia.descricao;
       }
     })
@@ -70,7 +70,7 @@ export class MateriasComponent implements AfterViewInit {
         this.dataSource.data = this.materias.map(m => {
           return {
             idMateria: m.idMateria,
-            nome: m.materia,
+            nome: m.nomeMateria,
             tempo: m.tempo || "----",
             media: m.media || "----",
           }

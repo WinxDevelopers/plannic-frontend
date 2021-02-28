@@ -1,6 +1,6 @@
 export interface Materia {
     idMateria: number;
-    materia: string;
+    nomeMateria: string;
     tempo: number;
     media: number;
     descricao: string;

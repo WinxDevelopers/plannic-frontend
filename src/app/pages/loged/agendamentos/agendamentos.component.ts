@@ -27,10 +27,12 @@ export class AgendamentosComponent {
     intervaloFim: null,
   };
   idforEdit;
+  dataInicial;
+  dataFinal;
   materias: Materia[] = []
   agendamentos: Agendamento[] = []
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
-  recorrencias = ["Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
+  recorrencias = ["Nunca", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
   constructor(private agendamentoService: AgendamentoService, private usuarioService: UserService) {
     this.refresh();
   }
@@ -42,11 +44,12 @@ export class AgendamentosComponent {
   }
 
   save() {
+    this.dataInicial = this.form.intervaloData + "T" + this.form.intervaloInicio + ":00"
+    this.dataFinal = this.form.intervaloData + "T" + this.form.intervaloFim + ":00"
     this.agendamentoService.create(
       this.form.idMateria,
-      this.form.intervaloData,
-      this.form.intervaloInicio,
-      this.form.intervaloFim,
+      this.dataInicial,
+      this.dataFinal,
       this.form.recorrencia,
       this.form.metodo,
     ).subscribe(
@@ -58,7 +61,7 @@ export class AgendamentosComponent {
     this.idforEdit = idMateria;
     this.materias.forEach((materia) => {
       if (materia.idMateria == idMateria) {
-        this.form.nome = materia.materia;
+        this.form.nome = materia.nomeMateria;
         this.form.descricao = materia.descricao;
       }
     })
@@ -89,18 +92,18 @@ export class AgendamentosComponent {
           let data;
           this.materias.forEach(materia => {
             if (materia.idMateria === a.idMateria) {
-              mat = materia.materia
+              mat = materia.nomeMateria
             }
           })
           if (a.timestampInicio && a.timestampFim) {
             let dataIn = new Date(a.timestampInicio)
             let dataFim = new Date(a.timestampFim)
             //Dia
-            data = dataIn.getDay()+"/"+dataIn.getMonth()+"/"+dataIn.getFullYear()+" ("+
+            data = dataIn.getDate()+"/"+(dataIn.getMonth()+1)+"/"+dataIn.getFullYear()+" ("+
             //Inicio
-            dataIn.getHours()+":"+dataIn.getMinutes()+" - "+
+            (dataIn.getHours() + 3)+":"+dataIn.getMinutes()+"0 - "+
             //Fim
-            dataFim.getHours()+":"+dataIn.getMinutes()+")";
+            (dataFim.getHours() + 3)+":"+dataIn.getMinutes()+"0)";
           }
           return {
             idAgendamento: a.idAgendamento,

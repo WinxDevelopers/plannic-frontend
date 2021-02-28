@@ -18,12 +18,12 @@ export class AgendamentoService {
     }
     constructor(private http: HttpClient) { }
 
-    create(idMateria: number, date: string, timestampInicio: string, timestampFim: string, recorrencia: string, tipoEstudo: string): Observable<any> {
+    create(idMateria: number, timestampInicio: string, timestampFim: string, recorrencia: string, tipoEstudo: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'agendamento/cadastro', {
             idUsuario: this.idUsuario,
             idMateria,
-            timestampInicio: date+"T"+timestampInicio,
-            timestampFim: date+"T"+timestampFim,
+            timestampInicio,
+            timestampFim,
             recorrencia,
             tipoEstudo
         }, this.httpOptions);
