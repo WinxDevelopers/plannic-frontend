@@ -33,7 +33,11 @@ export class MateriasComponent implements AfterViewInit {
 
   save() {
     if (this.form.nome && !this.materias.includes(this.form.nome || this.form.outra)) {
-      this.form.nome = this.form.outra
+      if(!this.form.outra) {
+        this.form.nome = this.form.nome;
+      } else {
+        this.form.nome = this.form.outra;
+      }
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
         () => this.refresh()
       );
