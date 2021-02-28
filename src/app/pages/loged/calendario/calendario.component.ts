@@ -28,7 +28,7 @@ export class CalendarioComponent {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     locales: allLocales,
-    locale: localStorage.getItem('lang')
+    locale: localStorage.getItem('lang') || 'pt-BR'
 
     /* you can update a remote database when these fire:
     eventAdd:
