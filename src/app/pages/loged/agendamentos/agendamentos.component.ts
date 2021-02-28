@@ -27,8 +27,8 @@ export class AgendamentosComponent {
     intervaloFim: null,
   };
   idforEdit;
-  dataInicial;
-  dataFinal;
+  recorrenciaInicio;
+  recorrenciaFim;
   materias: Materia[] = []
   agendamentos: Agendamento[] = []
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
@@ -44,13 +44,15 @@ export class AgendamentosComponent {
   }
 
   save() {
-    this.dataInicial = this.form.intervaloData + "T" + this.form.intervaloInicio + ":00"
-    this.dataFinal = this.form.intervaloData + "T" + this.form.intervaloFim + ":00"
+    this.recorrenciaInicio = this.form.dataInicio + "T12:00:00"
+    this.recorrenciaFim = this.form.dataFim + "T12:00:00"
     this.agendamentoService.create(
       this.form.idMateria,
-      this.dataInicial,
-      this.dataFinal,
+      this.recorrenciaInicio,
+      this.recorrenciaFim,
       this.form.recorrencia,
+      this.form.horaInicio,
+      this.form.horaFim,
       this.form.metodo,
     ).subscribe(
       () => this.refresh()
@@ -89,17 +91,18 @@ export class AgendamentosComponent {
         this.materias = data.materias;
         this.dataSource.data = this.agendamentos.map(a => {
           let mat;
-          let data;
+          let datas;
+          let data = a.minEstudo;
           this.materias.forEach(materia => {
             if (materia.idMateria === a.idMateria) {
               mat = materia.nomeMateria
             }
           })
-          if (a.timestampInicio && a.timestampFim) {
-            let dataIn = new Date(a.timestampInicio)
-            let dataFim = new Date(a.timestampFim)
+          if (a.recorrenciaInicio && a.recorrenciaFim) {
+            let dataIn = new Date(a.recorrenciaInicio)
+            let dataFim = new Date(a.recorrenciaFim)
             //Dia
-            data = dataIn.getDate()+"/"+(dataIn.getMonth()+1)+"/"+dataIn.getFullYear()+" ("+
+            datas = dataIn.getDate()+"/"+(dataIn.getMonth()+1)+"/"+dataIn.getFullYear()+" ("+
             //Inicio
             (dataIn.getHours() + 3)+":"+dataIn.getMinutes()+"0 - "+
             //Fim
@@ -110,7 +113,6 @@ export class AgendamentosComponent {
             materia: mat,
             recorrencia: a.recorrencia,
             intervalo: data,
-            timestampFim: a.timestampFim,
             tipoEstudo: a.tipoEstudo
           }
         });

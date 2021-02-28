@@ -2,6 +2,13 @@
   <h3 class="text-dark mb-4">{{'LOGED.AGENDAMENTOS' | translate}}</h3>
   <div class="card shadow">
     <div class="card-header py-3">
+      <a class="nav-link" routerLink="../metodos">
+        <button class="btn btn-outline-success" title="Informações"
+          style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
+          type="submit">
+          <i class="fa fa-question-circle" style="font-size: 15px;"></i>
+        </button>
+      </a>
       <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal"
         data-target="#criarmateria">{{'CRUD-GERAL.CRIAR' | translate}} {{'LOGED.AGENDAMENTO' | translate}}</button>
       <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -28,17 +35,22 @@
               <div class="form-row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.INTERVALO' | translate}}</label>
+                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' | translate}}</label>
                     <input type="date" class="form-control mb-1 col-md-8" id="inicio" name="inicio"
-                      [(ngModel)]="form.intervaloData" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                      [(ngModel)]="form.dataInicio" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' | translate}}</label>
+                    <input type="date" class="form-control mb-1 col-md-8" id="inicio" name="inicio"
+                      [(ngModel)]="form.dataFim" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                     <div class="row">
                       <div class="col-md-4">
+                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' | translate}}</label>
                         <input type="time" class="form-control" id="inicio" name="inicio"
-                          [(ngModel)]="form.intervaloInicio" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                          [(ngModel)]="form.horaInicio" placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                       </div>
                       <div class="col-md-4">
+                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' | translate}}</label>
                         <input class="form-control" id="fim" name="fim" type="time"
-                          [(ngModel)]="form.intervaloFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                          [(ngModel)]="form.horaFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
                       </div>
                     </div>
                   </div>
@@ -85,7 +97,7 @@
               <td mat-cell *matCellDef="let element"> {{element.materia}} </td>
             </ng-container>
             <ng-container matColumnDef="intervalo">
-              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.INTERVALO' | translate}} </th>
+              <th mat-header-cell *matHeaderCellDef> {{'AGENDAMENTOS.TEMPO' | translate}} </th>
               <td mat-cell *matCellDef="let element"> {{element.intervalo}} </td>
             </ng-container>
             <ng-container matColumnDef="recorrencia">

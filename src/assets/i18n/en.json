@@ -54,7 +54,7 @@
         "NOTA_EVOLUCAO": "Evolution",
         "NOTA_TIPO": "Types",
         "NOTA_ESTUDO": "Study",
-        "HORAS_ESTUDO": "Hours"
+        "HORAS_ESTUDO": "Minutes"
     },
     "CRUD-GERAL":{
         "SALVAR": "Save",
@@ -140,7 +140,11 @@
     },
     "AGENDAMENTOS":{
         "MATERIA": "Subject",
-        "INTERVALO": "Time Range",
+        "DATAINICIO": "Start Date",
+        "DATAFIM": "End Date",
+        "HORAINICIO": "Start Time",
+        "HORAFIM": "End Time",
+        "TEMPO": "Time (Minutes)",
         "INICIO": "Begin",
         "FIM": "End",
         "RECORRENCIA": "Recurrence",
