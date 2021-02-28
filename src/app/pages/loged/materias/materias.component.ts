@@ -16,6 +16,7 @@ export class MateriasComponent implements AfterViewInit {
   form: any = {
     nome: null,
     descricao: null,
+    outra:null
   };
   idforEdit;
   materias: Materia[] = []
@@ -31,7 +32,8 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   save() {
-    if (this.form.nome && !this.materias.includes(this.form.nome)) {
+    if (this.form.nome && !this.materias.includes(this.form.nome || this.form.outra)) {
+      this.form.nome = this.form.outra
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
         () => this.refresh()
       );
@@ -51,6 +53,7 @@ export class MateriasComponent implements AfterViewInit {
   closeModal() {
     this.form.nome = null;
     this.form.descricao = null;
+    this.form.outra = null;
   }
 
   edit() {
