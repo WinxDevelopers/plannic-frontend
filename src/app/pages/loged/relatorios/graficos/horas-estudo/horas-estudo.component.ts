@@ -16,13 +16,8 @@ export class HorasEstudoComponent{
 
   public chartColors: Array<any> = [
     {
-      backgroundColor: 'rgba(105, 0, 132, .2)',
-      borderColor: 'rgba(200, 99, 132, .7)',
-      borderWidth: 2,
-    },
-    {
-      backgroundColor: 'rgba(0, 250, 220, .2)',
-      borderColor: 'rgba(0, 213, 132, .7)',
+      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
       borderWidth: 2,
     }
   ];
