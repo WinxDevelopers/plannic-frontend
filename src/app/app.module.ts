@@ -35,13 +35,19 @@ import { NotasEstudoComponent } from './pages/loged/relatorios/graficos/notas-es
 import { NotasComponent } from './pages/loged/notas/notas.component';
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin
 ]);
 
 @NgModule({
