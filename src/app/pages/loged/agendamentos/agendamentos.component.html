@@ -2,13 +2,11 @@
   <h3 class="text-dark mb-4">{{'LOGED.AGENDAMENTOS' | translate}}</h3>
   <div class="card shadow">
     <div class="card-header py-3">
-      <a class="nav-link" routerLink="../metodos">
-        <button class="btn btn-outline-success" title="Informações"
+      <button (click)="info()" class="btn btn-outline-success" title="Excluir"
           style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
           type="submit">
-          <i class="fa fa-question-circle" style="font-size: 15px;"></i>
-        </button>
-      </a>
+        <i class="fa fa-question-circle" style="font-size: 15px;"></i>
+      </button>
       <button type="button" class="btn btn-sm botao-criar float-right" data-toggle="modal"
         data-target="#criarmateria">{{'CRUD-GERAL.CRIAR' | translate}} {{'LOGED.AGENDAMENTO' | translate}}</button>
       <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Materia } from 'src/app/interface/materia';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { Agendamento } from 'src/app/interface/agendamento';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agendamentos',
@@ -33,7 +34,9 @@ export class AgendamentosComponent {
   agendamentos: Agendamento[] = []
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
   recorrencias = ["Nunca", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
-  constructor(private agendamentoService: AgendamentoService, private usuarioService: UserService) {
+  constructor(private agendamentoService: AgendamentoService, 
+              private usuarioService: UserService,
+              private router: Router) {
     this.refresh();
   }
 
@@ -80,6 +83,10 @@ export class AgendamentosComponent {
 
   del(idAgendamento) {
     this.agendamentoService.delete(idAgendamento).subscribe(() => this.refresh());
+  }
+
+  info() {
+    this.router.navigate(['dashboard/metodos']);  
   }
 
   refresh() {
