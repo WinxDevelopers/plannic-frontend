@@ -1,6 +1,5 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
 import allLocales from '@fullcalendar/core/locales-all';
 import { UserService } from 'src/app/service/user.service';
 import { Agendamento } from 'src/app/interface/agendamento';
@@ -46,7 +45,6 @@ export class CalendarioComponent implements OnInit {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: false,
