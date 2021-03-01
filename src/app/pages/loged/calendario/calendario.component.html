@@ -1,6 +1,8 @@
 <div class='demo-app-main'>
     <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
 </div>
+<button style="display: none;" id="botaocriar" type="button" data-toggle="modal" data-target="#criarmateria"></button>
+<button style="display: none;" id="botaoeditar" type="button" data-toggle="modal" data-target="#editarmateria"></button>
 <div class="modal fade" id="editarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

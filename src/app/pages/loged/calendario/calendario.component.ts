@@ -47,9 +47,11 @@ export class CalendarioComponent implements OnInit {
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
-    selectable: false,
+    selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    droppable: false,
+    select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     locales: allLocales,
@@ -111,6 +113,12 @@ export class CalendarioComponent implements OnInit {
     this.calendarVisible = !this.calendarVisible;
   }
 
+  handleDateSelect(selectedDate: DateSelectArg) {
+    this.newForm.dataInicio = this.DateToString(selectedDate.start, "data");
+    this.newForm.dataFim = this.DateToString(selectedDate.start, "data");
+    document.getElementById("botaocriar").click()  
+  }
+
   handleWeekendsToggle() {
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
@@ -131,7 +139,7 @@ export class CalendarioComponent implements OnInit {
 
   edit() {
     this.recorrenciaInicio = this.editForm.dataInicio + "T12:00:00"
-    this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"    
+    this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"
     this.agendamentoService.update(
       this.editForm.idAgendamento,
       this.editForm.idMateria,
@@ -156,7 +164,7 @@ export class CalendarioComponent implements OnInit {
           })
         }
       },
-      error =>{
+      error => {
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
             icon: 'error',
@@ -201,7 +209,8 @@ export class CalendarioComponent implements OnInit {
             title: 'Schedule saved'
           })
         }
-        this.refresh()},
+        this.refresh()
+      },
       error => {
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
@@ -241,7 +250,7 @@ export class CalendarioComponent implements OnInit {
       Swal.fire({
         title: `${clickInfo.event.title}`,
         showDenyButton: true,
-        confirmButtonText: `<span (click)='editIndos(${clickInfo.event})' data-toggle="modal" data-target="#editarmateria">Editar</span>`,
+        confirmButtonText: `Editar`,
         denyButtonText: `Excluir`
       }).then((result) => {
         if (result.isDenied) {
@@ -270,7 +279,7 @@ export class CalendarioComponent implements OnInit {
                   }
                   this.refresh()
                 },
-                error =>{
+                error => {
                   if (localStorage.getItem("lang") != "en") {
                     this.Toast.fire({
                       icon: 'error',
@@ -285,6 +294,8 @@ export class CalendarioComponent implements OnInit {
                 });
             }
           })
+        }else if(result.isConfirmed){
+          document.getElementById("botaoeditar").click()
         }
       })
     }
@@ -292,7 +303,7 @@ export class CalendarioComponent implements OnInit {
       Swal.fire({
         title: `${clickInfo.event.title}`,
         showDenyButton: true,
-        confirmButtonText: `<span (click)='editIndos(${clickInfo.event})' data-toggle="modal" data-target="#editarmateria">Edit</span>`,
+        confirmButtonText: `Edit`,
         denyButtonText: `Delete`
       }).then((result) => {
         if (result.isDenied) {
@@ -309,18 +320,14 @@ export class CalendarioComponent implements OnInit {
               this.agendamentoService.delete(parseInt(clickInfo.event.id)).subscribe(() => this.refresh());
             }
           })
+        }else if(result.isConfirmed){
+          document.getElementById("botaoeditar").click()
         }
       })
     }
   }
 
   handleEvents(events: EventApi[]) {
-    let dias = document.getElementsByClassName("fc-daygrid-day-number");
-    for (let d = 0; d < dias.length; d++) {
-      dias[d].setAttribute("data-toggle", "modal");
-      dias[d].setAttribute("data-target", "#criarmateria");
-      dias[d].setAttribute("onclick", `${this.setInfos(null)}`);
-    }
     this.currentEvents = events;
   }
 
