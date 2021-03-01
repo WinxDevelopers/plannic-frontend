@@ -35,6 +35,8 @@ export class CalendarioComponent implements OnInit {
     dataFim: null,
     horaFim: null,
   };
+  recorrenciaInicio;
+  recorrenciaFim;
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
   recorrencias = ["Nunca", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
   calendarOptions: CalendarOptions = {
@@ -129,13 +131,17 @@ export class CalendarioComponent implements OnInit {
     }
   }
 
-  edit() {    
+  edit() {
+    this.recorrenciaInicio = this.editForm.dataInicio + "T12:00:00"
+    this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"    
     this.agendamentoService.update(
       this.editForm.idAgendamento,
       this.editForm.idMateria,
-      new Date(this.editForm.dataInicio+"T"+this.editForm.horaInicio),
-      new Date(this.editForm.dataFim+"T"+this.editForm.horaFim),
+      this.recorrenciaInicio,
+      this.recorrenciaFim,
       this.editForm.recorrencia,
+      this.editForm.horaInicio,
+      this.editForm.horaFim,
       this.editForm.tipoEstudo
     ).subscribe(
       () => {
