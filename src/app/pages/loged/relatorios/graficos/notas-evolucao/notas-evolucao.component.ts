@@ -32,9 +32,6 @@ export class NotasEvolucaoComponent {
 
 
   public chartType: string = 'line';
-  selected(){
-    console.log(this.form.idMateria) // muda o id  quando seleciona no dropdown
-  }
 
   public chartColors: Array<any> = [
     {
@@ -87,7 +84,7 @@ export class NotasEvolucaoComponent {
         this.chartDatasets = [
           { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
             ];     
-        this.chartLabels = this.notas.map(i => i.dataNota);
+        this.chartLabels = this.notas.map(i => i.dataNota.replace("T", " ").replace("00:00:00.000+0000", ""));
       }
     )
   }

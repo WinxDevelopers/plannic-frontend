@@ -1,6 +1,6 @@
 <h4 class="text-gray-500">{{'GRAFICOS.NOTA_EVOLUCAO' | translate}}</h4>
 <h6 class="text-gray-500">Selecione a matéria desejada: </h6>
- <select class="form-control" [(ngModel)]="form.idMateria" (change)="selected()">
+ <select class="form-control" [(ngModel)]="form.idMateria" (change)="getNotas()">
     <option *ngFor="let materias of materias"   value= {{materias.idMateria}}>
       {{materias.nomeMateria}}
     </option>
