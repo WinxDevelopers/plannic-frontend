@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -42,6 +42,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(email, password): void {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
     this.authService.login(email, password).subscribe(
       data => {
         this.dadosLogin = JSON.parse(data);
@@ -51,12 +61,21 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard/relatorios']);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-
-
       },
       err => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
+        if (localStorage.getItem("lang") != "en") {
+          Toast.fire({
+            icon: 'error',
+            title: 'Ocorreu um erro'
+          })
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'An error has occurred'
+          })
+        }
       }
     );
   }

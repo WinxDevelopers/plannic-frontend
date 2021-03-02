@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-registrar',
@@ -39,12 +40,22 @@ export class RegistrarComponent implements OnInit {
       () => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        alert("Cadastro realizado com sucesso!")
-        window.location.href = "../login"
+        Swal.fire({
+          title: 'Cadastro realizado com sucesso!',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then(() => {
+          window.location.href = "../login"
+        })
       },
       err => {
-        alert("Cadastro não realizado!")
-        window.location.href = "../registrar"
+        Swal.fire({
+          title: 'Cadastro não realizado!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        }).then(() => {
+          window.location.href = "../registrar"
+        })
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       }

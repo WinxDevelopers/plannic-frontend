@@ -31,14 +31,16 @@ export class AgendamentoService {
         }, this.httpOptions);
     }
 
-    update(idAgendamento: number, idMateria: number, timestampInicio: Date, timestampFim: Date, recorrencia: string, tipoEstudo: string): Observable<any> {
+    update(idAgendamento: number, idMateria: number, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'agendamento', {
             idUsuario: this.idUsuario,
             idAgendamento,
             idMateria,
-            timestampInicio,
-            timestampFim,
+            recorrenciaInicio,
+            recorrenciaFim,
             recorrencia,
+            horaInicio,
+            horaFim,
             tipoEstudo
         }, this.httpOptions);
     }
