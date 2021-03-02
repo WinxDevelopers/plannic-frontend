@@ -58,9 +58,7 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   closeModal() {
-    this.form.nome = null;
-    this.form.descricao = null;
-    this.form.outra = null;
+    this.form = {}
   }
 
   edit() {

@@ -38,12 +38,12 @@ export class NotasComponent implements AfterViewInit {
   }
 
   save() {
-    if (this.form.tipoNota && this.form.nota && this.form.data){
+    if (this.form.tipoNota && this.form.nota && this.form.data) {
       this.dataFinal = this.form.data + "T00:00:00";
       this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipoNota, this.dataFinal).subscribe(
         () => {
           this.closeModal();
-          this.refresh()
+          this.refresh();
         }
       );
     }
@@ -58,8 +58,10 @@ export class NotasComponent implements AfterViewInit {
   }
 
   closeModal() {
-    this.form.nome = null;
-    this.form.descricao = null;
+    this.form.idMateria = null;
+    this.form.nota = null;
+    this.form.tipoNota = null;
+    this.dataFinal = null;
   }
 
   edit() {

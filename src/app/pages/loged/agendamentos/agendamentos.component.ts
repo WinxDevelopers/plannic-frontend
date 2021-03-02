@@ -34,9 +34,9 @@ export class AgendamentosComponent {
   agendamentos: Agendamento[] = []
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
   recorrencias = ["Nunca", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
-  constructor(private agendamentoService: AgendamentoService, 
-              private usuarioService: UserService,
-              private router: Router) {
+  constructor(private agendamentoService: AgendamentoService,
+    private usuarioService: UserService,
+    private router: Router) {
     this.refresh();
   }
 
@@ -76,8 +76,9 @@ export class AgendamentosComponent {
   }
 
   closeModal() {
-    this.form.nome = null;
-    this.form.descricao = null;
+    this.form = {}
+    this.recorrenciaInicio = null
+    this.recorrenciaFim = null
   }
 
   /* edit() {
@@ -89,7 +90,7 @@ export class AgendamentosComponent {
   }
 
   info() {
-    this.router.navigate(['dashboard/metodos']);  
+    this.router.navigate(['dashboard/metodos']);
   }
 
   refresh() {
@@ -112,11 +113,11 @@ export class AgendamentosComponent {
             let dataIn = new Date(a.recorrenciaInicio)
             let dataFim = new Date(a.recorrenciaFim)
             //Dia
-            datas = dataIn.getDate()+"/"+(dataIn.getMonth()+1)+"/"+dataIn.getFullYear()+" ("+
-            //Inicio
-            (dataIn.getHours() + 3)+":"+dataIn.getMinutes()+"0 - "+
-            //Fim
-            (dataFim.getHours() + 3)+":"+dataIn.getMinutes()+"0)";
+            datas = dataIn.getDate() + "/" + (dataIn.getMonth() + 1) + "/" + dataIn.getFullYear() + " (" +
+              //Inicio
+              (dataIn.getHours() + 3) + ":" + dataIn.getMinutes() + "0 - " +
+              //Fim
+              (dataFim.getHours() + 3) + ":" + dataIn.getMinutes() + "0)";
           }
           return {
             idAgendamento: a.idAgendamento,
