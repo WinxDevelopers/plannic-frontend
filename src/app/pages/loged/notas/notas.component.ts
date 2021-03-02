@@ -41,7 +41,10 @@ export class NotasComponent implements AfterViewInit {
     if (this.form.tipoNota && this.form.nota && this.form.data){
       this.dataFinal = this.form.data + "T00:00:00";
       this.notaMateriaService.create(this.form.idMateria, this.form.nota, this.form.tipoNota, this.dataFinal).subscribe(
-        () => this.refresh()
+        () => {
+          this.closeModal();
+          this.refresh()
+        }
       );
     }
   }

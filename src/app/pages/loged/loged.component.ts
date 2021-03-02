@@ -14,7 +14,9 @@ export class LogedComponent implements OnInit {
     if (!localStorage.getItem('token')) {
       this.router.navigate(['../']);
     } else {
-      this.router.navigate(['dashboard/calendario']);
+      console.log(window.location.href)
+      if(window.location.href.endsWith("dashboard"))
+        this.router.navigate(['dashboard/calendario']);
     }
   }
 

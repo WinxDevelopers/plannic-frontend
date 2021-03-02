@@ -58,7 +58,10 @@ export class AgendamentosComponent {
       this.form.horaFim,
       this.form.metodo,
     ).subscribe(
-      () => this.refresh()
+      () => {
+        this.refresh();
+        this.closeModal()
+      }
     );
   }
 

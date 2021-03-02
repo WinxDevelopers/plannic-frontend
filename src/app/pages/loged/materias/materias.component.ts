@@ -39,7 +39,10 @@ export class MateriasComponent implements AfterViewInit {
         this.form.nome = this.form.outra;
       }
       this.materiaService.create(this.form.nome, this.form.descricao).subscribe(
-        () => this.refresh()
+        () => {
+          this.closeModal();
+          this.refresh();
+        }
       );
     }
   }

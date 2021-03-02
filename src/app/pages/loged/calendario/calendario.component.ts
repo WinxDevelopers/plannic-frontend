@@ -198,6 +198,7 @@ export class CalendarioComponent implements OnInit {
       this.newForm.metodo,
     ).subscribe(
       () => {
+        this.closeModal();
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
             icon: 'success',

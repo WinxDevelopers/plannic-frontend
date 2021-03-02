@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('idUsuario', this.dadosLogin.idUsuario)
         localStorage.setItem('nome', this.dadosLogin.nome)
         localStorage.setItem('token', this.dadosLogin.token)
-        this.router.navigate(['/dashboard/relatorios']);
+        this.router.navigate(['/dashboard/']);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
       },
