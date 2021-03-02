@@ -18,7 +18,7 @@ export class GraficosService {
     constructor(private http: HttpClient) { }
 
     notaEvolucao(idUsuario: string, idMateria: number): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${idUsuario}/${idMateria}`, this.httpOptions)
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsdata/${idUsuario}/${idMateria}`, this.httpOptions)
     };
 
     notaTipo(idUsuario: string): Observable<any> {

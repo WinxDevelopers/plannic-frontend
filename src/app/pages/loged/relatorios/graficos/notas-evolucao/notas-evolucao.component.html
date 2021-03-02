@@ -1,4 +1,11 @@
 <h4 class="text-gray-500">{{'GRAFICOS.NOTA_EVOLUCAO' | translate}}</h4>
+<h6 class="text-gray-500">Selecione a mateira desejada: </h6>
+ <select class="form-control" [(ngModel)]="form.idMateria" (change)="selected()">
+    <option *ngFor="let materias of materias"   value= {{materias.idMateria}}>
+      {{materias.nomeMateria}}
+    </option>
+ </select>
+
 <div style="display: block">
   <canvas mdbChart
       [chartType]="chartType"

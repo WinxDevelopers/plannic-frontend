@@ -1,45 +1,40 @@
 import { Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
+import { Materia } from 'src/app/interface/materia';
+import { NotaMateria } from 'src/app/interface/notaMateria';
+import { GraficosService } from 'src/app/service/graficos.service';
+import { UserService } from 'src/app/service/user.service';
+
 
 @Component({
   selector: 'chart-notas-evolucao',
   templateUrl: './notas-evolucao.component.html'
 })
 export class NotasEvolucaoComponent {
-  public notas = {
-    payload: [
-      {
-        materia: "História",
-        nota: 7.5,
-        tipo_nota: "Média",
-        data_nota: "01/01/2021"
-      },
-      {
-        materia: "História",
-        nota: 9.5,
-        tipo_nota: "Média",
-        data_nota: "03/01/2021"
-      },
-      {
-        materia: "História",
-        nota: 4.5,
-        tipo_nota: "Média",
-        data_nota: "07/01/2021"
-      },
-      {
-        materia: "História",
-        nota: 3.5,
-        tipo_nota: "Média",
-        data_nota: "18/01/2021"
-      }
-    ]
+  constructor(private graficoService: GraficosService,private usuarioService: UserService) { 
+    this.getNotas(),  this.refresh(); }
+  public idUsuario = localStorage.getItem('idUsuario');
+  public notas;
+  public chartDatasets: Array<any>;
+  public chartLabels: Array<any>;
+
+  materias: Materia[] = []
+  form: any = {
+    idMateria: null
+  };
+  dataSource = new MatTableDataSource();
+
+  ngOnInit() {
+    this.getNotas();
+    this.refresh();
   }
+
+
   public chartType: string = 'line';
-
-  public chartDatasets: Array<any> = [
-    { data: this.notas.payload.map(i => i.nota), label: this.notas.payload[0].materia }
-  ];
-
-  public chartLabels: Array<any> = this.notas.payload.map(i => i.data_nota);
+  selected(){
+    console.log(this.form.idMateria) // muda o id  quando seleciona no dropdown
+  }
 
   public chartColors: Array<any> = [
     {
@@ -65,4 +60,35 @@ export class NotasEvolucaoComponent {
 
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
+
+
+  getNotas() {
+    this.graficoService.notaEvolucao(this.idUsuario, 60).subscribe(
+      (notas) => {
+        notas = JSON.parse(notas);
+        this.notas = notas;
+        this.chartDatasets = [
+          { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
+            ];     
+        this.chartLabels = this.notas.map(i => i.dataNota);
+      }
+    )
+  }
+
+  refresh() {
+    this.usuarioService.getAllById().subscribe(
+      (stringData: string) => {
+        let data = JSON.parse(stringData)
+        data = data[0]
+        this.materias = data.materias;
+        this.dataSource.data = this.materias.map(m => {
+          return {
+            idMateria: m.idMateria,
+            nomeMateria: m.nomeMateria,
+
+          }
+        });
+      })
+  }
+
 }
