@@ -62,18 +62,7 @@ export class NotasEvolucaoComponent {
   public chartHovered(e: any): void { }
 
 
-  getNotas() {
-    this.graficoService.notaEvolucao(this.idUsuario, 60).subscribe(
-      (notas) => {
-        notas = JSON.parse(notas);
-        this.notas = notas;
-        this.chartDatasets = [
-          { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
-            ];     
-        this.chartLabels = this.notas.map(i => i.dataNota);
-      }
-    )
-  }
+
 
   refresh() {
     this.usuarioService.getAllById().subscribe(
@@ -89,6 +78,18 @@ export class NotasEvolucaoComponent {
           }
         });
       })
+  }
+  getNotas() {
+    this.graficoService.notaEvolucao(this.idUsuario, this.form.idMateria).subscribe(
+      (notas) => {
+        notas = JSON.parse(notas);
+        this.notas = notas;
+        this.chartDatasets = [
+          { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
+            ];     
+        this.chartLabels = this.notas.map(i => i.dataNota);
+      }
+    )
   }
 
 }
