@@ -1,44 +1,9 @@
 .btn:not(:disabled):not(.disabled) {
-  background-color: #19647e;
-  font-size: 1.1rem;
-  color: #fff;
-}
-
-.navbar.navbar-dark.navbar-expand-lg.navigation-clean-search {
-  background-color: #31d0aa;
   font-size: 1.1rem;
 }
 
 .navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text {
-  color: white rtant;
-  font-size: 1.1rem;
-}
-
-.footer-basic {
-  background-color: #505050;
-}
-
-.social {
   color: white;
-}
-
-.list-inline, .list-unstyled {
-  color: white;
-}
-
-.far.fa-calendar-alt.m-auto.text-primary {
-  font-size: 3rem;
-  color: #19647e;
-}
-
-.fas.fa-users.m-auto.text-primary {
-  font-size: 3rem;
-  color: #19647e;
-}
-
-.fas.fa-pencil-alt.m-auto.text-primary {
-  font-size: 3rem;
-  color: #19647e;
 }
 
 .h3, h3 {
@@ -59,14 +24,45 @@
   padding: 10px;
 }
 
-.pag_inicial {
-  background-image: url("../../assets/img/img04b.jpg");
-  background-repeat: round;
-  max-width: 1800px;
+@media (max-width: 520px) {
+  .typewriter h2{
+    display: none;
+  }
 }
 
-.pag_inicial_cards {
-  color: #2e282a;
+/* ================================================================================== */
+/* Efeito de Digitação */
+.typewriter h2 {
+  font-family: monospace;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .10em solid #31d0aa; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: 
+    typing 2.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width:100%}
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #31d0aa; }
+}
+/* ================================================================================== */
+
+.pag_inicial {
+  background-image: url("../../assets/img/img04b.jpg");
+  background-size: cover;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .bg-gradient-primary {
@@ -82,7 +78,6 @@
   font-family: 'Comfortaa';
   font-size: 2.9rem;
   color: #19647e;
-  font-weight: bold;
 }
 
 .botao-custom {
@@ -134,9 +129,6 @@
   .pag_inicial_texto {
     font-size: 3em;
   }
-  .img-media{
-    display: none;
-  }
 }
 
 @media screen and (max-width: 380px) {
@@ -151,8 +143,6 @@
 .pag_inicial_texto {
   font-family: 'Comfortaa';
   color: #19647e;
-  font-size: 4.3em;
-  font-weight: 700;
 }
 
 .botao-criar {

@@ -51,7 +51,8 @@
                                     <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
                                         translate}}</label>
                                     <input class="form-control" id="fim" name="fim" type="time"
-                                        [(ngModel)]="editForm.horaFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                        [(ngModel)]="editForm.horaFim"
+                                        placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
                                 </div>
                             </div>
                         </div>
@@ -82,11 +83,15 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button (click)="closeModal()" type="button" class="btn btn-secondary"
+                <a style="position:relative; right:215px;" >Danger</a>
+                <!-- <button (click)="closeModal()" style="position:relative; right:215px;"  type="button" class="float-right btn btn-outline-danger"
                     data-dismiss="modal">{{'MATERIAS.FECHAR' |
-                    translate}}</button>
+                    translate}}</button> -->
                 <button (click)="edit()" type="button" class="btn btn-primary" data-dismiss="modal">{{'MATERIAS.SALVAR'
                     |
+                    translate}}</button>
+                <button (click)="closeModal()" type="button" class="btn btn-secondary"
+                    data-dismiss="modal">{{'MATERIAS.FECHAR' |
                     translate}}</button>
             </div>
         </div>
@@ -140,7 +145,8 @@
                                     <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
                                         translate}}</label>
                                     <input class="form-control" id="fim" name="fim" type="time"
-                                        [(ngModel)]="newForm.horaFim" placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                        [(ngModel)]="newForm.horaFim"
+                                        placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
                                 </div>
                             </div>
                         </div>

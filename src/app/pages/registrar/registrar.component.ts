@@ -29,6 +29,7 @@ export class RegistrarComponent implements OnInit {
   errorMessage = '';
 
   ngOnInit() {
+    document.getElementById("body").classList.remove("pag_inicial");
     document.getElementById("body").classList.add("bg-gradient-primary");
     if (localStorage.getItem('token')) {
       this.router.navigate(['dashboard/calendario']);

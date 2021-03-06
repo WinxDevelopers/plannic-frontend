@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   senha: String;
 
   ngOnInit(): void {
+    document.getElementById("body").classList.remove("pag_inicial");
     document.getElementById("body").classList.add("bg-gradient-primary");
     this.route.queryParams.subscribe((params: Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
