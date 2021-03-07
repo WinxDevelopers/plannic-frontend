@@ -107,42 +107,10 @@
   color: #505050;
 }
 
-@media screen and (max-width: 992px) {
-  .pag_inicial_texto {
-    font-size: 3.5em;
-  }
-}
-
-@media screen and (max-width: 1300px) {
-  .pag_inicial_texto {
-    font-size: 4em;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .pag_inicial_texto {
-    font-size: 3.5em;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .pag_inicial_texto {
-    font-size: 3em;
-  }
-}
-
 @media screen and (max-width: 380px) {
-  .pag_inicial_texto {
-    font-size: 2.5em;
-  }
   .img-media{
     display: none;
   }
-}
-
-.pag_inicial_texto {
-  font-family: 'Comfortaa';
-  color: #19647e;
 }
 
 .botao-criar {
