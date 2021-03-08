@@ -107,12 +107,6 @@
   color: #505050;
 }
 
-@media screen and (max-width: 380px) {
-  .img-media{
-    display: none;
-  }
-}
-
 .botao-criar {
   font-size: 15px;
   border-color: #2e282a;
@@ -141,11 +135,6 @@
   flex-direction: row-reverse;
 }
 
-.img-media{
-  width: 30%;
-  margin: 0rem;
-}
-
 .titulo-media{
   text-align: center;
   padding-top: 1rem;
@@ -154,20 +143,12 @@
   font-family: Comfortaa;
 }
 
-.texto-media{
-  font-size: 1.1rem;
+.texto-metodos{
   text-align: justify;
-  padding: 1rem;
   font-family: Comfortaa;
-}
-
-.texto-apresentacao{
-  font-size: 1.2rem;
-  text-align: justify;
   margin: 3% auto;
   color: #2e282a;
   max-width: 90%;
-  font-family: Comfortaa;
 }
 
 .table th, .table td {

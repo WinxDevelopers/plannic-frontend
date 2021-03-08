@@ -1,6 +1,4 @@
 import { AgendamentosComponent } from './pages/loged/agendamentos/agendamentos.component';
-import { MetodosComponent } from './pages/loged/metodos/metodos.component';
-import { NotasComponent } from './pages/loged/notas/notas.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
@@ -24,8 +22,6 @@ const routes: Routes = [
       { path: 'relatorios', component: RelatoriosComponent },
       { path: 'agendamentos', component: AgendamentosComponent },
       { path: 'materias', component: MateriasComponent },
-      { path: 'notas', component: NotasComponent },
-      { path: 'metodos', component: MetodosComponent },
       { path: 'configuracoes', component: ConfigComponent },
     ]
   }

@@ -9,15 +9,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agendamentos',
-  templateUrl: './agendamentos.component.html',
-  styleUrls: ['./agendamentos.component.scss']
+  templateUrl: './agendamentos.component.html'
 })
 export class AgendamentosComponent {
-
-  /* "MATERIA": "Subject",
-        "INTERVALO": "Time Range",
-        "RECORRENCIA": "Recurrence",
-        "METODO": "Study Method" */
+  
   displayedColumns: string[] = ['materia', 'intervalo', 'recorrencia', 'tipoEstudo', 'acoes'];
   dataSource = new MatTableDataSource();
   form: any = {

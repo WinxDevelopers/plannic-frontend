@@ -23,17 +23,17 @@ export class NotaMateriaService {
     create(idMateria: number, notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'notasMateria/cadastro', {
             idUsuario: this.IdUsuario,
-            idMateria: idMateria,
+            idMateria,
             notaMateria,
             tipoNota,
             dataNota
         }, this.httpOptions);
     }
 
-    update(id: number, notaMateria: number, tipoNota: number, dataNota: Date): Observable<any> {
+    update(id: number, idMateria: number ,notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'notasMateria', {
-            'idUsuario': 7,
-            'idMateria': 1,
+            idUsuario: this.IdUsuario,
+            idMateria,
             id,
             notaMateria,
             tipoNota,

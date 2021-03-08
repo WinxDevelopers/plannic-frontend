@@ -23,6 +23,7 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     document.getElementById("body").classList.add("pag_inicial");
     document.getElementById("body").classList.remove("bg-gradient-primary");
+    localStorage.setItem("lang", "pt-BR");
     if (!localStorage.getItem('token')) {
       this.isLogged = false;
       this.router.navigate(['../']);

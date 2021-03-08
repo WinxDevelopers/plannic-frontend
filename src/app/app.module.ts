@@ -29,10 +29,8 @@ import { NotasEvolucaoComponent } from './pages/loged/relatorios/graficos/notas-
 import { NotasMateriaComponent } from './pages/loged/relatorios/graficos/notas-materia/notas-materia.component';
 import { BadgesComponent } from './pages/loged/relatorios/graficos/badges/badges.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
-import { MetodosComponent } from './pages/loged/metodos/metodos.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
 import { NotasEstudoComponent } from './pages/loged/relatorios/graficos/notas-estudo/notas-estudo.component';
-import { NotasComponent } from './pages/loged/notas/notas.component';
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -70,8 +68,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AgendamentosComponent,
     CalendarioComponent,
     ConfigComponent,
-    MetodosComponent,
-    NotasComponent
   ],
   imports: [
     BrowserModule,

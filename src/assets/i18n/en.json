@@ -71,13 +71,19 @@
         "ACOES": "Actions",
         "CRIAR": "Include Grade",
         "FECHAR": "Close",
-        "SALVAR": "Save"
+        "SALVAR": "Save",
+        "ERROS":{
+            "CAMPOS":"Please complete all required text fields",
+            "DATA": "Invalid date",
+            "NOTA": "Invalid grade"
+        }
     },
     "MATERIAS":{
         "NOME": "Name",
         "TEMPO": "Studied Time (in hours)",
         "MEDIA": "Grades Average",
         "ACOES": "Actions",
+        "SOBRE": "About",
         "CIRAR": "Create",
         "DESCRICAO": "Description",
         "FECHAR": "Close",
@@ -90,11 +96,6 @@
         "SALVAR": "Save"
     },
     "METODOS":{
-        "APRESENTACAO1": "Create habits and study methods is essential to acquire the necessary skills during learning. It is common to have more affinity with some subjects and difficulties in others. Thus, it is important to develop a routine from an early age so that the fruits are harvested ahead.",
-        "APRESENTACAO2": "First of all, it is essential that you know yourself. That is, it is important that you know what makes it difficult and what makes your study easier.",
-        "APRESENTACAO3": "Nobody works the same way. From person to person there are different rhythms of learning, more or less easy to memorize, to concentrate attention, to synthesize, to analyze or to understand. Therefore, in the first phase, it is necessary to answer the question: how do I study better?",
-        "APRESENTACAO4": "All the methods presented here have their qualities and their defects, and may work differently for each one. Therefore, it is important that you analyze which one is best for you and for the subject you need to study",
-        "APRESENTACAO5": "See below the summary of the study methods that are recommended by Plannic.",
         "AUTO": "Self-explanation ",
         "AUTO1": "Self-explanation is a method in which the idea is to read the text and explain it to yourself out loud. For this, it is always good to relate other information and materials that may be connected with reading.",
         "AUTO2": "An example is to study history and remember the previous periods and the main events of the moment described - or to study biology and remember the definition of each concept and each name mentioned.",

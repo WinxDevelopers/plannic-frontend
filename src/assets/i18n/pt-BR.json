@@ -57,6 +57,7 @@
         "HORAS_ESTUDO": "Horas de Estudo (Minutos)"
     },
     "CRUD-GERAL":{
+        "SALVAR": "Salvar",
         "CRIAR": "Criar",
         "VER": "Ver",
         "EDITAR": "Editar",
@@ -70,13 +71,19 @@
         "ACOES": "Ações",
         "CRIAR": "Adicionar Nota",
         "FECHAR": "Fechar",
-        "SALVAR": "Salvar"
+        "SALVAR": "Salvar",
+        "ERROS":{
+            "CAMPOS":"Preencha todos os campos",
+            "DATA": "Data inválida",
+            "NOTA": "Nota inválida"
+        }
     },
     "MATERIAS":{
         "NOME": "Nome",
         "TEMPO": "Tempo Estudado (em horas)",
         "MEDIA": "Média das Notas",
         "ACOES": "Ações",
+        "SOBRE": "Sobre",
         "CIRAR": "Criar Matéria",
         "DESCRICAO": "Descrição",
         "FECHAR": "Fechar",
@@ -88,12 +95,7 @@
         "NOME": "Nome",
         "SALVAR": "Salvar"
     },
-    "METODOS":{
-        "APRESENTACAO1": "Criar hábitos e métodos de estudo é fundamental para adquirir as competências necessárias durante o aprendizado. É comum ter mais afinidade com algumas matérias e dificuldades em outras. Dessa maneira, é importante desenvolver uma rotina de estudo desde cedo para que lá na frente os frutos sejam colhidos.",
-        "APRESENTACAO2": "Antes de mais, é fundamental que você se conheça. Ou seja, é importante que você saiba o que dificulta e o que facilita o seu estudo.",
-        "APRESENTACAO3": "Ninguém funciona da mesma maneira. De pessoa para pessoa há diferentes ritmos de aprendizagem, maior ou menor facilidade em memorizar, em concentrar a atenção, em sintetizar, em analisar ou em compreender. Portanto, numa primeira fase há que responder à questão: como eu estudo melhor?",
-        "APRESENTACAO4": "Todos os métodos apresentados aqui possuem as suas qualidades e seus defeitos, e podem funcionar de maneira diferente para cada um. Portanto, é importante que você analise qual deles é o melhor para você e para a matéria que precisa estudar",
-        "APRESENTACAO5": "Veja abaixo o resumo dos métodos de estudo que são recomendados pelo Plannic.",
+    "METODOS":{        
         "AUTO": "Autoexplicação",
         "AUTO1": "A autoexplicação é um método em que a ideia é ler o texto e explicá-lo para você mesmo em voz alta.Para isso, é sempre bom relacionar outras informações e matérias que possam ter ligação com a leitura.",
         "AUTO2": "Um exemplo é estudar história e relembrar os períodos anteriores e os principais acontecimentos do momento descrito — ou estudar biologia e relembrar a definição de cada conceito e de cada nome citado.",
