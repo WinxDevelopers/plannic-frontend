@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,6 @@ export class AppComponent implements OnInit{
 
   constructor(
     public translate: TranslateService,
-    private location: Location,
     ){
       this.translate.addLangs(['pt-BR', 'en']);
       this.translate.setDefaultLang('pt-BR');
@@ -22,6 +20,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {  
+    if (environment.production) {
+      if (window.location.protocol === 'http:') {
+        window.location.href = window.location.href.replace('http', 'https');
+      }
+    }
   }
 
   switchLang(lang: string): void {
