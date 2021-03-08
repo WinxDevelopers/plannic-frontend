@@ -39,6 +39,8 @@ Para encontrar o Backend do projeto, acesse: https://github.com/WinxDevelopers/p
 
 The following tools were used in this project:
 
+- [HTML](https://www.w3schools.com/html/)
+- [CSS](https://www.w3schools.com/css/)
 - [Node.js](https://nodejs.org/en/)
 - [Angular](https://angular.io/)
 - [TypeScript](https://www.typescriptlang.org/)
