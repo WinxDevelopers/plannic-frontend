@@ -58,9 +58,6 @@ export class NotasEvolucaoComponent {
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
-
-
-
   refresh() {
     this.usuarioService.getAllById().subscribe(
       (stringData: string) => {
@@ -76,6 +73,7 @@ export class NotasEvolucaoComponent {
         });
       })
   }
+
   getNotas() {
     this.graficoService.notaEvolucao(this.idUsuario, this.form.idMateria).subscribe(
       (notas) => {
@@ -84,9 +82,15 @@ export class NotasEvolucaoComponent {
         this.chartDatasets = [
           { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
             ];     
-        this.chartLabels = this.notas.map(i => i.dataNota.replace("T", " ").replace("00:00:00.000+0000", ""));
+        this.chartLabels = this.notas.map(i => this.dateToString(new Date(i.dataNota)));
       }
     )
+  }
+
+  dateToString(date: Date) {
+    return `
+    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
+    /*  - ${date.getHours()}:${date.getMinutes()}`; */
   }
 
 }
