@@ -175,7 +175,6 @@ export class MateriasComponent implements AfterViewInit {
       ) {
         this.notaMateriaService.update(this.notaToEdit.idNotaMateria, this.notaToEdit.idMateria, this.notaToEdit.notaMateria, this.notaToEdit.tipoNota, this.notaToEdit.dataNota + "T00:00:00").subscribe(
           () => {
-            this.notaToEdit = {}
             this.alertSucess("nota", "update");
             this.notas.forEach((nota, index) => {
               if (nota.idNotaMateria === this.notaToEdit.idNotaMateria) {
@@ -185,16 +184,17 @@ export class MateriasComponent implements AfterViewInit {
             })
             this.setTable(this.notaToEdit.idMateria);
             document.getElementById('closeModal').click();
+            this.notaToEdit = {};
           },
           err => {
             this.alertError(err);
           }
         );
       } else {
-        if (!(this.notaToEdit.nota >= 0 && this.notaToEdit.nota <= 10)) {
+        if (this.notaToEdit.notaMateria < 0 || this.notaToEdit.notaMateria > 10) {
           this.notaValida = false;
         }
-        if (!(new Date(this.notaToEdit.data) <= new Date())) {
+        if ((new Date(this.notaToEdit.dataNota)) > new Date()) {
           this.dataValida = false;
         }
       }

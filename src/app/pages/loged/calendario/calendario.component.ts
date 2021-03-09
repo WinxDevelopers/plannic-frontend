@@ -80,110 +80,7 @@ export class CalendarioComponent implements OnInit {
     this.refresh();
   }
 
-  refresh() {
-    this.usuarioService.getAllById().subscribe(
-      (stringData: string) => {
-        let data = JSON.parse(stringData)
-        data = data[0]
-        this.materias = data.materias;
-        this.calendarOptions.events = data.agendamentos.map((ag) => {
-          ag = ag as Agendamento;
-          let mat;
-          data.materias.forEach((m) => {
-            if (m.idMateria === ag.idMateria)
-              mat = m.nomeMateria;
-          })
-          return {
-            start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
-            end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
-            title: mat,
-            id: ag.idAgendamento,
-            recorrencia: ag.recorrencia,
-            idMateria: ag.idMateria,
-            idAgendamento: ag.idAgendamento,
-            tipoEstudo: ag.tipoEstudo
-            //allDay: true||false
-            //groupId: StringConstructor
-          }
-        })
-      })
-  }
-
-  handleCalendarToggle() {
-    this.calendarVisible = !this.calendarVisible;
-  }
-
-  handleDateSelect(selectedDate: DateSelectArg) {
-    this.newForm.dataInicio = this.DateToString(selectedDate.start, "data");
-    this.newForm.dataFim = this.DateToString(selectedDate.start, "data");
-    document.getElementById("botaocriar").click()  
-  }
-
-  handleWeekendsToggle() {
-    const { calendarOptions } = this;
-    calendarOptions.weekends = !calendarOptions.weekends;
-  }
-
-  DateToString(data: Date, type) {
-    if (type === "data") {
-      let dia = data.getDate().toString(),
-        diaF = (dia.length == 1) ? '0' + dia : dia,
-        mes = (data.getMonth() + 1).toString(),
-        mesF = (mes.length == 1) ? '0' + mes : mes,
-        anoF = data.getFullYear();
-      return anoF + "-" + mesF + "-" + diaF;
-    } else {
-      return data.getHours() + ":" + ((data.getMinutes() < 10 ? '0' : '') + data.getMinutes())
-    }
-  }
-
-  edit() {
-    this.recorrenciaInicio = this.editForm.dataInicio + "T12:00:00"
-    this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"
-    this.agendamentoService.update(
-      this.editForm.idAgendamento,
-      this.editForm.idMateria,
-      this.recorrenciaInicio,
-      this.recorrenciaFim,
-      this.editForm.recorrencia,
-      this.editForm.horaInicio,
-      this.editForm.horaFim,
-      this.editForm.tipoEstudo
-    ).subscribe(
-      () => {
-        this.refresh()
-        if (localStorage.getItem("lang") != "en") {
-          this.Toast.fire({
-            icon: 'success',
-            title: 'Agendamento alterado'
-          })
-        } else {
-          this.Toast.fire({
-            icon: 'success',
-            title: 'Schedule changed'
-          })
-        }
-      },
-      error => {
-        if (localStorage.getItem("lang") != "en") {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'Ocorreu um erro'
-          })
-        } else {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'An error has occurred'
-          })
-        }
-      }
-    );
-  }
-
-  closeModal() {
-    this.newForm = {}
-    this.editForm = {}
-  }
+  /* CRUD AGENDAMENTO */
 
   save() {
     let recorrenciaInicio = this.newForm.dataInicio + "T12:00:00"
@@ -228,6 +125,129 @@ export class CalendarioComponent implements OnInit {
     );
   }
 
+  edit() {
+    this.recorrenciaInicio = this.editForm.dataInicio + "T12:00:00"
+    this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"
+    this.agendamentoService.update(
+      this.editForm.idAgendamento,
+      this.editForm.idMateria,
+      this.recorrenciaInicio,
+      this.recorrenciaFim,
+      this.editForm.recorrencia,
+      this.editForm.horaInicio,
+      this.editForm.horaFim,
+      this.editForm.tipoEstudo
+    ).subscribe(
+      () => {
+        this.refresh()
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'success',
+            title: 'Agendamento alterado'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'success',
+            title: 'Schedule changed'
+          })
+        }
+      },
+      error => {
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'Ocorreu um erro'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'An error has occurred'
+          })
+        }
+      }
+    );
+  }  
+
+  /* CALENDÁRIO */
+  handleCalendarToggle() {
+    this.calendarVisible = !this.calendarVisible;
+  }
+
+  handleDateSelect(selectedDate: DateSelectArg) {
+    this.newForm.dataInicio = this.DateToString(selectedDate.start, "data");
+    this.newForm.dataFim = this.DateToString(selectedDate.start, "data");
+    document.getElementById("botaocriar").click()  
+  }
+
+  handleWeekendsToggle() {
+    const { calendarOptions } = this;
+    calendarOptions.weekends = !calendarOptions.weekends;
+  }
+  
+  handleEventClick(clickInfo: EventClickArg) {
+    let event = clickInfo.event.toJSON()
+    let lg = localStorage.getItem('lang');
+    this.setInfos(event)
+    document.getElementById("botaoeditar").click()
+  }
+
+  handleEvents(events: EventApi[]) {
+    this.currentEvents = events;
+  }
+
+  /* FUNÇÕES AUXILIARES */
+  refresh() {
+    this.usuarioService.getAllById().subscribe(
+      (stringData: string) => {
+        let data = JSON.parse(stringData)
+        data = data[0]
+        this.materias = data.materias;
+        this.calendarOptions.events = data.agendamentos.map((ag) => {
+          ag = ag as Agendamento;
+          let mat;
+          data.materias.forEach((m) => {
+            if (m.idMateria === ag.idMateria)
+              mat = m.nomeMateria;
+          })
+          return {
+            start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
+            end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
+            title: mat,
+            id: ag.idAgendamento,
+            recorrencia: ag.recorrencia,
+            idMateria: ag.idMateria,
+            idAgendamento: ag.idAgendamento,
+            tipoEstudo: ag.tipoEstudo
+            //allDay: true||false
+            //groupId: StringConstructor
+          }
+        })
+      })
+  }
+
+  currentModal = "edit";
+  changeModal(to){
+    this.currentModal = to;
+  }
+
+  DateToString(data: Date, type) {
+    if (type === "data") {
+      let dia = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0' + dia : dia,
+        mes = (data.getMonth() + 1).toString(),
+        mesF = (mes.length == 1) ? '0' + mes : mes,
+        anoF = data.getFullYear();
+      return anoF + "-" + mesF + "-" + diaF;
+    } else {
+      return data.getHours() + ":" + ((data.getMinutes() < 10 ? '0' : '') + data.getMinutes())
+    }
+  }  
+
+  closeModal() {
+    this.newForm = {}
+    this.editForm = {}
+  }
+
   setInfos(event) {
     if (event) {
       this.editForm = {
@@ -241,17 +261,6 @@ export class CalendarioComponent implements OnInit {
         horaFim: this.DateToString(new Date(event.end), "hora")
       };
     }
-  }
-
-  handleEventClick(clickInfo: EventClickArg) {
-    let event = clickInfo.event.toJSON()
-    let lg = localStorage.getItem('lang');
-    this.setInfos(event)
-    document.getElementById("botaoeditar").click()
-  }
-
-  handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
   }
 
 }
