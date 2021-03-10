@@ -14,45 +14,67 @@
                         <form class="user">
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="text" id="exampleName"
-                                    [ngStyle]="{'border-color': !formOk ? 'red' : null}" [(ngModel)]="form.nome"
-                                    placeholder="{{'CRUD-USUARIO.NOME' | translate}}" name="nome">
+                                    [ngStyle]="{'border-color': (!isNull() && nomeFormControl.hasError('required')) ? 'red' : null}" [(ngModel)]="this.form.nome"
+                                    [formControl]="nomeFormControl" placeholder="{{'CRUD-USUARIO.NOME' | translate}}"
+                                    name="nome">
                             </div>
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="email" id="exampleInputEmail"
-                                    [ngStyle]="{'border-color': !emailOk ? 'red' : null}" [(ngModel)]="form.email"
-                                    aria-describedby="emailHelp" placeholder="{{'CRUD-USUARIO.EMAIL' | translate}}" name="email">
+                                    [ngStyle]="{'border-color': !isNull() && (emailFormControl.hasError('email') || emailFormControl.hasError('required')) ? 'red' : null}" aria-describedby="emailHelp"
+                                    [(ngModel)]="this.form.email" [formControl]="emailFormControl"
+                                    placeholder="{{'CRUD-USUARIO.EMAIL' | translate}}" name="email">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input [ngStyle]="" class="form-control form-control-user" type="password"
-                                        [ngStyle]="{'border-color': !passOk ? 'red' : null}" id="exampleSenhaInput"
-                                        [(ngModel)]="form.password" placeholder="{{'CRUD-USUARIO.SENHA' | translate}}" name="senha">
+                                        [ngStyle]="{'border-color': !isNull() && ((this.form.password!=this.confPass) || this.senhaFormControl.hasError('required')) ? 'red' : null}" id="exampleSenhaInput"
+                                        [(ngModel)]="this.form.password" [formControl]="senhaFormControl"
+                                        placeholder="{{'CRUD-USUARIO.SENHA' | translate}}" name="senha">
                                 </div>
                                 <div class="col-sm-6">
                                     <input class="form-control form-control-user" type="password"
-                                        [ngStyle]="{'border-color': !passOk ? 'red' : null}" [(ngModel)]="confPass"
-                                        id="exampleRepeatSenhaInput" placeholder="{{'CRUD-USUARIO.SENHA2' | translate}}"
-                                        name="password">
+                                        [ngStyle]="{'border-color': !isNull() && ((this.form.password!=this.confPass) || this.confSenhaFormControl.hasError('required')) ? 'red' : null}" name="password"
+                                        [(ngModel)]="this.confPass" [formControl]="confSenhaFormControl"
+                                        id="exampleRepeatSenhaInput"
+                                        placeholder="{{'CRUD-USUARIO.SENHA2' | translate}}">
                                 </div>
                             </div>
 
-                            <div class="form-group" style="margin-left: 10px;">
-                                <span [hidden]="formOk" style="color: red; ">{{'CRUD-USUARIO.CAMPOS' | translate}}</span>
-                                <br [hidden]="formOk && passOk">
-                                <span [hidden]="passConfOk" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR' | translate}}</span>
-                                <br [hidden]="((formOk && passOk) || (passOk && emailOk))">
-                                <span [hidden]="passMinOk" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR2' | translate}}</span>
-                                <br [hidden]="((formOk && passOk) || (passOk && emailOk))">
-                                <span [hidden]="emailOk" style="color: red; ">{{'CRUD-USUARIO.EMAIL-ERR' | translate}}</span>
+                            <style>
+                                p{
+                                    margin: 3px;
+                                }
+                            </style>
+                            <div id="erros" class="form-group" style="margin-left: 10px;">
+                                <!-- Todos os campos -->
+                                <p *ngIf="!camposOk()" style="color: red; ">{{'CRUD-USUARIO.CAMPOS' |
+                                    translate}}</p>
+
+                                <!-- Senhas divergentes -->
+                                <p *ngIf="this.form.password!=this.confPass" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR' |
+                                    translate}}</p>
+                                
+                                <!-- Senha minima -->
+                                <p *ngIf="!passMin()" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR2' |
+                                    translate}}</p>                                
+                                
+                                <!-- Email Invalido -->
+                                <p *ngIf="emailFormControl.hasError('email')" style="color: red; ">{{'CRUD-USUARIO.EMAIL-ERR' |
+                                    translate}}</p>
                             </div>
-                            <button style="background-color: #19647e;border-color: #19647e;" class="btn botao-custom btn-block btn-user" type="button"
-                                (click)="formOK()">{{'CRUD-USUARIO.REGISTRAR' | translate}}</button>
+                            <button
+                                [disabled]="emailFormControl.hasError('email') || !camposOk() || isNull()"
+                                style="background-color: #19647e; color: white;"
+                                class="btn botao-custom btn-block btn-user" type="button"
+                                (click)="onSubmit()">{{'CRUD-USUARIO.REGISTRAR' | translate}}</button>
                             <hr>
                         </form>
 
-                        <div class="text-center"><a class="small" href="#">{{'CRUD-USUARIO.SENHA-FORGOT' | translate}}</a>
+                        <div class="text-center"><a class="small" href="#">{{'CRUD-USUARIO.SENHA-FORGOT' |
+                                translate}}</a>
                         </div>
-                        <div class="text-center"><a class="small" href="../login">{{'CRUD-USUARIO.CONTA-OK' | translate}}</a>
+                        <div class="text-center"><a class="small" href="../login">{{'CRUD-USUARIO.CONTA-OK' |
+                                translate}}</a>
                         </div>
                     </div>
                 </div>

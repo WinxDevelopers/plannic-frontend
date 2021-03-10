@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from "@angular/forms";
 import { LoginService } from 'src/app/service/login.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import Swal from 'sweetalert2'
@@ -14,12 +15,16 @@ export class LoginComponent implements OnInit {
   };
   dadosLogin;
   errorMessage = '';
-  emailOk: boolean = true;
-  formOk: boolean = true;
   redirectTo: string = '';
   roles: string[] = [];
-  isLoggedIn = false;
-  isLoginFailed = false;
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+  senhaFormControl = new FormControl('', [
+    Validators.required
+  ]);
 
   constructor(private authService: LoginService,
     private router: Router,
@@ -38,11 +43,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  redirect() {
-    this.router.navigate([this.redirectTo]);
-  }
-
-  onSubmit(email, password): void {
+  onSubmit(): void {
+    const { email, password } = this.form;
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -60,12 +62,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('nome', this.dadosLogin.nome)
         localStorage.setItem('token', this.dadosLogin.token)
         this.router.navigate(['/dashboard/']);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
       },
       err => {
         this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
         if (localStorage.getItem("lang") != "en") {
           Toast.fire({
             icon: 'error',
@@ -80,27 +79,11 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-  emailOK(email) {
-    if (email.search("@") != -1 &&
-      email.search(".com") != -1) {
-      this.emailOk = true;
-      return true;
-    } else {
-      this.emailOk = false;
-      return false;
-    }
-  }
-  formOK(): void {
-    const { email, password } = this.form;
-    if (!email || !password) {
-      this.formOk = false;
-      this.emailOk = false;
-    } else {
-      this.formOk = true;
-      this.emailOk = true;
-      if (this.emailOK(email))
-        this.onSubmit(email, password);
-    }
+  
+  isNull(){    
+    if(this.form.email==null && this.form.senha==null)
+      return true
+    else
+      return false
   }
 }

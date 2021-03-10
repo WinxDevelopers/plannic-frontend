@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
+import { FormControl, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
@@ -13,7 +14,7 @@ export class RegistrarComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,) { }
 
-  confPass: string;
+  confPass: string = null;
   emailOk: boolean = true;
   passOk: boolean = true;
   passMinOk: boolean = true;
@@ -36,7 +37,22 @@ export class RegistrarComponent implements OnInit {
     }
   }
 
-  onSubmit({ email, password, nome }): void {
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+  nomeFormControl = new FormControl('', [
+    Validators.required
+  ]);
+  senhaFormControl = new FormControl('', [
+    Validators.required
+  ]);
+  confSenhaFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  onSubmit(): void {
+    let { email, password, nome } = this.form;
     this.loginService.register(email, password, nome).subscribe(
       () => {
         this.isSuccessful = true;
@@ -63,31 +79,13 @@ export class RegistrarComponent implements OnInit {
     );
   }
 
-  passOK(password) {
-    this.passConf(password);
-    this.passMin(password);
-    if (this.passConfOk && this.passMinOk) {
-      return this.passOk = true;
-    } else {
-      return this.passOk = false;
-    }
-  }
-
-  passConf(password) {
-    if (password === this.confPass) {
-      this.passConfOk = true;
-      return true;
-    } else {
-      this.passConfOk = false;
-      return false;
-    }
-  }
-
-  passMin(password) {
+  passMin() {
+    if (this.form.password === null || this.isNull()===true) return true;
+    let password = this.form.password;
     let letrasMaiusculas = /[A-Z]/;
     let letrasMinusculas = /[a-z]/;
     let numeros = /[0-9]/;
-    let caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
+    let caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_|.]/;
     if (password.length >= 8 &&
       letrasMaiusculas.test(password) &&
       letrasMinusculas.test(password) &&
@@ -101,29 +99,24 @@ export class RegistrarComponent implements OnInit {
     }
   }
 
-  emailOK(email) {
-    if (email.search("@") != -1 &&
-      email.search(".com") != -1) {
-      this.emailOk = true;
-      return true;
-    } else {
-      this.emailOk = false;
-      return false;
-    }
+  camposOk() {
+    if (this.isNull()) return true;
+    if (this.emailFormControl.hasError('required')) return false
+    if (this.nomeFormControl.hasError('required')) return false
+    if (this.senhaFormControl.hasError('required')) return false
+    if (this.confSenhaFormControl.hasError('required')) return false
+    return true;
   }
-
-  formOK(): void {
-    const { email, password, nome } = this.form;
-    if (!email || !password || !nome) {
-      this.formOk = false;
-      this.passOk = false;
-      this.emailOk = false;
+  isNull() {
+    if (
+      this.form.nome == null &&
+      this.form.email == null &&
+      this.form.password == null &&
+      this.confPass == null
+    ) {
+      return true
     } else {
-      this.formOk = true;
-      this.passOk = true;
-      this.emailOk = true;
-      if (this.emailOK(email) && this.passOK(password))
-        this.onSubmit(this.form);
+      return false
     }
   }
 }
