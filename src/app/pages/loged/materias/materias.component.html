@@ -81,19 +81,25 @@
                 <label [attr.for]="'nome'+materia.idMateria" class="col-sm-2">{{'MATERIAS.NOME' |
                   translate}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" id="nome{{materia.idMateria}}"
-                    [(ngModel)]="materia.nomeMateria">
+                  <input *ngIf="materia.idUsuario==this.idUsuario" type="text" class="form-control"
+                    id="nome{{materia.idMateria}}" [(ngModel)]="materia.nomeMateria">
+                  <span *ngIf="materia.idUsuario!=this.idUsuario">
+                    {{materia.nomeMateria}}
+                  </span>
                 </div>
               </div>
               <div class="form-group row">
                 <label [attr.for]="'desc'+materia.idMateria" class="col-sm-2">{{'MATERIAS.DESCRICAO' |
                   translate}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" id="desc{{materia.idMateria}}"
-                    [(ngModel)]="materia.descricao">
+                  <input *ngIf="materia.idUsuario==this.idUsuario" type="text" class="form-control"
+                    id="desc{{materia.idMateria}}" [(ngModel)]="materia.descricao">
+                  <span *ngIf="materia.idUsuario!=this.idUsuario">
+                    {{materia.descricao}}
+                  </span>
                 </div>
               </div>
-              <div class="form-group row justify-content-around">
+              <div *ngIf="materia.idUsuario==this.idUsuario" class="form-group row justify-content-around">
                 <div class="col-3">
                 </div>
                 <div class="col-4">
@@ -247,8 +253,8 @@
                           <div class="form-group">
                             <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
                             <input [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
-                              [(ngModel)]="notaToEdit.notaMateria" class="form-control" id="nota" name="nota" type="number"
-                              placeholder="Nota">
+                              [(ngModel)]="notaToEdit.notaMateria" class="form-control" id="nota" name="nota"
+                              type="number" placeholder="Nota">
                           </div>
                         </div>
                       </div>
@@ -269,9 +275,11 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">{{'NOTAS.FECHAR' |
+                      <button type="button" id="closeModal" class="btn btn-secondary"
+                        data-dismiss="modal">{{'NOTAS.FECHAR' |
                         translate}}</button>
-                      <button (click)="editNota()" type="button" class="btn btn-primary">{{'CRUD-GERAL.EDITAR' | translate}}</button>
+                      <button (click)="editNota()" type="button" class="btn btn-primary">{{'CRUD-GERAL.EDITAR' |
+                        translate}}</button>
                     </div>
                   </div>
                 </div>

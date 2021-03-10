@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Materia } from 'src/app/interface/materia';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-materias',
@@ -42,10 +42,11 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   loaded: boolean = false;
-  materias: Materia[] = []
-  notas: NotaMateria[] = []
-  tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"]
-  nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês"]
+  materias: Materia[] = [];
+  notas: NotaMateria[] = [];
+  tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"];
+  nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês"];
+  idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   /* CRUD Matéria */
 
@@ -238,12 +239,22 @@ export class MateriasComponent implements AfterViewInit {
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]
+        //Matérias do Usuario
         this.materias = data.materias;
         this.materias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
         this.notas = data.notasMateria;
         this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
         this.loaded = true;
-      })
+      }
+    )
+    //Materias do BD
+    this.materiaService.getAll().subscribe(
+      (stringData: string) => {
+        let data = JSON.parse(stringData)
+        this.nomeMaterias = this.nomeMaterias.concat(data.map((materia) => { return materia.nomeMateria }))
+        this.nomeMaterias.sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
+      }
+    )
   }
 
   dateToString(date: Date) {
