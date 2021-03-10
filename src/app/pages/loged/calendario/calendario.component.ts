@@ -84,6 +84,7 @@ export class CalendarioComponent implements OnInit {
   /* CRUD AGENDAMENTO */
 
   camposVal:boolean = true;
+  
   save() {
     this.camposVal = true;
     //Caso a hora inicial seja maior q a final
@@ -92,18 +93,16 @@ export class CalendarioComponent implements OnInit {
     } else {
       this.newForm.dataFim = this.newForm.dataInicio;
     }
-    console.log(this.newForm);
 
     if(
-      this.newForm.recorrencia &
-      this.newForm.tipoEstudo &
-      this.newForm.idMateria &
-      this.newForm.dataInicio &
-      this.newForm.horaInicio &
-      this.newForm.dataFim &
+      this.newForm.recorrencia &&
+      this.newForm.tipoEstudo &&
+      this.newForm.idMateria &&
+      this.newForm.dataInicio &&
+      this.newForm.horaInicio &&
+      this.newForm.dataFim &&
       this.newForm.horaFim
     ){
-      document.getElementById("close").click()
       this.agendamentoService.create(
         this.newForm.idMateria,
         this.newForm.dataInicio + "T12:00:00",
@@ -114,7 +113,7 @@ export class CalendarioComponent implements OnInit {
         this.newForm.metodo,
       ).subscribe(
         () => {
-          this.closeModal();
+          document.getElementById("close").click();
           if (localStorage.getItem("lang") != "en") {
             this.Toast.fire({
               icon: 'success',

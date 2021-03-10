@@ -22,7 +22,7 @@
                         {{'CRUD-GERAL.EDITAR' | translate}}                        
                     </span>
                 </h5>
-                <button id="close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -34,7 +34,7 @@
                                 <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
                                 <select [(ngModel)]="newForm.idMateria" 
                                 [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                class="form-control">
+                                class="form-control">                                
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
                                     </option>
@@ -97,7 +97,7 @@
                                         class="fas fa-question-circle"></i>
                                 </label>
                                 <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                [(ngModel)]="newForm.metodo" class="form-control">
+                                [(ngModel)]="newForm.tipoEstudo" class="form-control">
                                     <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
                                 </select>
                             </div>
@@ -264,7 +264,7 @@
                 <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'" style="position:relative; right:215px;" type="button"
                     class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
                     translate}}</button>
-                <button (click)="closeModal()" type="button" class="btn btn-secondary"
+                <button  id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
                     data-dismiss="modal">{{'MATERIAS.FECHAR' |
                     translate}}</button>
                 <button *ngIf="modal.seguinte === 'create'" (click)="save()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR'
