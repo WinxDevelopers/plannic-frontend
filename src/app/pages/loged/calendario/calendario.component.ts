@@ -110,7 +110,7 @@ export class CalendarioComponent implements OnInit {
         this.newForm.recorrencia,
         this.newForm.horaInicio,
         this.newForm.horaFim,
-        this.newForm.metodo,
+        this.newForm.tipoEstudo,
       ).subscribe(
         () => {
           document.getElementById("close").click();
