@@ -19,8 +19,8 @@ export class AppComponent implements OnInit{
       this.translate.use(localStorage.getItem('lang') || 'pt-BR');
   }
 
-  ngOnInit() {  
-    if (environment.production) {
+  ngOnInit() { 
+    if (window.location.hostname != "localhost") {
       if (window.location.protocol === 'http:') {
         window.location.href = window.location.href.replace('http', 'https');
       }
