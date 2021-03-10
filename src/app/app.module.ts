@@ -1,4 +1,3 @@
-import { AgendamentosComponent } from './pages/loged/agendamentos/agendamentos.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -65,7 +64,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NotasEstudoComponent,
     HorasEstudoComponent,
     BadgesComponent,
-    AgendamentosComponent,
     CalendarioComponent,
     ConfigComponent,
   ],

@@ -1,4 +1,4 @@
-import { ViewChild, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import allLocales from '@fullcalendar/core/locales-all';
 import { UserService } from 'src/app/service/user.service';
@@ -6,6 +6,7 @@ import { Agendamento } from 'src/app/interface/agendamento';
 import Swal from 'sweetalert2'
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { Materia } from 'src/app/interface/materia';
+import { add } from 'date-fns'
 
 @Component({
   selector: 'app-calendario',
@@ -82,47 +83,68 @@ export class CalendarioComponent implements OnInit {
 
   /* CRUD AGENDAMENTO */
 
+  camposVal:boolean = true;
   save() {
-    let recorrenciaInicio = this.newForm.dataInicio + "T12:00:00"
-    let recorrenciaFim = this.newForm.dataFim + "T12:00:00"
-    this.agendamentoService.create(
-      this.newForm.idMateria,
-      recorrenciaInicio,
-      recorrenciaFim,
-      this.newForm.recorrencia,
-      this.newForm.horaInicio,
-      this.newForm.horaFim,
-      this.newForm.metodo,
-    ).subscribe(
-      () => {
-        this.closeModal();
-        if (localStorage.getItem("lang") != "en") {
-          this.Toast.fire({
-            icon: 'success',
-            title: 'Agendamento Salvo'
-          })
-        } else {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'Schedule saved'
-          })
+    this.camposVal = true;
+    //Caso a hora inicial seja maior q a final
+    if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
+      this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10))+1).toString();
+    } else {
+      this.newForm.dataFim = this.newForm.dataInicio;
+    }
+    console.log(this.newForm);
+
+    if(
+      this.newForm.recorrencia &
+      this.newForm.tipoEstudo &
+      this.newForm.idMateria &
+      this.newForm.dataInicio &
+      this.newForm.horaInicio &
+      this.newForm.dataFim &
+      this.newForm.horaFim
+    ){
+      document.getElementById("close").click()
+      this.agendamentoService.create(
+        this.newForm.idMateria,
+        this.newForm.dataInicio + "T12:00:00",
+        this.newForm.dataFim + "T12:00:00",
+        this.newForm.recorrencia,
+        this.newForm.horaInicio,
+        this.newForm.horaFim,
+        this.newForm.metodo,
+      ).subscribe(
+        () => {
+          this.closeModal();
+          if (localStorage.getItem("lang") != "en") {
+            this.Toast.fire({
+              icon: 'success',
+              title: 'Agendamento Salvo'
+            })
+          } else {
+            this.Toast.fire({
+              icon: 'error',
+              title: 'Schedule saved'
+            })
+          }
+          this.refresh()
+        },
+        error => {
+          if (localStorage.getItem("lang") != "en") {
+            this.Toast.fire({
+              icon: 'error',
+              title: 'Ocorreu um erro'
+            })
+          } else {
+            this.Toast.fire({
+              icon: 'error',
+              title: 'An error has occurred'
+            })
+          }
         }
-        this.refresh()
-      },
-      error => {
-        if (localStorage.getItem("lang") != "en") {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'Ocorreu um erro'
-          })
-        } else {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'An error has occurred'
-          })
-        }
-      }
-    );
+      );
+    }else{
+      this.camposVal = false;
+    }
   }
 
   edit() {
@@ -166,7 +188,11 @@ export class CalendarioComponent implements OnInit {
         }
       }
     );
-  }  
+  }
+
+  del(idAgendamento){
+    console.log(idAgendamento)
+  }
 
   /* CALENDÁRIO */
   handleCalendarToggle() {
@@ -174,19 +200,26 @@ export class CalendarioComponent implements OnInit {
   }
 
   handleDateSelect(selectedDate: DateSelectArg) {
-    this.newForm.dataInicio = this.DateToString(selectedDate.start, "data");
-    this.newForm.dataFim = this.DateToString(selectedDate.start, "data");
-    document.getElementById("botaocriar").click()  
+    let hj = new Date();
+    if (selectedDate.start > hj) {
+      this.newForm.dataInicio = this.DateToString(selectedDate.start, "data");
+    } else {
+      this.newForm.dataInicio = this.DateToString(hj, "data");
+    }
+    hj = add(hj, { hours: 1 })
+    this.newForm.horaInicio = this.DateToString(hj, "hora");
+    hj = add(hj, { hours: 1 })
+    this.newForm.horaFim = this.DateToString(hj, "hora");
+    document.getElementById("botaocriar").click();
   }
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
   }
-  
+
   handleEventClick(clickInfo: EventClickArg) {
     let event = clickInfo.event.toJSON()
-    let lg = localStorage.getItem('lang');
     this.setInfos(event)
     document.getElementById("botaoeditar").click()
   }
@@ -225,9 +258,25 @@ export class CalendarioComponent implements OnInit {
       })
   }
 
-  currentModal = "edit";
-  changeModal(to){
-    this.currentModal = to;
+  modal = {
+    anterior: null,
+    seguinte: null
+  };
+
+  changeModal(to, from) {
+    if (to === "metodos") {
+      document.getElementById("modal-dialog").classList.add("modal-dialog-scrollable")
+    } else {
+      document.getElementById("modal-dialog").classList.remove("modal-dialog-scrollable")
+    }
+    this.modal.seguinte = to;
+    this.modal.anterior = from;
+  }
+
+  closeModal() {
+    this.camposVal = true;
+    this.newForm = {}
+    this.editForm = {}
   }
 
   DateToString(data: Date, type) {
@@ -239,13 +288,8 @@ export class CalendarioComponent implements OnInit {
         anoF = data.getFullYear();
       return anoF + "-" + mesF + "-" + diaF;
     } else {
-      return data.getHours() + ":" + ((data.getMinutes() < 10 ? '0' : '') + data.getMinutes())
+      return ((data.getHours() < 10 ? '0' + data.getHours() : data.getHours()) + ":" + ((data.getMinutes() < 10 ? '0' + data.getMinutes() : data.getMinutes())))
     }
-  }  
-
-  closeModal() {
-    this.newForm = {}
-    this.editForm = {}
   }
 
   setInfos(event) {

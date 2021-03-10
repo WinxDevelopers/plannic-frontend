@@ -1,278 +1,276 @@
 <div class='demo-app-main'>
     <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
 </div>
-<button style="display: none;" id="botaocriar" type="button" data-toggle="modal" data-target="#criarmateria"></button>
-<button style="display: none;" id="botaoeditar" type="button" data-toggle="modal" data-target="#editarmateria"></button>
-<div class="modal fade" id="editarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div *ngIf="currentModal === 'edit'" class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{'CRUD-GERAL.EDITAR' | translate}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
-                            <select [(ngModel)]="editForm.idMateria" class="form-control">
-                                <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
-                                    {{materia.nomeMateria}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
-                                        translate}}</label>
-                                    <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                        [(ngModel)]="editForm.dataInicio"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
-                                        translate}}</label>
-                                    <input type="time" class="form-control" id="inicio" name="inicio"
-                                        [(ngModel)]="editForm.horaInicio"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' |
-                                        translate}}</label>
-                                    <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                        [(ngModel)]="editForm.dataFim"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
-                                        translate}}</label>
-                                    <input class="form-control" id="fim" name="fim" type="time"
-                                        [(ngModel)]="editForm.horaFim"
-                                        placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
-                            <select [(ngModel)]="editForm.recorrencia" class="form-control">
-                                <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1">
-                                {{'AGENDAMENTOS.METODO' | translate}}                    
-                                <i style="cursor: pointer;" (click)="changeModal('metodos')"
-                                    class="fas fa-question-circle"></i>
-                            </label>
-                            <select [(ngModel)]="editForm.tipoEstudo" class="form-control">
-                                <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button style="position:relative; right:215px;" type="button"
-                    class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
-                    translate}}</button>
-                <button (click)="edit()" type="button" class="btn btn-primary" data-dismiss="modal">{{'MATERIAS.SALVAR'
-                    |
-                    translate}}</button>
-                <button (click)="closeModal()" type="button" class="btn btn-secondary"
-                    data-dismiss="modal">{{'MATERIAS.FECHAR' |
-                    translate}}</button>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="currentModal === 'metodos'" class="modal-dialog modal-dialog-scrollable">
+<button style="display: none;" (click)="changeModal('create', null)" id="botaocriar" type="button" data-toggle="modal"
+    data-target="#modal"></button>
+<button style="display: none;" (click)="changeModal('edit', null)" id="botaoeditar" type="button" data-toggle="modal"
+    data-target="#modal"></button>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="modal-dialog" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">
-                    <i style="cursor: pointer;" (click)="changeModal('edit')" class="fas fa-arrow-left"></i>
-                    {{'LOGED.METODOS' | translate}}
+                    <span *ngIf="modal.seguinte === 'metodos'">
+                        <i style="cursor: pointer;" (click)="changeModal(modal.anterior, 'metodos')"
+                            class="fas fa-chevron-left"></i>
+                        {{'LOGED.METODOS' | translate}}
+                    </span>
+                    <span *ngIf="modal.seguinte === 'create'">
+                        {{'CRUD-GERAL.CRIAR' | translate}}
+                    </span>
+                    <span *ngIf="modal.seguinte === 'edit'">
+                        {{'CRUD-GERAL.EDITAR' | translate}}                        
+                    </span>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="autoExp-tab" data-toggle="tab" href="#autoExp" role="tab"
-                            aria-controls="autoExp" aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
-                        <a class="nav-link" id="resumo-tab" data-toggle="tab" href="#resumo" role="tab"
-                            aria-controls="resumo" aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
-                        <a class="nav-link" id="teste-tab" data-toggle="tab" href="#teste" role="tab"
-                            aria-controls="teste" aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
-                        <a class="nav-link" id="pom-tab" data-toggle="tab" href="#pom" role="tab"
-                            aria-controls="pom" aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
-                        <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab"
-                            aria-controls="mapa" aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <!-- Auto-Explicação - TEXTO -->
-                    <div class="tab-pane fade show active" id="autoExp" role="tabpanel" aria-labelledby="autoExp-tab">
-                        <div class="texto-metodos">
-                            <p>{{'METODOS.AUTO1' | translate}}</p>
-                            <p>{{'METODOS.AUTO2' | translate}}</p>
-                            <p>{{'METODOS.AUTO3' | translate}}</p>
+                <div *ngIf="modal.seguinte === 'create'">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
+                                <select [(ngModel)]="newForm.idMateria" 
+                                [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                class="form-control">
+                                    <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
+                                        {{materia.nomeMateria}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <!-- Resumo - TEXTO -->
-                    <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="resumo-tab">
-                        <div class="texto-metodos">
-                            <p>{{'METODOS.RESUMO1' | translate}}</p>
-                            <p>{{'METODOS.RESUMO2' | translate}}</p>
-                            <p>{{'METODOS.RESUMO3' | translate}}</p>
-                            <p>{{'METODOS.RESUMO4' | translate}}</p>
-                            <ul>
-                                <li>{{'METODOS.RESUMO5' | translate}}</li>
-                                <li>{{'METODOS.RESUMO6' | translate}}</li>
-                                <li>{{'METODOS.RESUMO7' | translate}}</li>
-                                <li>{{'METODOS.RESUMO8' | translate}}</li>
-                                <li>{{'METODOS.RESUMO9' | translate}}</li>
-                                <li>{{'METODOS.RESUMO10' | translate}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Teste - TEXTO -->
-                    <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="teste-tab">
-                        <div class="texto-metodos">
-                            <p>{{'METODOS.TESTE1' | translate}}</p>
-                            <p>{{'METODOS.TESTE2' | translate}}</p>
-                            <p>{{'METODOS.TESTE3' | translate}}</p>
-                        </div>
-                    </div>
-                    <!-- Pomodoro - TEXTO -->
-                    <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="pom-tab">
-                        <div class="texto-metodos">
-                            <p>{{'METODOS.POMODORO1' | translate}}</p>
-                            <p>{{'METODOS.POMODORO2' | translate}}</p>
-                            <p>{{'METODOS.POMODORO3' | translate}}</p>
-                            <p>{{'METODOS.POMODORO4' | translate}}</p>
-                            <ul>
-                                <li>{{'METODOS.POMODORO5' | translate}}</li>
-                                <li>{{'METODOS.POMODORO6' | translate}}</li>
-                            </ul>
-                            <p>{{'METODOS.POMODORO7' | translate}}</p>
-                            <p>{{'METODOS.POMODORO8' | translate}}</p>
-                            <p>{{'METODOS.POMODORO9' | translate}}</p>
-                            <p>{{'METODOS.POMODORO10' | translate}}</p>
-                        </div>
-                    </div>
-                    <!-- Mapa - TEXTO -->
-                    <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
-                        <div class="texto-metodos">
-                            <p>{{'METODOS.MAPA1' | translate}}</p>
-                            <p>{{'METODOS.MAPA2' | translate}}</p>
-                            <p>{{'METODOS.MAPA3' | translate}}</p>
-                            <p>{{'METODOS.MAPA4' | translate}}</p>
-                            <p>{{'METODOS.MAPA5' | translate}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
-                            <select [(ngModel)]="newForm.idMateria" class="form-control">
-                                <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
-                                    {{materia.nomeMateria}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
-                                        translate}}</label>
-                                    <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                        [(ngModel)]="newForm.dataInicio"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
-                                        translate}}</label>
-                                    <input type="time" class="form-control" id="inicio" name="inicio"
-                                        [(ngModel)]="newForm.horaInicio"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
+                                            translate}}</label>
+                                        <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                            [(ngModel)]="newForm.dataInicio"
+                                            [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                            placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' |
-                                        translate}}</label>
-                                    <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                        [(ngModel)]="newForm.dataFim"
-                                        placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                    <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
-                                        translate}}</label>
-                                    <input class="form-control" id="fim" name="fim" type="time"
-                                        [(ngModel)]="newForm.horaFim"
-                                        placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
+                                            translate}}</label>
+                                        <input type="time" class="form-control" id="inicio" name="inicio"
+                                            [(ngModel)]="newForm.horaInicio"
+                                            [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                            placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
+                                            translate}}</label>
+                                        <input class="form-control" id="fim" name="fim" type="time"
+                                            [(ngModel)]="newForm.horaFim"
+                                            [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                            placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
+                                <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                [(ngModel)]="newForm.recorrencia" class="form-control">
+                                    <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">
+                                    {{'AGENDAMENTOS.METODO' | translate}}
+                                    <i style="cursor: pointer;" (click)="changeModal('metodos', 'create')"
+                                        class="fas fa-question-circle"></i>
+                                </label>
+                                <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                [(ngModel)]="newForm.metodo" class="form-control">
+                                    <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <span [hidden]="camposVal" style="color: red; ">
+                            {{'NOTAS.ERROS.CAMPOS' | translate}}
+                            <br>
+                          </span>
+                    </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
-                            <select [(ngModel)]="newForm.recorrencia" class="form-control">
-                                <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
-                                </option>
-                            </select>
+                <div *ngIf="modal.seguinte === 'edit'">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
+                                <select [(ngModel)]="editForm.idMateria" class="form-control">
+                                    <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
+                                        {{materia.nomeMateria}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
+                                            translate}}</label>
+                                        <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                            [(ngModel)]="editForm.dataInicio"
+                                            placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
+                                            translate}}</label>
+                                        <input type="time" class="form-control" id="inicio" name="inicio"
+                                            [(ngModel)]="editForm.horaInicio"
+                                            placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' |
+                                            translate}}</label>
+                                        <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                            [(ngModel)]="editForm.dataFim"
+                                            placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                        <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
+                                            translate}}</label>
+                                        <input class="form-control" id="fim" name="fim" type="time"
+                                            [(ngModel)]="editForm.horaFim"
+                                            placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
+                                <select [(ngModel)]="editForm.recorrencia" class="form-control">
+                                    <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">
+                                    {{'AGENDAMENTOS.METODO' | translate}}
+                                    <i style="cursor: pointer;" (click)="changeModal('metodos', 'edit')"
+                                        class="fas fa-question-circle"></i>
+                                </label>
+                                <select [(ngModel)]="editForm.tipoEstudo" class="form-control">
+                                    <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1">{{'AGENDAMENTOS.METODO' | translate}}</label>
-                            <span data-dismiss="modal" routerLink="../metodos"> <i class="fa fa-question-circle"
-                                    style="font-size: 15px;"></i></span>
-                            <select [(ngModel)]="newForm.metodo" class="form-control">
-                                <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
-                            </select>
+                <div *ngIf="modal.seguinte === 'metodos'">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-link active" id="autoExp-tab" data-toggle="tab" href="#autoExp" role="tab"
+                                aria-controls="autoExp" aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
+                            <a class="nav-link" id="resumo-tab" data-toggle="tab" href="#resumo" role="tab"
+                                aria-controls="resumo" aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
+                            <a class="nav-link" id="teste-tab" data-toggle="tab" href="#teste" role="tab"
+                                aria-controls="teste" aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
+                            <a class="nav-link" id="pom-tab" data-toggle="tab" href="#pom" role="tab" aria-controls="pom"
+                                aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
+                            <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
+                                aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-- Auto-Explicação - TEXTO -->
+                        <div class="tab-pane fade show active" id="autoExp" role="tabpanel" aria-labelledby="autoExp-tab">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.AUTO1' | translate}}</p>
+                                <p>{{'METODOS.AUTO2' | translate}}</p>
+                                <p>{{'METODOS.AUTO3' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Resumo - TEXTO -->
+                        <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="resumo-tab">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.RESUMO1' | translate}}</p>
+                                <p>{{'METODOS.RESUMO2' | translate}}</p>
+                                <p>{{'METODOS.RESUMO3' | translate}}</p>
+                                <p>{{'METODOS.RESUMO4' | translate}}</p>
+                                <ul>
+                                    <li>{{'METODOS.RESUMO5' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO6' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO7' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO8' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO9' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO10' | translate}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Teste - TEXTO -->
+                        <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="teste-tab">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.TESTE1' | translate}}</p>
+                                <p>{{'METODOS.TESTE2' | translate}}</p>
+                                <p>{{'METODOS.TESTE3' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Pomodoro - TEXTO -->
+                        <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="pom-tab">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.POMODORO1' | translate}}</p>
+                                <p>{{'METODOS.POMODORO2' | translate}}</p>
+                                <p>{{'METODOS.POMODORO3' | translate}}</p>
+                                <p>{{'METODOS.POMODORO4' | translate}}</p>
+                                <ul>
+                                    <li>{{'METODOS.POMODORO5' | translate}}</li>
+                                    <li>{{'METODOS.POMODORO6' | translate}}</li>
+                                </ul>
+                                <p>{{'METODOS.POMODORO7' | translate}}</p>
+                                <p>{{'METODOS.POMODORO8' | translate}}</p>
+                                <p>{{'METODOS.POMODORO9' | translate}}</p>
+                                <p>{{'METODOS.POMODORO10' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Mapa - TEXTO -->
+                        <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.MAPA1' | translate}}</p>
+                                <p>{{'METODOS.MAPA2' | translate}}</p>
+                                <p>{{'METODOS.MAPA3' | translate}}</p>
+                                <p>{{'METODOS.MAPA4' | translate}}</p>
+                                <p>{{'METODOS.MAPA5' | translate}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" *ngIf="modal.seguinte === 'create' || modal.seguinte === 'edit'">
+                <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'" style="position:relative; right:215px;" type="button"
+                    class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
+                    translate}}</button>
                 <button (click)="closeModal()" type="button" class="btn btn-secondary"
                     data-dismiss="modal">{{'MATERIAS.FECHAR' |
                     translate}}</button>
-                <button (click)="save()" type="button" class="btn btn-primary" data-dismiss="modal">{{'MATERIAS.SALVAR'
+                <button *ngIf="modal.seguinte === 'create'" (click)="save()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR'
+                    |
+                    translate}}</button>
+                <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR'
                     |
                     translate}}</button>
             </div>

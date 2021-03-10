@@ -1,4 +1,3 @@
-import { AgendamentosComponent } from './pages/loged/agendamentos/agendamentos.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
     children: [
       { path: 'calendario', component: CalendarioComponent },
       { path: 'relatorios', component: RelatoriosComponent },
-      { path: 'agendamentos', component: AgendamentosComponent },
       { path: 'materias', component: MateriasComponent },
       { path: 'configuracoes', component: ConfigComponent },
     ]
