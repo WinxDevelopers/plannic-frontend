@@ -1,23 +1,17 @@
 .footer-basic {
-  padding: 30px 0;
   background-color: #ffffff;
   color: #4b4c4d;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  text-align: center;
-}
-
-.footer-basic ul a:hover {
-  opacity: 1;
 }
 
 .footer-basic .copyright {
+  padding: 30px 0;
   margin-top: 15px;
   text-align: center;
   font-size: 13px;
   color: #aaa;
   margin-bottom: 0;
 }
-

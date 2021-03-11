@@ -20,6 +20,8 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() { 
+    document.getElementById("body").classList.remove("pag_login");
+    document.getElementById("body").classList.add("pag_inicial");
     if (window.location.hostname != "localhost") {
       if (window.location.protocol === 'http:') {
         window.location.href = window.location.href.replace('http', 'https');

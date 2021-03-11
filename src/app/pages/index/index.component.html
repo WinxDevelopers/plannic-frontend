@@ -1,9 +1,9 @@
 <div *ngIf="!isLogged">
     <header class="text-white text-center">
         <nav class="navbar navbar-dark navbar-expand-lg">
-            <a class="navbar-brand logo" href="/" style="font-size: 2.0rem; color: #31d0aa;">
+            <h3 class="navbar-brand logo" href="/" style="font-size: 2.0rem; color: #31d0aa;">
                 Plannic
-            </a>
+            </h3>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -18,19 +18,12 @@
                         <button routerLink="/login" class="btn btn-info" type="button">{{'PADRAO.ENTRAR' |
                             translate}}</button>
                     </li>
-                    <li class="nav-item" style="margin-top: 5px; margin-left: 5px;">
-                        <select class="form-control form-control-sm" #langSelect
-                            (change)="switchLang(langSelect.value)">
-                            <option *ngFor="let lang of translate.getLangs()" [value]="lang"
-                                [selected]="lang === translate.currentLang">{{ lang }}</option>
-                        </select>
-                    </li>
                 </ul>
             </div>
         </nav>
     </header>
-    <section class="align-middle" style="position: relative; top: 200px">
-        <div class="row" style="margin: 0;" >
+    <section class="align-middle" style="position: relative; top: 170px">
+        <div class="row" style="margin: 0;">
             <div class="typewriter mx-auto ">
                 <h2>
                     {{'INDEX.PLANNIC' | translate}}
@@ -40,6 +33,10 @@
     </section>
     <footer class="footer-basic">
         <p class="copyright">Copyright © Plannic 2021</p>
+        <select id="select_lang" class=" form-control" #langSelect (change)="switchLang(langSelect.value)">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                [selected]="lang === translate.currentLang">{{ lang }}</option>
+        </select>
     </footer>
 </div>
 <app-loged *ngIf="isLogged"></app-loged>

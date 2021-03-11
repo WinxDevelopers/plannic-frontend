@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from "@angular/forms";
 import { LoginService } from 'src/app/service/login.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -26,15 +27,19 @@ export class LoginComponent implements OnInit {
     Validators.required
   ]);
 
-  constructor(private authService: LoginService,
+  constructor(
+    public translate: TranslateService,
+    private authService: LoginService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      translate.addLangs(['pt-BR', 'en']);
+     }
   email: String;
   senha: String;
 
   ngOnInit(): void {
     document.getElementById("body").classList.remove("pag_inicial");
-    document.getElementById("body").classList.add("bg-gradient-primary");
+    document.getElementById("body").classList.add("pag_login");
     this.route.queryParams.subscribe((params: Params) => {
       this.redirectTo = params.redirectTo || '/dashboard';
     });
@@ -65,25 +70,46 @@ export class LoginComponent implements OnInit {
       },
       err => {
         this.errorMessage = err.error.message;
-        if (localStorage.getItem("lang") != "en") {
-          Toast.fire({
-            icon: 'error',
-            title: 'Ocorreu um erro'
-          })
+        console.log(err.status)
+        if (err.status == 500) {
+          if (localStorage.getItem("lang") != "en") {
+            Toast.fire({
+              icon: 'error',
+              title: 'Você digitou algo errado'
+            })
+          } else {
+            Toast.fire({
+              icon: 'error',
+              title: 'You typed something wrong'
+            })
+          }
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'An error has occurred'
-          })
+          if (localStorage.getItem("lang") != "en") {
+            Toast.fire({
+              icon: 'error',
+              title: 'Ocorreu um erro'
+            })
+          } else {
+            Toast.fire({
+              icon: 'error',
+              title: 'An error has occurred'
+            })
+          }
         }
+
       }
     );
   }
-  
-  isNull(){    
-    if(this.form.email==null && this.form.senha==null)
+
+  isNull() {
+    if (this.form.email == null && this.form.senha == null)
       return true
     else
       return false
+  }
+
+  switchLang(lang: string): void {
+    localStorage.setItem('lang', lang);
+    window.location.reload();
   }
 }

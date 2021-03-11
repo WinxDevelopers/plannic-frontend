@@ -2,8 +2,12 @@
   font-size: 1.1rem;
 }
 
-.navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text {
+.navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-text {
   color: white;
+}
+
+.nav-link{
+  font-size: 1.3rem;
 }
 
 .h3, h3 {
@@ -24,9 +28,40 @@
   padding: 10px;
 }
 
+#select_lang{
+  position: fixed;
+  bottom: 25px;
+  right: 15px;
+  width: 90px;
+}
+
 @media (max-width: 520px) {
-  .typewriter h2{
+  .col_login h2{
     display: none;
+  }
+}
+@media (min-width: 520px) {
+  .logo{
+    display: none;
+  }
+}
+
+/* ================================================================================== */
+/* Login */
+
+.pag_login {
+  background-image: url("../../assets/img/login.jpg");
+  background-size: cover;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media (min-width: 991px) {
+  .arrow_login {
+      position: fixed;
+      top: 9px;
+      left: 5px;
   }
 }
 
@@ -63,11 +98,6 @@
   height: 100%;
   background-repeat: no-repeat;
   background-position: center center;
-}
-
-.bg-gradient-primary {
-  background-color: #31d0aa;
-  background-image: none;
 }
 
 .img-logo {
