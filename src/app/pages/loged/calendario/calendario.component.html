@@ -19,7 +19,7 @@
                         {{'CRUD-GERAL.CRIAR' | translate}}
                     </span>
                     <span *ngIf="modal.seguinte === 'edit'">
-                        {{'CRUD-GERAL.EDITAR' | translate}}                        
+                        {{'CRUD-GERAL.EDITAR' | translate}}
                     </span>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -32,9 +32,11 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
+                                <!-- <select-materias class="form-control"></select-materias> -->
                                 <select [(ngModel)]="newForm.idMateria" 
                                 [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                class="form-control">                                
+                                class="form-control">  
+                                    <option></option>                              
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
                                     </option>
@@ -51,7 +53,7 @@
                                             translate}}</label>
                                         <input type="date" class="form-control mb-1" id="inicio" name="inicio"
                                             [(ngModel)]="newForm.dataInicio"
-                                            [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                            [ngStyle]="{'border-color': !camposVal || !dateVal ? 'red' : null}"
                                             placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                                     </div>
                                 </div>
@@ -80,11 +82,34 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
-                                <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                [(ngModel)]="newForm.recorrencia" class="form-control">
-                                    <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
-                                    </option>
-                                </select>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input [(ngModel)]="this.recorrencia.disable" class="form-check-input"
+                                            type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            Nunca
+                                        </label>
+                                    </div>
+                                </div>
+                                <div *ngIf="!recorrencia.disable" class="form-group">
+                                    <div class="row justify-content-between">
+                                        <label class="col-2 mt-2 form-label" for="repeat_form">
+                                            Repetir:
+                                        </label>
+                                        <div class="col-5">
+                                            <select [(ngModel)]="recorrencia.repeticao" class="form-control"
+                                                id="repeat_form">
+                                                <option value="dia">Diariamente</option>
+                                                <option value="semana">Semanalmente</option>
+                                                <option value="mes">Mensalmente</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <input [(ngModel)]="recorrencia.vezes" class="form-control" type="number">
+                                        </div>
+                                        <div class="col mt-2">vezes</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,24 +122,27 @@
                                         class="fas fa-question-circle"></i>
                                 </label>
                                 <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                [(ngModel)]="newForm.tipoEstudo" class="form-control">
+                                    [(ngModel)]="newForm.tipoEstudo" class="form-control">
                                     <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
-                        <span [hidden]="camposVal" style="color: red; ">
+                        <p class=" ml-2 p-0" [hidden]="camposVal" style="color: red; ">
                             {{'NOTAS.ERROS.CAMPOS' | translate}}
-                            <br>
-                          </span>
+                        </p>
+                        <p class="ml-2 p-0" [hidden]="dateVal" style="color: red; ">
+                            {{'NOTAS.ERROS.DATA' | translate}}
+                        </p>
                     </div>
                 </div>
                 <div *ngIf="modal.seguinte === 'edit'">
                     <div class="form-row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
+                                <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
+                                    translate}}</label>
                                 <select [(ngModel)]="editForm.idMateria" class="form-control">
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
@@ -155,17 +183,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <!-- <div class="form-row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
                                 <select [(ngModel)]="editForm.recorrencia" class="form-control">
-                                    <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">{{recorrencia}}
+                                    <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">
+                                        {{recorrencia}}
                                     </option>
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -190,15 +219,16 @@
                                 aria-controls="resumo" aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
                             <a class="nav-link" id="teste-tab" data-toggle="tab" href="#teste" role="tab"
                                 aria-controls="teste" aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
-                            <a class="nav-link" id="pom-tab" data-toggle="tab" href="#pom" role="tab" aria-controls="pom"
-                                aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
-                            <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
-                                aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
+                            <a class="nav-link" id="pom-tab" data-toggle="tab" href="#pom" role="tab"
+                                aria-controls="pom" aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
+                            <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab"
+                                aria-controls="mapa" aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         <!-- Auto-Explicação - TEXTO -->
-                        <div class="tab-pane fade show active" id="autoExp" role="tabpanel" aria-labelledby="autoExp-tab">
+                        <div class="tab-pane fade show active" id="autoExp" role="tabpanel"
+                            aria-labelledby="autoExp-tab">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.AUTO1' | translate}}</p>
                                 <p>{{'METODOS.AUTO2' | translate}}</p>
@@ -261,16 +291,19 @@
                 </div>
             </div>
             <div class="modal-footer" *ngIf="modal.seguinte === 'create' || modal.seguinte === 'edit'">
-                <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'" style="position:relative; right:215px;" type="button"
+                <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'"
+                    style="position:relative; right:215px;" type="button"
                     class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
                     translate}}</button>
-                <button  id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
+                <button id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
                     data-dismiss="modal">{{'MATERIAS.FECHAR' |
                     translate}}</button>
-                <button *ngIf="modal.seguinte === 'create'" (click)="save()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR'
+                <button *ngIf="modal.seguinte === 'create'" (click)="countAgendamento()" type="button"
+                    class="btn btn-primary">{{'MATERIAS.SALVAR'
                     |
                     translate}}</button>
-                <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button" class="btn btn-primary">{{'MATERIAS.SALVAR'
+                <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button"
+                    class="btn btn-primary">{{'MATERIAS.SALVAR'
                     |
                     translate}}</button>
             </div>

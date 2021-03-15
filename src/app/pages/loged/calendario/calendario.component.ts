@@ -3,10 +3,10 @@ import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullca
 import allLocales from '@fullcalendar/core/locales-all';
 import { UserService } from 'src/app/service/user.service';
 import { Agendamento } from 'src/app/interface/agendamento';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { Materia } from 'src/app/interface/materia';
-import { add } from 'date-fns'
+import { add } from 'date-fns';
 
 @Component({
   selector: 'app-calendario',
@@ -38,7 +38,12 @@ export class CalendarioComponent implements OnInit {
   recorrenciaInicio;
   recorrenciaFim;
   metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
-  recorrencias = ["Nunca", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
+  recorrencia = {
+    disable: true,
+    vezes: 0,
+    repeticao: "dia"
+  };
+
   calendarOptions: CalendarOptions = {
     headerToolbar: {
       left: 'prev,next today',
@@ -47,7 +52,11 @@ export class CalendarioComponent implements OnInit {
     },
     initialView: 'dayGridMonth',
     weekends: true,
-    editable: true,
+    selectAllow: function (e) {
+      if (e.end.getTime() / 1000 - e.start.getTime() / 1000 <= 86400) {
+        return true;
+      }
+    },
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
@@ -82,35 +91,27 @@ export class CalendarioComponent implements OnInit {
   }
 
   /* CRUD AGENDAMENTO */
+  camposVal: boolean = true;
+  dateVal: boolean = true;
 
-  camposVal:boolean = true;
-  
-  save() {
-    this.camposVal = true;
-    //Caso a hora inicial seja maior q a final
-    if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
-      this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10))+1).toString();
-    } else {
-      this.newForm.dataFim = this.newForm.dataInicio;
-    }
-
-    if(
-      this.newForm.recorrencia &&
-      this.newForm.tipoEstudo &&
-      this.newForm.idMateria &&
-      this.newForm.dataInicio &&
-      this.newForm.horaInicio &&
-      this.newForm.dataFim &&
-      this.newForm.horaFim
-    ){
+  save(form) {
+    if (
+      form.recorrencia &&
+      form.tipoEstudo &&
+      form.idMateria &&
+      form.dataInicio &&
+      form.horaInicio &&
+      form.dataFim &&
+      form.horaFim
+    ) {
       this.agendamentoService.create(
-        this.newForm.idMateria,
-        this.newForm.dataInicio + "T12:00:00",
-        this.newForm.dataFim + "T12:00:00",
-        this.newForm.recorrencia,
-        this.newForm.horaInicio,
-        this.newForm.horaFim,
-        this.newForm.tipoEstudo,
+        form.idMateria,
+        form.dataInicio + "T12:00:00",
+        form.dataFim + "T12:00:00",
+        form.recorrencia,
+        form.horaInicio,
+        form.horaFim,
+        form.tipoEstudo,
       ).subscribe(
         () => {
           document.getElementById("close").click();
@@ -125,7 +126,7 @@ export class CalendarioComponent implements OnInit {
               title: 'Schedule saved'
             })
           }
-          this.refresh()
+          this.refresh();
         },
         error => {
           if (localStorage.getItem("lang") != "en") {
@@ -141,7 +142,7 @@ export class CalendarioComponent implements OnInit {
           }
         }
       );
-    }else{
+    } else {
       this.camposVal = false;
     }
   }
@@ -189,8 +190,68 @@ export class CalendarioComponent implements OnInit {
     );
   }
 
-  del(idAgendamento){
-    console.log(idAgendamento)
+  del(idAgendamento) {
+    if (localStorage.getItem('lang') === "pt-BR") {
+      return Swal.fire({
+        title: 'Tem certeza?',
+        text: `A operação não pode ser desfeita`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.agendamentoService.delete(idAgendamento).subscribe(
+            () => {
+              document.getElementById("close").click();
+              this.Toast.fire({
+                icon: 'success',
+                title: 'Agendamento deletado'
+              })              
+              this.refresh();
+            },
+            err => {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'Ocorreu um erro'
+              })
+            }
+          );
+        }
+      })
+    } else {
+      return Swal.fire({
+        title: 'Are you sure?',
+        text: `The operation cannot be undone`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.agendamentoService.delete(idAgendamento).subscribe(
+            () => {
+              document.getElementById("close").click();
+              this.Toast.fire({
+                icon: 'success',
+                title: 'Schedule deleted'
+              })
+              this.refresh();
+            },
+            err => {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'An error has occurred'
+              })
+            }
+          );
+        }
+      })
+    }
   }
 
   /* CALENDÁRIO */
@@ -228,6 +289,50 @@ export class CalendarioComponent implements OnInit {
   }
 
   /* FUNÇÕES AUXILIARES */
+
+  countAgendamento() {
+    this.camposVal = true;
+    this.dateVal = true;
+    //Caso a hora inicial seja maior q a final
+    if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
+      this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10)) + 1).toString();
+    } else {
+      this.newForm.dataFim = this.newForm.dataInicio;
+    }
+
+    if (add(new Date(this.newForm.dataInicio), { days: 1 }) < new Date()) {
+      this.dateVal = false;
+      return;
+    }
+
+    if (this.recorrencia.disable) {
+      this.newForm.recorrencia = "N";
+      this.save(this.newForm);
+
+    } else {
+      let form = this.newForm;
+      for (let i = 1; i <= this.recorrencia.vezes; i++) {
+        form.dataInicio = new Date(form.dataInicio);
+        form.dataInicio = add(form.dataInicio, { days: 1 });
+        if (this.recorrencia.repeticao === "dia") {
+          form.recorrencia = "dia";
+          form.dataInicio = this.DateToString(add(form.dataInicio, { days: 1 }), "data");
+          this.save(form);
+        }
+        if (this.recorrencia.repeticao === "semana") {
+          form.recorrencia = "semana";
+          form.dataInicio = this.DateToString(add(form.dataInicio, { weeks: 1 }), "data");
+          this.save(form);
+        }
+        if (this.recorrencia.repeticao === "mes") {
+          form.recorrencia = "mes";
+          form.dataInicio = this.DateToString(add(form.dataInicio, { months: 1 }), "data");
+          this.save(form);
+        }
+      }
+    }
+  }
+
   refresh() {
     this.usuarioService.getAllById().subscribe(
       (stringData: string) => {
@@ -254,6 +359,7 @@ export class CalendarioComponent implements OnInit {
             //groupId: StringConstructor
           }
         })
+        this.newForm.idMateria = this.calendarOptions.events[1].idMateria;
       })
   }
 
@@ -293,6 +399,7 @@ export class CalendarioComponent implements OnInit {
 
   setInfos(event) {
     if (event) {
+      console.log(event)
       this.editForm = {
         recorrencia: event.extendedProps.recorrencia,
         tipoEstudo: event.extendedProps.tipoEstudo,
