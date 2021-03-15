@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
 
@@ -13,14 +12,14 @@ export class IndexComponent implements OnInit, AfterViewInit {
   public isLogged:boolean;
 
   constructor(
-    public translate: TranslateService,
     private router: Router
   ) {
     this.lang = localStorage.getItem('lang') || 'pt-BR';
-    translate.addLangs(['pt-BR', 'en']);
    }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void {    
+    document.getElementById("body").classList.remove("pag_login");
+    document.getElementById("body").classList.add("pag_inicial");
     if(window.innerWidth<=520){
       this.router.navigate(['/login']);
     }
@@ -39,8 +38,4 @@ export class IndexComponent implements OnInit, AfterViewInit {
     }
   }
 
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
-  }
 }

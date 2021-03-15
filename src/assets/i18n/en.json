@@ -19,7 +19,7 @@
     "CRUD-USUARIO": {
         "BEM-VINDO": "Welcome!",
         "CAMPOS": "Please complete all required text fields",
-        "EMAIL-ERR": "Please enter a valid email address",
+        "EMAIL-ERR": "Please enter a valid e-mail address",
         "CONECTADO": "Remember Me",
         "LOGIN": "Login",
         "SENHA-FORGOT": "Forgot Password?",
@@ -32,6 +32,13 @@
         "SENHA2": "Password again",
         "SENHA-ERR": "Different passwords",
         "SENHA-ERR2": "The password must contain at least 8 characters, 1 lowercase character, 1 uppercase character, 1 number and 1 special character"
+    },
+    "EMAIL_CONF":{
+        "PRINCIPAL": "E-mail verification", 
+        "MENSAGEM": "An email was sent with a link to confirm your registration",
+        "SPAN": "If you can't find it, check if it was sent to spam",
+        "LOGIN": "Go to login",
+        "SEGUNDO_ENVIO": "Send e-mail again"
     },
     "LOGED": {
         "OLA": "Hello",

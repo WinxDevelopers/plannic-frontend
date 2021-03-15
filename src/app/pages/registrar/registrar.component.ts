@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { FormControl, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.component.html'
 })
-export class RegistrarComponent implements OnInit {
+export class RegistrarComponent implements AfterViewInit {
 
   constructor(
+    public translate: TranslateService,
     private loginService: LoginService,
     private router: Router,) { }
 
@@ -27,11 +29,21 @@ export class RegistrarComponent implements OnInit {
   };
   isSuccessful = false;
   isSignUpFailed = false;
-  errorMessage = '';
 
-  ngOnInit() {
-    document.getElementById("body").classList.remove("pag_inicial");
-    document.getElementById("body").classList.add("bg-gradient-primary");
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  ngAfterViewInit() {
+    document.getElementById("body").classList.remove("bg-gradient-primary");
+    document.getElementById("body").classList.add("pag_login");
     if (localStorage.getItem('token')) {
       this.router.navigate(['dashboard/calendario']);
     }
@@ -57,30 +69,27 @@ export class RegistrarComponent implements OnInit {
       () => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        Swal.fire({
+        this.Toast.fire({
           title: 'Cadastro realizado com sucesso!',
-          icon: 'success',
-          confirmButtonText: 'Ok'
-        }).then(() => {
-          window.location.href = "../login"
-        })
+          icon: 'success'})
+          this.router.navigate(['/email']);
       },
       err => {
-        Swal.fire({
+        this.Toast.fire({
           title: 'Cadastro não realizado!',
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        }).then(() => {
-          window.location.href = "../registrar"
+          icon: 'error'
         })
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
       }
     );
   }
 
+  switchLang(lang: string): void {
+    localStorage.setItem('lang', lang);
+    window.location.reload();
+  }
+
   passMin() {
-    if (this.form.password === null || this.isNull()===true) return true;
+    if (this.form.password === null || this.isNull() === true) return true;
     let password = this.form.password;
     let letrasMaiusculas = /[A-Z]/;
     let letrasMinusculas = /[a-z]/;

@@ -28,12 +28,9 @@ export class LoginComponent implements OnInit {
   ]);
 
   constructor(
-    public translate: TranslateService,
     private authService: LoginService,
     private router: Router,
-    private route: ActivatedRoute) {
-      translate.addLangs(['pt-BR', 'en']);
-     }
+    private route: ActivatedRoute) {}
   email: String;
   senha: String;
 
@@ -66,37 +63,53 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('idUsuario', this.dadosLogin.idUsuario)
         localStorage.setItem('nome', this.dadosLogin.nome)
         localStorage.setItem('token', this.dadosLogin.token)
-        this.router.navigate(['/dashboard/']);
+        this.router.navigate(['/dashboard/calendario']);
       },
       err => {
         this.errorMessage = err.error.message;
         console.log(err.status)
-        if (err.status == 500) {
-          if (localStorage.getItem("lang") != "en") {
-            Toast.fire({
-              icon: 'error',
-              title: 'Você digitou algo errado'
-            })
-          } else {
-            Toast.fire({
-              icon: 'error',
-              title: 'You typed something wrong'
-            })
-          }
-        } else {
-          if (localStorage.getItem("lang") != "en") {
-            Toast.fire({
-              icon: 'error',
-              title: 'Ocorreu um erro'
-            })
-          } else {
-            Toast.fire({
-              icon: 'error',
-              title: 'An error has occurred'
-            })
-          }
-        }
+        switch (err.status) {
+          case 500:
+            if (localStorage.getItem("lang") != "en") {
+              Toast.fire({
+                icon: 'error',
+                title: 'Você digitou algo errado'
+              })
+            } else {
+              Toast.fire({
+                icon: 'error',
+                title: 'You typed something wrong'
+              })
+            }
+            break;
+          case 401:
+            if (localStorage.getItem("lang") != "en") {
+              Toast.fire({
+                icon: 'error',
+                title: 'Verifique seu e-mail'
+              })
+            } else {
+              Toast.fire({
+                icon: 'error',
+                title: 'Verify your e-mail'
+              })
+            }
+            break;
 
+          default:
+            if (localStorage.getItem("lang") != "en") {
+              Toast.fire({
+                icon: 'error',
+                title: 'Ocorreu um erro'
+              })
+            } else {
+              Toast.fire({
+                icon: 'error',
+                title: 'An error has occurred'
+              })
+            }
+            break;
+        }
       }
     );
   }
@@ -106,10 +119,5 @@ export class LoginComponent implements OnInit {
       return true
     else
       return false
-  }
-
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
   }
 }

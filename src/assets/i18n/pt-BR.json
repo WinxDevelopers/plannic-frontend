@@ -33,6 +33,13 @@
         "SENHA-ERR": "Senhas diferentes",
         "SENHA-ERR2": "A senha deve conter, no minímo, 8 caracteres, 1 maiúsculo, 1 minúsculo, 1 número e um caracter especial"
     },
+    "EMAIL_CONF":{
+        "PRINCIPAL": "Verificação de e-mail", 
+        "MENSAGEM": "Um e-mail foi enviado com um link de confirmação de cadastro",
+        "SPAN": "Caso não o encontre verifique se foi mandado para o spam",
+        "LOGIN": "Ir para login",
+        "SEGUNDO_ENVIO": "Enviar e-mail novamente"
+    },
     "LOGED": {
         "OLA": "Olá",
         "RELATORIOS": "Relatórios",

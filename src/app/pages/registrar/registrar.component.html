@@ -1,13 +1,17 @@
-<div class="container">
-    <div class="card shadow-lg o-hidden border-0 my-5">
-        <div class="card-body p-0">
-            <div class="row">
-                <div class="col-lg-5 d-none d-lg-flex">
-                    <div class="flex-grow-1 bg-register-image"
-                        style="background-image: url(&quot;assets/img/student02.jpg&quot;);"></div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="p-5">
+<div class="justify-content-end" style="height: 100%; width: 100%">
+    <div class="row justify-content-end" style="height: 100%;">
+        <div class="col-lg-6 p-0" style="position: absolute;right:0px;height: 100%;">
+            <div class="card" style="height: 100%;">
+                <div class="col_login card-body">
+                    <h2 style="position: absolute; left: 5px;top:5px; cursor: pointer; color: #505050;" routerLink="/">
+                        <i class="arrow_login fas fa-angle-double-left"></i>
+                    </h2>
+                    <div style="position: absolute; left: 5px;top:5px;">
+                        <span class="logo" style="font-size: 2.0rem; color: #31d0aa;">
+                            Plannic
+                        </span>
+                    </div>
+                    <div class="p-5" style="position: relative;top: 50px;">
                         <div class="text-center">
                             <h4 class="text-dark mb-4">{{'CRUD-USUARIO.CONTA' | translate}}</h4>
                         </div>
@@ -46,19 +50,12 @@
                                 }
                             </style>
                             <div id="erros" class="form-group" style="margin-left: 10px;">
-                                <!-- Todos os campos -->
                                 <p *ngIf="!camposOk()" style="color: red; ">{{'CRUD-USUARIO.CAMPOS' |
                                     translate}}</p>
-
-                                <!-- Senhas divergentes -->
                                 <p *ngIf="this.form.password!=this.confPass" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR' |
                                     translate}}</p>
-                                
-                                <!-- Senha minima -->
                                 <p *ngIf="!passMin()" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR2' |
-                                    translate}}</p>                                
-                                
-                                <!-- Email Invalido -->
+                                    translate}}</p>      
                                 <p *ngIf="emailFormControl.hasError('email')" style="color: red; ">{{'CRUD-USUARIO.EMAIL-ERR' |
                                     translate}}</p>
                             </div>
@@ -69,22 +66,16 @@
                                 (click)="onSubmit()">{{'CRUD-USUARIO.REGISTRAR' | translate}}</button>
                             <hr>
                         </form>
-
-                        <div class="text-center"><a class="small" href="#">{{'CRUD-USUARIO.SENHA-FORGOT' |
+                        <!-- <div class="text-center"><a class="small" href="#">{{'CRUD-USUARIO.SENHA-FORGOT' |
                                 translate}}</a>
-                        </div>
+                        </div> -->
                         <div class="text-center"><a class="small" href="../login">{{'CRUD-USUARIO.CONTA-OK' |
                                 translate}}</a>
                         </div>
                     </div>
+                    <select-lang></select-lang>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="../../../assets/js/theme.js"></script>
-<script src="../../../assets/js/bs-init.js"></script>
-<script src="../../../assets/js/chart.min.js"></script>
-<script src="../../../assets/js/jquery.min.js"></script>
-<script src="../../../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>

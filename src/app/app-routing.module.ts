@@ -8,11 +8,13 @@ import { RegistrarComponent } from './pages/registrar/registrar.component';
 import { IndexComponent } from './pages/index/index.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { Email_confComponent } from './pages/email_conf/email_conf.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'registrar', component: RegistrarComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'email', component: Email_confComponent },
   {
     path: 'dashboard',
     component: LogedComponent,

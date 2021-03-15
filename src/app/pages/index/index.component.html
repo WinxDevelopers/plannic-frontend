@@ -33,10 +33,7 @@
     </section>
     <footer class="footer-basic">
         <p class="copyright">Copyright © Plannic 2021</p>
-        <select id="select_lang" class=" form-control" #langSelect (change)="switchLang(langSelect.value)">
-            <option *ngFor="let lang of translate.getLangs()" [value]="lang"
-                [selected]="lang === translate.currentLang">{{ lang }}</option>
-        </select>
+        <select-lang></select-lang>
     </footer>
 </div>
 <app-loged *ngIf="isLogged"></app-loged>

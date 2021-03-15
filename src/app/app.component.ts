@@ -1,27 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment.prod';
+import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit{
-  title = 'plannic';
-  public isLogged: boolean = false;
-  public redirectTo:string = '';
+export class AppComponent implements AfterViewInit {
 
-  constructor(
-    public translate: TranslateService,
-    ){
-      this.translate.addLangs(['pt-BR', 'en']);
-      this.translate.setDefaultLang('pt-BR');
-      this.translate.use(localStorage.getItem('lang') || 'pt-BR');
-  }
+  constructor() { }
 
-  ngOnInit() { 
-    document.getElementById("body").classList.remove("pag_login");
-    document.getElementById("body").classList.add("pag_inicial");
+  ngAfterViewInit() {
     if (window.location.hostname != "localhost") {
       if (window.location.protocol === 'http:') {
         window.location.href = window.location.href.replace('http', 'https');

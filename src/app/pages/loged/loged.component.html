@@ -1,5 +1,4 @@
 <div id="wrapper">
-    <dash-sidebar></dash-sidebar>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <dash-navbar></dash-navbar>
@@ -7,6 +6,10 @@
             <footer style="position: inherit" class="footer-basic mt-3">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>Copyright © Plannic 2021</span></div>
+                    <select class=" form-control" #langSelect (change)="switchLang(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                            [selected]="lang === translate.currentLang">{{ lang }}</option>
+                    </select>
                 </div>
             </footer>
         </div>

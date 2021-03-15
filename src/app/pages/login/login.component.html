@@ -53,12 +53,10 @@
                         </form>
                         <div class="text-center">
                             <a class="small" routerLink="../registrar"> {{'CRUD-USUARIO.CONTA' | translate}}</a>
+                            <app-resend_email></app-resend_email>
                         </div>
                     </div>
-                    <select id="select_lang" class="form-control" #langSelect (change)="switchLang(langSelect.value)">
-                        <option *ngFor="let lang of translate.getLangs()" [value]="lang"
-                            [selected]="lang === translate.currentLang">{{ lang }}</option>
-                    </select>
+                    <select-lang></select-lang>
                 </div>
             </div>
         </div>
