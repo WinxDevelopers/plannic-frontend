@@ -35,8 +35,7 @@
                                 <!-- <select-materias class="form-control"></select-materias> -->
                                 <select [(ngModel)]="newForm.idMateria" 
                                 [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                class="form-control">  
-                                    <option></option>                              
+                                class="form-control">                             
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
                                     </option>
@@ -105,7 +104,9 @@
                                             </select>
                                         </div>
                                         <div class="col-3">
-                                            <input [(ngModel)]="recorrencia.vezes" class="form-control" type="number">
+                                            <input [(ngModel)]="recorrencia.vezes" min="0"
+                                            [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
+                                            class="form-control" type="number">
                                         </div>
                                         <div class="col mt-2">vezes</div>
                                     </div>
@@ -134,6 +135,9 @@
                         </p>
                         <p class="ml-2 p-0" [hidden]="dateVal" style="color: red; ">
                             {{'NOTAS.ERROS.DATA' | translate}}
+                        </p>
+                        <p class="ml-2 p-0" [hidden]="recorVal" style="color: red; ">
+                            {{'AGENDAMENTOS.ERRO_RECORRENCIA' | translate}}
                         </p>
                     </div>
                 </div>

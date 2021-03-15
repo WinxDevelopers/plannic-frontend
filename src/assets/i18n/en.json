@@ -157,6 +157,7 @@
         "FIM": "End",
         "RECORRENCIA": "Recurrence",
         "METODO": "Study Method",
-        "ACOES": "Actions"
+        "ACOES": "Actions",
+        "ERRO_RECORRENCIA": "Invalid recurrence"
     }
 }

@@ -157,6 +157,7 @@
         "FIM": "Fim",
         "RECORRENCIA": "Recorrência",
         "METODO": "Método de Estudo",
-        "ACOES": "Ações"
+        "ACOES": "Ações",
+        "ERRO_RECORRENCIA": "Recorrência inválida"
     }
 }

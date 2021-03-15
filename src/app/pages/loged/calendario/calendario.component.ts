@@ -6,7 +6,7 @@ import { Agendamento } from 'src/app/interface/agendamento';
 import Swal from 'sweetalert2';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { Materia } from 'src/app/interface/materia';
-import { add } from 'date-fns';
+import { add, compareAsc } from 'date-fns';
 
 @Component({
   selector: 'app-calendario',
@@ -93,6 +93,7 @@ export class CalendarioComponent implements OnInit {
   /* CRUD AGENDAMENTO */
   camposVal: boolean = true;
   dateVal: boolean = true;
+  recorVal: boolean = true;
 
   save(form) {
     if (
@@ -209,7 +210,7 @@ export class CalendarioComponent implements OnInit {
               this.Toast.fire({
                 icon: 'success',
                 title: 'Agendamento deletado'
-              })              
+              })
               this.refresh();
             },
             err => {
@@ -293,6 +294,7 @@ export class CalendarioComponent implements OnInit {
   countAgendamento() {
     this.camposVal = true;
     this.dateVal = true;
+    this.recorVal = true;
     //Caso a hora inicial seja maior q a final
     if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
       this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10)) + 1).toString();
@@ -300,33 +302,61 @@ export class CalendarioComponent implements OnInit {
       this.newForm.dataFim = this.newForm.dataInicio;
     }
 
-    if (add(new Date(this.newForm.dataInicio), { days: 1 }) < new Date()) {
+    if (
+      new Date(
+        parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
+        parseInt(this.newForm.dataInicio.slice(5, 7)) - 1, //Mes
+        parseInt(this.newForm.dataInicio.slice(8, 10)), //Dia
+        parseInt(this.newForm.horaInicio.slice(0, 2)), //Hora
+        parseInt(this.newForm.horaInicio.slice(3, 6)), //Minuto
+      )
+      < new Date()) {
       this.dateVal = false;
+      return;
+    }
+
+    if(this.recorrencia.vezes<0){
+      this.recorVal = false
       return;
     }
 
     if (this.recorrencia.disable) {
       this.newForm.recorrencia = "N";
       this.save(this.newForm);
-
     } else {
       let form = this.newForm;
-      for (let i = 1; i <= this.recorrencia.vezes; i++) {
-        form.dataInicio = new Date(form.dataInicio);
-        form.dataInicio = add(form.dataInicio, { days: 1 });
+      let dataInicio = new Date(
+        parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
+        parseInt(this.newForm.dataInicio.slice(5, 7)) - 1, //Mes
+        parseInt(this.newForm.dataInicio.slice(8, 10)), //Dia
+        parseInt(this.newForm.horaInicio.slice(0, 2)), //Hora
+        parseInt(this.newForm.horaInicio.slice(3, 6)), //Minuto
+      );
+      let dataFim = new Date(
+        parseInt(this.newForm.dataFim.slice(0, 4)), //Ano
+        parseInt(this.newForm.dataFim.slice(5, 7)) - 1, //Mes
+        parseInt(this.newForm.dataFim.slice(8, 10)), //Dia
+        parseInt(this.newForm.horaFim.slice(0, 2)), //Hora
+        parseInt(this.newForm.horaFim.slice(3, 6)), //Minuto
+      );
+      let loop = this.recorrencia.vezes > 0 ? this.recorrencia.vezes : 0
+      for (let i = 0; i <= loop; i++) {
         if (this.recorrencia.repeticao === "dia") {
           form.recorrencia = "dia";
-          form.dataInicio = this.DateToString(add(form.dataInicio, { days: 1 }), "data");
+          form.dataInicio = this.DateToString(add(dataInicio, { days: i }), "data");
+          form.dataFim = this.DateToString(add(dataFim, { days: i }), "data");
           this.save(form);
         }
         if (this.recorrencia.repeticao === "semana") {
           form.recorrencia = "semana";
-          form.dataInicio = this.DateToString(add(form.dataInicio, { weeks: 1 }), "data");
+          form.dataInicio = this.DateToString(add(dataInicio, { weeks: i }), "data");
+          form.dataFim = this.DateToString(add(dataFim, { weeks: i }), "data");
           this.save(form);
         }
         if (this.recorrencia.repeticao === "mes") {
           form.recorrencia = "mes";
-          form.dataInicio = this.DateToString(add(form.dataInicio, { months: 1 }), "data");
+          form.dataInicio = this.DateToString(add(dataInicio, { months: i }), "data");
+          form.dataFim = this.DateToString(add(dataFim, { months: i }), "data");
           this.save(form);
         }
       }
@@ -380,6 +410,8 @@ export class CalendarioComponent implements OnInit {
 
   closeModal() {
     this.camposVal = true;
+    this.dateVal = true;
+    this.recorVal = true;
     this.newForm = {}
     this.editForm = {}
   }

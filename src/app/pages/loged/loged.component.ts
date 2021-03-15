@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-loged',
@@ -8,8 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LogedComponent implements OnInit {
 
-  constructor(private router: Router,
-    public translate: TranslateService) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     document.getElementById("body").classList.remove("bg-gradient-primary");
@@ -20,9 +18,4 @@ export class LogedComponent implements OnInit {
         this.router.navigate(['dashboard/calendario']);
     }
   }
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
-  }
-
 }
