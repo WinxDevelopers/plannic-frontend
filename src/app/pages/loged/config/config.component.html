@@ -3,29 +3,40 @@
   <div class="row mb-3">
     <div class="col">
       <div class="card shadow mb-3">
-        <div class="card-header py-3">
-          <p class="m-0 font-weight-bold" style="color: #505050;">{{'CONFIGURACOES.DADOS' | translate}}
-          </p>
-        </div>
         <div class="card-body">
           <form>
             <div class="form-row">
               <div class="col">
-                <div class="form-group"><label for="email"><strong>{{'CONFIGURACOES.EMAIL' |
-                      translate}}</strong></label><input class="form-control" type="email"
-                    placeholder="user@example.com" name="email">
+                <div class="form-group">
+                  <label for="email">
+                    <strong>{{'CONFIGURACOES.EMAIL' | translate}}</strong>
+                  </label>
+                  <input class="form-control" [(ngModel)]="email" type="email" placeholder="user@example.com"
+                    name="email">
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
-                <div class="form-group"><label for="nome"><strong>{{'CONFIGURACOES.NOME'
-                      | translate}}</strong></label><input class="form-control" type="text" placeholder="Nome"
-                    name="nome"></div>
+                <div class="form-group">
+                  <label for="nome">
+                    <strong>{{'CONFIGURACOES.NOME'| translate}}</strong>
+                  </label>
+                  <input class="form-control" [(ngModel)]="nome" type="text" placeholder="Nome" name="nome">
+                </div>
               </div>
             </div>
-            <div class="form-group"><button class="btn botao-custom btn-sx" type="submit">{{'CONFIGURACOES.SALVAR' |
-                translate}}</button></div>
+            <div class="form-group">
+              <button class="btn btn-info btn-sx" type="submit">
+                {{'CONFIGURACOES.SALVAR' | translate}}
+              </button>
+            </div>
+            <hr style="width: 95%">
+            <div class="form-group">
+              <button (click)="deleteUser()" class="btn btn-outline-danger btn-block" type="submit">
+                {{'CONFIGURACOES.EXCLUIR' | translate}}
+              </button>
+            </div>
           </form>
         </div>
       </div>

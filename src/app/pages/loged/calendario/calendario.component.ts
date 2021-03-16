@@ -6,7 +6,7 @@ import { Agendamento } from 'src/app/interface/agendamento';
 import Swal from 'sweetalert2';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { Materia } from 'src/app/interface/materia';
-import { add, compareAsc } from 'date-fns';
+import { add } from 'date-fns';
 
 @Component({
   selector: 'app-calendario',
@@ -315,7 +315,7 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    if(this.recorrencia.vezes<0){
+    if (this.recorrencia.vezes < 0) {
       this.recorVal = false
       return;
     }
@@ -445,4 +445,17 @@ export class CalendarioComponent implements OnInit {
     }
   }
 
+  setMetodo(event) {
+    let classes = (event.target as Element).classList;
+    let tipo = (event.target as Element).id;
+
+    if (this.modal.anterior === "create") {
+      this.newForm.tipoEstudo = tipo;
+    }
+    if (this.modal.anterior === "edit") {
+      this.editForm.tipoEstudo = tipo;
+    }
+    document.getElementById("from_metodos").click()
+
+  }
 }

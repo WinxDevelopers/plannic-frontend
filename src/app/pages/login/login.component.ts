@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit {
       },
       err => {
         this.errorMessage = err.error.message;
-        console.log(err.status)
         switch (err.status) {
           case 500:
             if (localStorage.getItem("lang") != "en") {

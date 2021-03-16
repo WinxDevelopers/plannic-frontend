@@ -25,7 +25,6 @@ import { RegistrarComponent } from './pages/registrar/registrar.component';
 import { IndexComponent } from './pages/index/index.component'
 import { LogedComponent } from './pages/loged/loged.component';
 import { NavbarComponent } from './pages/loged/navbar/navbar.component';
-import { SidebarComponent } from './pages/loged/sidebar/sidebar.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { Select_materiasComponent } from './pages/loged/calendario/select_materias/select_materias.component';
 import { RelatoriosComponent } from './pages/loged/relatorios/relatorios.component';
@@ -62,7 +61,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     LoginComponent,
     Email_confComponent,
     NavbarComponent,
-    SidebarComponent,
     LogedComponent,
     MateriasComponent,
     RelatoriosComponent,

@@ -2,14 +2,6 @@
   font-size: 1.1rem;
 }
 
-.navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-text {
-  color: white;
-}
-
-.nav-link{
-  font-size: 1.3rem;
-}
-
 .h3, h3 {
   color: #2e282a;
 }
@@ -44,6 +36,43 @@
   .logo{
     display: none;
   }
+}
+
+/* ============================================================================ */
+/* Métodos de Estudo */
+
+.texto-metodos{
+  text-align: justify;
+  font-family: Comfortaa;
+  margin: 3% auto;
+  color: #2e282a;
+  max-width: 90%;
+}
+
+.item_metodos{
+  color: #31d0aa;
+}
+.item_metodos:hover{
+  color: #19647e;
+}
+
+/* ============================================================================ */
+/* Navbar */
+
+@media (max-width: 992px) {
+  #nav_logo, #dropdown_user_desk{
+    display:none;
+  }
+}
+@media (min-width: 992px) {
+  #nav_drop, #nav_plannic{
+    display:none;
+  }
+}
+
+.nav_abas{
+  font-size: 1.3rem;
+  color: #2e282a;
 }
 
 /* ================================================================================== */
@@ -98,10 +127,6 @@
   height: 100%;
   background-repeat: no-repeat;
   background-position: center center;
-}
-
-.img-logo {
-  width: 100%;
 }
 
 .logo {
@@ -171,16 +196,4 @@
   padding-bottom: 1rem;
   font-weight: bold;
   font-family: Comfortaa;
-}
-
-.texto-metodos{
-  text-align: justify;
-  font-family: Comfortaa;
-  margin: 3% auto;
-  color: #2e282a;
-  max-width: 90%;
-}
-
-.table th, .table td {
-  padding: 0.75rem !important;
 }

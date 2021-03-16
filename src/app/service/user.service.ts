@@ -42,4 +42,9 @@ export class UserService {
     let id = this.idUsuario;
     return this.http.get(API_URL + `usuario/${id}`, this.httpOptions)
   };
+  
+  deleteUser(){
+    let id = this.idUsuario;
+    return this.http.delete(API_URL + `usuario/${id}`, this.httpOptions)
+  }
 }

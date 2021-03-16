@@ -11,9 +11,10 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">
                     <span *ngIf="modal.seguinte === 'metodos'">
-                        <i style="cursor: pointer;" (click)="changeModal(modal.anterior, 'metodos')"
-                            class="fas fa-chevron-left"></i>
-                        {{'LOGED.METODOS' | translate}}
+                        <div id="from_metodos" (click)="changeModal(modal.anterior, 'metodos')">
+                            <i style="cursor: pointer;" class="fas fa-chevron-left"></i>
+                            {{'LOGED.METODOS' | translate}}
+                        </div>
                     </span>
                     <span *ngIf="modal.seguinte === 'create'">
                         {{'CRUD-GERAL.CRIAR' | translate}}
@@ -33,9 +34,8 @@
                             <div class="form-group">
                                 <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
                                 <!-- <select-materias class="form-control"></select-materias> -->
-                                <select [(ngModel)]="newForm.idMateria" 
-                                [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                class="form-control">                             
+                                <select [(ngModel)]="newForm.idMateria"
+                                    [ngStyle]="{'border-color': !camposVal ? 'red' : null}" class="form-control">
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
                                     </option>
@@ -105,8 +105,8 @@
                                         </div>
                                         <div class="col-3">
                                             <input [(ngModel)]="recorrencia.vezes" min="0"
-                                            [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
-                                            class="form-control" type="number">
+                                                [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
+                                                class="form-control" type="number">
                                         </div>
                                         <div class="col mt-2">vezes</div>
                                     </div>
@@ -215,24 +215,30 @@
                     </div>
                 </div>
                 <div *ngIf="modal.seguinte === 'metodos'">
+                    <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' | translate}}</span>
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-link active" id="autoExp-tab" data-toggle="tab" href="#autoExp" role="tab"
-                                aria-controls="autoExp" aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
-                            <a class="nav-link" id="resumo-tab" data-toggle="tab" href="#resumo" role="tab"
-                                aria-controls="resumo" aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
-                            <a class="nav-link" id="teste-tab" data-toggle="tab" href="#teste" role="tab"
-                                aria-controls="teste" aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
-                            <a class="nav-link" id="pom-tab" data-toggle="tab" href="#pom" role="tab"
-                                aria-controls="pom" aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
-                            <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab"
-                                aria-controls="mapa" aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
+                        <div class="nav nav-tabs" id="nav_metodos" role="tablist">
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link active" id="Autoexplicação"
+                                data-toggle="tab" href="#autoExp" role="tab" aria-controls="autoExp"
+                                aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo" data-toggle="tab"
+                                href="#resumo" role="tab" aria-controls="resumo"
+                                aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Teste Prático"
+                                data-toggle="tab" href="#teste" role="tab" aria-controls="teste"
+                                aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Técnica Pomodoro"
+                                data-toggle="tab" href="#pom" role="tab" aria-controls="pom"
+                                aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Mapa Mental"
+                                data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
+                                aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         <!-- Auto-Explicação - TEXTO -->
                         <div class="tab-pane fade show active" id="autoExp" role="tabpanel"
-                            aria-labelledby="autoExp-tab">
+                            aria-labelledby="Autoexplicação">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.AUTO1' | translate}}</p>
                                 <p>{{'METODOS.AUTO2' | translate}}</p>
@@ -240,7 +246,7 @@
                             </div>
                         </div>
                         <!-- Resumo - TEXTO -->
-                        <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="resumo-tab">
+                        <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="Resumo">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.RESUMO1' | translate}}</p>
                                 <p>{{'METODOS.RESUMO2' | translate}}</p>
@@ -257,7 +263,7 @@
                             </div>
                         </div>
                         <!-- Teste - TEXTO -->
-                        <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="teste-tab">
+                        <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="Teste Prático">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.TESTE1' | translate}}</p>
                                 <p>{{'METODOS.TESTE2' | translate}}</p>
@@ -265,7 +271,7 @@
                             </div>
                         </div>
                         <!-- Pomodoro - TEXTO -->
-                        <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="pom-tab">
+                        <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="Técnica Pomodoro">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.POMODORO1' | translate}}</p>
                                 <p>{{'METODOS.POMODORO2' | translate}}</p>
@@ -282,7 +288,7 @@
                             </div>
                         </div>
                         <!-- Mapa - TEXTO -->
-                        <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
+                        <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="Mapa Mental">
                             <div class="texto-metodos">
                                 <p>{{'METODOS.MAPA1' | translate}}</p>
                                 <p>{{'METODOS.MAPA2' | translate}}</p>

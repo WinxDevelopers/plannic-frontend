@@ -100,7 +100,8 @@
         "DADOS": "Dados do Usuário",
         "EMAIL": "E-mail",
         "NOME": "Nome",
-        "SALVAR": "Salvar"
+        "SALVAR": "Salvar",
+        "EXCLUIR": "Excluir conta"
     },
     "METODOS":{        
         "AUTO": "Autoexplicação",
@@ -138,7 +139,8 @@
         "MAPA2": "Com o mapa mental você poderá ter uma visão geral do tema, ajudando a fixar os pontos mais importantes da matéria e permitirá que você faça todas as associações possíveis sobre o acontecido.",
         "MAPA3": "Você não precisa seguir uma regra rígida para criar mapa mental, mas existem algumas orientações que podem te guiar nesse processo.",
         "MAPA4": "Existem diversas ferramentas online onde você pode criar o seu mapa mental, no entanto, o mais indicado é que ele seja feito manualmente, pois o cérebro absorve melhor as informações quando escritas à mão.",
-        "MAPA5": "A primeira coisa que você deve fazer é pegar uma folha de papel, e após o estudo de um determinado tema, coloque o assunto principal desse tema no meio da folha. Após isso, vá criando conexões entre o assunto principal, com as outras outras informações abordadas no tema. Utilize desenhos, monte gráficos ou insira símbolos. A partir disso você desenvolverá o estudo e organizará as principais informações do tema."
+        "MAPA5": "A primeira coisa que você deve fazer é pegar uma folha de papel, e após o estudo de um determinado tema, coloque o assunto principal desse tema no meio da folha. Após isso, vá criando conexões entre o assunto principal, com as outras outras informações abordadas no tema. Utilize desenhos, monte gráficos ou insira símbolos. A partir disso você desenvolverá o estudo e organizará as principais informações do tema.",
+        "CLIQUE_DUPLO": "Dê dois cliques para selecionar o método"
     },
     "BADGES":{
         "BUSQUETUTOR1": "Infelizmente sua nota em ",
