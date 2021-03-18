@@ -33,13 +33,24 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
-                                <!-- <select-materias class="form-control"></select-materias> -->
-                                <select [(ngModel)]="newForm.idMateria"
-                                    [ngStyle]="{'border-color': !camposVal ? 'red' : null}" class="form-control">
+                                <ng-select [(ngModel)]="this.newForm.idMateria"
+                                    [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
+                                    bindValue="idMateria" [addTag]="criarMateria">
+                                    <ng-template ng-tag-tmp let-search="searchTerm">
+                                        {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item">
+                                        {{item.nomeMateria}} <br />
+                                        <small *ngIf="item.descricao"><b>{{'MATERIAS.DESCRICAO' | translate}}</b>:
+                                            {{item.descricao}}</small>
+                                    </ng-template>
+                                </ng-select>
+                                <!-- <select [(ngModel)]="newForm.idMateria"
+                                     class="form-control">
                                     <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
                                         {{materia.nomeMateria}}
                                     </option>
-                                </select>
+                                </select> -->
                             </div>
                         </div>
                     </div>
@@ -215,14 +226,15 @@
                     </div>
                 </div>
                 <div *ngIf="modal.seguinte === 'metodos'">
-                    <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' | translate}}</span>
+                    <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' |
+                        translate}}</span>
                     <nav>
                         <div class="nav nav-tabs" id="nav_metodos" role="tablist">
                             <a (dblclick)="setMetodo($event)" class="item_metodos nav-link active" id="Autoexplicação"
                                 data-toggle="tab" href="#autoExp" role="tab" aria-controls="autoExp"
                                 aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
-                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo" data-toggle="tab"
-                                href="#resumo" role="tab" aria-controls="resumo"
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo"
+                                data-toggle="tab" href="#resumo" role="tab" aria-controls="resumo"
                                 aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
                             <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Teste Prático"
                                 data-toggle="tab" href="#teste" role="tab" aria-controls="teste"

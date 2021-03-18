@@ -5,6 +5,7 @@ import { UserService } from 'src/app/service/user.service';
 import { Agendamento } from 'src/app/interface/agendamento';
 import Swal from 'sweetalert2';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
+import { MateriaService } from 'src/app/service/materia.service';
 import { Materia } from 'src/app/interface/materia';
 import { add } from 'date-fns';
 
@@ -81,13 +82,20 @@ export class CalendarioComponent implements OnInit {
 
   constructor(
     private usuarioService: UserService,
-    private agendamentoService: AgendamentoService
+    private agendamentoService: AgendamentoService,
+    public materiaService: MateriaService,
   ) { }
 
   currentEvents: EventApi[] = [];
 
   ngOnInit(): void {
     this.refresh();
+  }
+
+  /* CRIAR MATERIA PELO SELECT */
+  criarMateria(nomeMateria) {
+    /* https://stackblitz.com/run?file=src%2Ftags-backend-example.component.ts */
+    console.log(nomeMateria)
   }
 
   /* CRUD AGENDAMENTO */
@@ -302,6 +310,7 @@ export class CalendarioComponent implements OnInit {
       this.newForm.dataFim = this.newForm.dataInicio;
     }
 
+
     if (
       new Date(
         parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
@@ -315,15 +324,26 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    if (this.recorrencia.vezes < 0) {
-      this.recorVal = false
-      return;
+    /* 
+    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-pristine ng-invalid ng-touched ng-select-bottom ng-select-opened
+    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-untouched ng-pristine ng-invalid ng-select-opened ng-select-bottom
+    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-untouched ng-pristine ng-invalid
+    
+    */
+
+
+    if (!this.newForm.idMateria) {
+      document.getElementsByTagName("ng-select")[0].classList.add("ng-invalid");
     }
 
     if (this.recorrencia.disable) {
       this.newForm.recorrencia = "N";
       this.save(this.newForm);
     } else {
+      if (this.recorrencia.vezes < 0) {
+        this.recorVal = false
+        return;
+      }
       let form = this.newForm;
       let dataInicio = new Date(
         parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
@@ -389,7 +409,6 @@ export class CalendarioComponent implements OnInit {
             //groupId: StringConstructor
           }
         })
-        this.newForm.idMateria = this.calendarOptions.events[1].idMateria;
       })
   }
 
@@ -446,7 +465,6 @@ export class CalendarioComponent implements OnInit {
   }
 
   setMetodo(event) {
-    let classes = (event.target as Element).classList;
     let tipo = (event.target as Element).id;
 
     if (this.modal.anterior === "create") {
@@ -455,7 +473,6 @@ export class CalendarioComponent implements OnInit {
     if (this.modal.anterior === "edit") {
       this.editForm.tipoEstudo = tipo;
     }
-    document.getElementById("from_metodos").click()
-
+    document.getElementById("from_metodos").click();
   }
 }

@@ -1,12 +1,10 @@
-import { SelectLangComponent } from './util/select-lang/select-lang.component';
-import { Resend_emailComponent } from './pages/email_conf/resend_email/resend_email.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgSelectModule } from '@ng-select/ng-select';
 //Angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,6 +17,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 //Components
 import { AppComponent } from './app.component';
+import { SelectLangComponent } from './util/select-lang/select-lang.component';
+import { Resend_emailComponent } from './pages/email_conf/resend_email/resend_email.component';
 import { LoginComponent } from './pages/login/login.component';
 import { Email_confComponent } from './pages/email_conf/email_conf.component';
 import { RegistrarComponent } from './pages/registrar/registrar.component';
@@ -26,7 +26,6 @@ import { IndexComponent } from './pages/index/index.component'
 import { LogedComponent } from './pages/loged/loged.component';
 import { NavbarComponent } from './pages/loged/navbar/navbar.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
-import { Select_materiasComponent } from './pages/loged/calendario/select_materias/select_materias.component';
 import { RelatoriosComponent } from './pages/loged/relatorios/relatorios.component';
 import { HorasEstudoComponent } from './pages/loged/relatorios/graficos/horas-estudo/horas-estudo.component';
 import { NotasTipoComponent } from './pages/loged/relatorios/graficos/notas-tipo/notas-tipo.component';
@@ -67,7 +66,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NotasMateriaComponent,
     NotasEvolucaoComponent,
     NotasTipoComponent,
-    Select_materiasComponent,
     SelectLangComponent,
     Resend_emailComponent,
     NotasEstudoComponent,
@@ -88,7 +86,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatFormFieldModule,
     MatSelectModule,
     ReactiveFormsModule,
-    NgxMatSelectSearchModule,
+    NgSelectModule,
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
