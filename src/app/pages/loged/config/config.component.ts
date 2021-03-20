@@ -88,7 +88,7 @@ export class ConfigComponent implements OnInit {
       () => {
         this.alertSucess("user", "delete");
         localStorage.clear();
-        this.router.navigate(['../']);
+        this.router.navigate(['../../']);
       },
       err => { this.alertError(err); }
     );
