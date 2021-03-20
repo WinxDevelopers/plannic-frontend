@@ -93,7 +93,33 @@ export class CalendarioComponent implements OnInit {
   }
 
   /* CRIAR MATERIA PELO SELECT */
-  criarMateria(nomeMateria) {
+  async criarMateria(nomeMateria) {
+    
+    Swal.mixin({
+      input: 'text',
+      confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2']
+    }).queue([
+      {
+        title: 'Matéria',
+        inputValue: nomeMateria
+      },
+      'Descrição'
+    ]).then((result: any) => {
+      if (result.value) {
+        const answers = JSON.stringify(result.value)
+        Swal.fire({
+          title: 'All done!',
+          html: `
+            Your answers:
+            <pre><code>${answers}</code></pre>
+          `,
+          confirmButtonText: 'Lovely!'
+        })
+      }
+    })
+
     /* https://stackblitz.com/run?file=src%2Ftags-backend-example.component.ts */
     console.log(nomeMateria)
   }
