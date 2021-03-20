@@ -47,17 +47,16 @@
                             <button
                                 [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || senhaFormControl.hasError('required')"
                                 style="color: white;background-color: #19647e;"
-                                class="btn botao-custom btn-block btn-user" (click)="onSubmit()"
+                                class="btn btn-block btn-user" (click)="onSubmit()"
                                 type="button">{{'CRUD-USUARIO.LOGIN' | translate}}</button>
                             <hr>
                         </form>
                         <div class="text-center">
                             <a class="small" routerLink="../registrar"> {{'CRUD-USUARIO.CONTA' | translate}}</a>
-                            <app-resend_email></app-resend_email>
                         </div>
                     </div>
-                    <select-lang></select-lang>
                 </div>
+                <select-lang></select-lang>
             </div>
         </div>
     </div>

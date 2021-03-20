@@ -1,29 +1,6 @@
-.btn:not(:disabled):not(.disabled) {
-  font-size: 1.1rem;
-}
-
-.h3, h3 {
-  color: #2e282a;
-}
-
-.mx-auto.features-icons-item.mb-5.mb-lg-0.mb-lg-3 {
-  border: 3px solid #2e282a;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
-  height: 250px;
-  background-color: #fbfcee;
-}
-
-.d-flex.features-icons-icon {
-  margin: 10px;
-  padding: 10px;
-}
-
 #select_lang{
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
+  position: relative;
+  margin-left: 10px;
   width: 90px;
 }
 
@@ -36,6 +13,34 @@
   .logo{
     display: none;
   }
+}
+
+/* ============================================================================ */
+/* Index */
+
+
+.pag_inicial {
+  background-image: url("../../assets/img/img04b.jpg");
+  background-size: cover;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.logo {
+  font-family: 'Comfortaa';
+  font-size: 2.9rem;
+  color: #19647e;
+}
+
+.cards_index {
+  border: 1px solid #2e282a;
+  border-radius: 5px;
+  padding: 10% 5%;
+  margin: 5px;
+  height: 250px;
+  background-color: #fbfcee;
+  color: #505050
 }
 
 /* ============================================================================ */
@@ -150,80 +155,3 @@
   50% { border-color: #31d0aa; }
 }
 /* ================================================================================== */
-
-.pag_inicial {
-  background-image: url("../../assets/img/img04b.jpg");
-  background-size: cover;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-.logo {
-  font-family: 'Comfortaa';
-  font-size: 2.9rem;
-  color: #19647e;
-}
-
-.botao-custom {
-  color: #fff;
-  background-color: #19647e;
-}
-
-.botao-custom:hover{
-  background-color: #114758 !important;
-}
-
-.logo-profile {
-  font-size: 1.5rem;
-}
-
-.textoMaterias {
-  color: #2e282a;
-}
-
-.paginas {
-  background-color: #31deaa;
-  border-color: #505050;
-  color: #2e282a;
-}
-
-.cor-fonte-pagina {
-  color: #505050;
-}
-
-.botao-criar {
-  font-size: 15px;
-  border-color: #2e282a;
-  background-color: #19647e;
-}
-
-.botao-criar:hover {
-  background-color: #114758;
-}
-
-.page-item.active .page-link {
-  background-color: #19647e;
-  border-color: #2e282a;
-}
-
-.page-item.active .page-link:hover {
-  background-color: #114758;
-}
-
-.conteudo{
-  max-width: 1200px;
-}
-
-.media-dir{
-  display: inline-flex;
-  flex-direction: row-reverse;
-}
-
-.titulo-media{
-  text-align: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-weight: bold;
-  font-family: Comfortaa;
-}

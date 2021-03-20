@@ -5,26 +5,70 @@
                 Plannic
             </a>
             <span class="nav-item ml-auto">
-                <a class="login pr-3" routerLink="/login" style="padding: 5px; font-size: 1.1rem;">
-                    {{'PADRAO.ENTRAR' | translate}}
-                </a>
-                <button routerLink="/registrar" class="btn btn-dark btn-lg" type="button">{{'PADRAO.CADASTRE-SE' |
-                    translate}}</button>
+                <ul class="list-inline" style="position: relative; top: 5px">
+                    <li class="list-inline-item">
+                        <a class="login pr-3" routerLink="/login" style="padding: 5px; font-size: 1.1rem;">
+                            {{'PADRAO.ENTRAR' | translate}}
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <button routerLink="/registrar" class="btn btn-dark btn-lg" type="button">
+                            {{'PADRAO.CADASTRE-SE' | translate}}
+                        </button>
+                    </li>
+                    <li class="list-inline-item">
+                        <select-lang></select-lang>
+                    </li>
+                </ul>
+
             </span>
         </nav>
     </header>
-    <section class="align-middle" style="position: relative; top: 170px">
+    <section class="align-middle" style="position: relative; top: 20px">
         <div class="row" style="margin: 0;">
-            <div class="typewriter mx-auto ">
+            <div class="typewriter mx-auto mb-5">
                 <h2>
                     {{'INDEX.PLANNIC' | translate}}
                 </h2>
             </div>
         </div>
+        <div class="row" style="margin: 0;">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-5 mb-lg-3 cards_index">
+                            <h4>
+                                <i class="far fa-calendar-alt" data-bs-hover-animate="pulse"></i>
+                            </h4>
+                            <h3>{{'INDEX.CALENDARIO' | translate}}</h3>
+                            <p class="lead mb-0">{{'INDEX.CALENDARIO-DESC' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-5 mb-lg-3 cards_index">
+                            <h4>
+                                <i class="fas fa-users" data-bs-hover-animate="pulse"></i>
+                            </h4>
+                            <h3>{{'INDEX.COMPARTILHAR' | translate}}</h3>
+                            <p class="lead mb-0">{{'INDEX.COMPARTILHAR-DESC' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-5 mb-lg-3 cards_index">
+                            <h4>
+                                <i class="fas fa-pencil-alt" data-bs-hover-animate="pulse"></i>
+                            </h4>
+                            <h3>{{'INDEX.ESTUDO' | translate}}</h3>
+                            <p class="lead mb-0">{{'INDEX.ESTUDO-DESC' | translate}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
     <footer class="footer-basic">
         <p class="copyright">Copyright © Plannic 2021</p>
-        <select-lang></select-lang>
     </footer>
 </div>
 <app-loged *ngIf="isLogged"></app-loged>

@@ -62,7 +62,7 @@
                             <button
                                 [disabled]="emailFormControl.hasError('email') || !camposOk() || isNull()"
                                 style="background-color: #19647e; color: white;"
-                                class="btn botao-custom btn-block btn-user" type="button"
+                                class="btn btn-block btn-user" type="button"
                                 (click)="onSubmit()">{{'CRUD-USUARIO.REGISTRAR' | translate}}</button>
                             <hr>
                         </form>
@@ -73,8 +73,8 @@
                                 translate}}</a>
                         </div>
                     </div>
-                    <select-lang></select-lang>
                 </div>
+                <select-lang></select-lang>
             </div>
         </div>
     </div>
