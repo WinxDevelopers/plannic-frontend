@@ -38,13 +38,26 @@ export class UserService {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
 
-  getAllById() {
-    let id = this.idUsuario;
-    return this.http.get(API_URL + `usuario/${id}`, this.httpOptions)
+  getAllInfosById() {
+    return this.http.get(API_URL + `usuario/${this.idUsuario}`, this.httpOptions)
   };
-  
-  deleteUser(){
-    let id = this.idUsuario;
-    return this.http.delete(API_URL + `usuario/${id}`, this.httpOptions)
+
+  delete() {
+    return this.http.delete(API_URL + `usuario/${this.idUsuario}`, this.httpOptions)
+  }
+
+  edit(nome: string, email: string) {
+    return this.http.put(API_URL + `usuario`, {
+      idUsuario: this.idUsuario,
+      nome,
+      email
+    }, this.httpOptions)
+  }
+
+  changePass(password) {
+    return this.http.put(API_URL + `usuario/redefinicao`, {
+      idUsuario: this.idUsuario,
+      password
+    }, this.httpOptions)
   }
 }

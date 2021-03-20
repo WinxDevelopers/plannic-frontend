@@ -59,7 +59,7 @@ export class NotasEvolucaoComponent {
   public chartHovered(e: any): void { }
 
   refresh() {
-    this.usuarioService.getAllById().subscribe(
+    this.usuarioService.getAllInfosById().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]

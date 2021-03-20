@@ -91,17 +91,21 @@
         "MEDIA": "Grades Average",
         "ACOES": "Actions",
         "SOBRE": "About",
-        "CIRAR": "Create",
         "DESCRICAO": "Description",
+        "SEM_MATERIAS": "There is no subject registered",
         "FECHAR": "Close",
         "SALVAR": "Save"
     },
     "CONFIGURACOES":{
-        "DADOS": "User Data",
-        "EMAIL": "E-mail",
+        "DADOS": "Data",
         "NOME": "Name",
+        "EMAIL": "E-mail",
         "SALVAR": "Save",
-        "EXCLUIR": "Delete account"
+        "SENHA": "Password",
+        "EDIT_SENHA": "Change password",
+        "EXCLUIR": "Delete account",
+        "DEL_INFO1": "Are you sure?",
+        "DEL_INFO2": "You will not be able to recover your account information"
     },
     "METODOS":{
         "AUTO": "Self-explanation ",

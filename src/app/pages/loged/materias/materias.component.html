@@ -49,13 +49,17 @@
       </div>
     </div>
   </div>
-  <div class="card shadow">
+  <div class="card shadow" style="min-height: 20rem;">
     <div class="d-flex justify-content-center">
-      <div [hidden]="this.loaded" class="spinner-border mt-4" style="width: 3rem; height: 3rem;" role="status">
+      <div [hidden]="this.loaded" class="spinner-border" style="position: relative; top: 100px;width: 6rem; height: 6rem;" role="status">
       </div>
     </div>
     <div class="card-body">
-      <div class="accordion" id="accordionExample">
+      <h4 style="position: relative; top: 100px;" class="text-center" [hidden]="!this.loaded"
+        *ngIf="this.materias.length===0">
+        {{'MATERIAS.SEM_MATERIAS' | translate}}
+      </h4>
+      <div *ngIf="this.materias.length>0" class="accordion" id="accordionExample">
         <!-- Card Matéria -->
         <div class="card" *ngFor="let materia of this.materias">
           <div class="card-header" id="headingOne">

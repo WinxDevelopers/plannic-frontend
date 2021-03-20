@@ -91,16 +91,22 @@
         "MEDIA": "Média das Notas",
         "ACOES": "Ações",
         "SOBRE": "Sobre",
-        "CIRAR": "Criar Matéria",
         "DESCRICAO": "Descrição",
+        "SEM_MATERIAS": "Não há nenhuma matéria cadastrada",
         "FECHAR": "Fechar",
         "SALVAR": "Salvar"
     },
     "CONFIGURACOES":{
-        "DADOS": "Dados do Usuário",
-        "EMAIL": "E-mail",
+        "DADOS": "Dados",
         "NOME": "Nome",
-        "SALVAR": "Salvar",
+        "EMAIL": "E-mail",
+        "SENHA": "Senha",
+        "SENHA1": "Digite a nova senha",
+        "SENHA2": "Digite a nova senha novamente",
+        "EDIT_SENHA": "Alterar Senha",
+        "DEL_USER": "Excluir conta",
+        "DEL_INFO1": "Tem certeza?",
+        "DEL_INFO2": "Você não poderá recuperar as informações da sua conta",
         "EXCLUIR": "Excluir conta"
     },
     "METODOS":{        

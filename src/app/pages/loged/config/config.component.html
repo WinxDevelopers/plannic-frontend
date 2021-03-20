@@ -2,42 +2,155 @@
   <h3 class="text-dark mb-4">{{'LOGED.CONFIGURACOES' | translate}}</h3>
   <div class="row mb-3">
     <div class="col">
-      <div class="card shadow mb-3">
-        <div class="card-body">
-          <form>
-            <div class="form-row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="email">
-                    <strong>{{'CONFIGURACOES.EMAIL' | translate}}</strong>
-                  </label>
-                  <input class="form-control" [(ngModel)]="email" type="email" placeholder="user@example.com"
-                    name="email">
+      <div class="card-group ">
+        <!-- Navegação -->
+        <div class="card col-3" id="config_nav_desk">
+          <div class="card-body">
+            <div class="nav flex-column nav-pills" id="configs" role="tablist" aria-orientation="vertical">
+              <a class="nav-link active" data-toggle="pill" (click)="changeTab('infos')" role="tab"
+                aria-controls="edit-infos" aria-selected="true">
+                <i class="far fa-user"></i>
+                <span class="ml-1">
+                  {{'CONFIGURACOES.DADOS' | translate}}
+                </span>
+              </a>
+              <a class="nav-link" data-toggle="pill" (click)="changeTab('senha')" role="tab" aria-controls="senha"
+                aria-selected="false">
+                <i class="fas fa-key"></i>
+                <span>
+                  {{'CONFIGURACOES.SENHA' | translate}}
+                </span>
+              </a>
+              <a class="nav-link" data-toggle="pill" (click)="changeTab('excluir')" role="tab"
+                aria-controls="delete-account" aria-selected="false">
+                <i class="fas fa-user-alt-slash"></i>
+                <span>
+                  {{'CONFIGURACOES.DEL_USER' | translate}}
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Conteúdo -->
+        <div class="card">
+          <div class="card-body">
+            <div id="config_nav_mobile">
+              <nav>
+                <div class="nav nav-tabs" id="configs" role="tablist">
+                  <a class="nav-item nav-link active" id="edit-infos-tab" data-toggle="pill" href="#edit-infos"
+                    role="tab" aria-controls="nav-home" aria-selected="true">{{'CONFIGURACOES.DADOS' | translate}}</a>
+                  <a class="nav-item nav-link" id="senha-tab" data-toggle="pill" href="#senha" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">{{'CONFIGURACOES.SENHA' | translate}}</a>
+                  <a class="nav-item nav-link" id="delete-account-tab" data-toggle="pill" href="#delete-account"
+                    role="tab" aria-controls="delete-account" aria-selected="false">{{'CONFIGURACOES.DEL_USER' |
+                    translate}}</a>
+                </div>
+              </nav>
+            </div>
+            <div class="tab-content mt-3" id="configsContent">
+              <div class="tab-pane fade show active" id="edit-infos" role="tabpanel" aria-labelledby="edit-infos-tab">
+                <h3>
+                  {{'CONFIGURACOES.DADOS' | translate}}
+                </h3>
+                <br>
+                <form>
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="nome">
+                          <strong>{{'CONFIGURACOES.NOME'| translate}}</strong>
+                        </label>
+                        <input class="col-6 form-control" [(ngModel)]="nome" type="text" name="nome">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="email">
+                          <strong>{{'CONFIGURACOES.EMAIL' | translate}}</strong>
+                        </label>
+                        <input class="col-6 form-control" [(ngModel)]="email" type="email"
+                        [formControl]="emailFormControl" name="email">
+                      </div>
+                    </div>
+                  </div>
+                  <p class="m-0" *ngIf="!email || !nome" style="color: red">
+                    {{'CRUD-USUARIO.CAMPOS' | translate}}
+                  </p>
+                  <p *ngIf="emailFormControl.hasError('email')" style="color: red; ">
+                    {{'CRUD-USUARIO.EMAIL-ERR' | translate}}
+                  </p>
+                  <hr width="95%">
+                  <div class="form-group">
+                    <button [disabled]="!email || !nome || this.emailFormControl.hasError('email')" (click)="alterarInfos()"
+                      class="btn btn-outline-info btn-block" type="submit">
+                      {{'CRUD-GERAL.SALVAR' | translate}}
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="senha" role="tabpanel" aria-labelledby="senha-tab">
+                <h3>
+                  {{'CONFIGURACOES.EDIT_SENHA' | translate}}
+                </h3>
+                <br>
+                <form>
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label>
+                          <strong>{{'CONFIGURACOES.SENHA1'| translate}}</strong>
+                        </label>
+                        <input class="col-5 form-control" [(ngModel)]="senha" type="password" name="senha">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label>
+                          <strong>{{'CONFIGURACOES.SENHA2' | translate}}</strong>
+                        </label>
+                        <input class="col-5 form-control" [(ngModel)]="senhaConf" type="password" name="senhaConf">
+                      </div>
+                    </div>
+                  </div>
+                  <p class="m-0" *ngIf="senha!=senhaConf" style="color: red">
+                    {{'CRUD-USUARIO.SENHA-ERR' | translate}}
+                  </p>
+                  <p class="m-0" *ngIf="!this.passMin()" style="color: red">
+                    {{'CRUD-USUARIO.SENHA-ERR2' | translate}}
+                  </p>
+                  <hr width="95%">
+                  <div class="form-group">
+                    <button (click)="alterarSenha()" [disabled]="senha==='' || senha!=senhaConf || !this.passMin()"
+                      class="btn btn-outline-info btn-block" type="submit">
+                      {{'CRUD-GERAL.SALVAR' | translate}}
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade text-center" id="delete-account" role="tabpanel"
+                aria-labelledby="delete-account-tab">
+                <div class="my-5">
+                  <h3>
+                    {{'CONFIGURACOES.DEL_INFO1' | translate}}
+                  </h3>
+                  <h4 class="mt-3">
+                    {{'CONFIGURACOES.DEL_INFO2' | translate}}
+                  </h4>
+                </div>
+                <br>
+                <hr style="width: 95%;">
+                <div id="del_user_button_mobile" class="form-group">
+                  <button (click)="deleteUser()" class="btn btn-outline-danger btn-block" type="submit">
+                    {{'CONFIGURACOES.EXCLUIR' | translate}}
+                  </button>
                 </div>
               </div>
             </div>
-            <div class="form-row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="nome">
-                    <strong>{{'CONFIGURACOES.NOME'| translate}}</strong>
-                  </label>
-                  <input class="form-control" [(ngModel)]="nome" type="text" placeholder="Nome" name="nome">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-info btn-sx" type="submit">
-                {{'CONFIGURACOES.SALVAR' | translate}}
-              </button>
-            </div>
-            <hr style="width: 95%">
-            <div class="form-group">
-              <button (click)="deleteUser()" class="btn btn-outline-danger btn-block" type="submit">
-                {{'CONFIGURACOES.EXCLUIR' | translate}}
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

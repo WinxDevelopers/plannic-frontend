@@ -39,6 +39,36 @@
 }
 
 /* ============================================================================ */
+/* Configurações */
+
+@media (max-width: 992px) {
+  #config_nav_desk{
+    display:none;
+  }
+}
+@media (min-width: 992px) {
+  #config_nav_mobile{
+    display:none;
+  }
+}
+
+#config_nav_desk .nav-pills .nav-link{
+  font-size: 1.1rem;
+}
+
+#config_nav_desk .nav-pills .nav-link.active{
+    background:none;
+    color: #19647e;
+    text-decoration:underline #31d0aa;
+  }
+
+  
+#config_nav_desk .nav-pills .nav-link span:hover{
+  text-decoration:underline #31d0aa;
+}
+
+
+/* ============================================================================ */
 /* Métodos de Estudo */
 
 .texto-metodos{

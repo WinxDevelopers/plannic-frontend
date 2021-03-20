@@ -116,6 +116,7 @@ export class RegistrarComponent implements AfterViewInit {
     if (this.confSenhaFormControl.hasError('required')) return false
     return true;
   }
+
   isNull() {
     if (
       this.form.nome == null &&

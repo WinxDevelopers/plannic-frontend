@@ -235,7 +235,7 @@ export class MateriasComponent implements AfterViewInit {
   /* FUNÇÕES AUXILIARES */
   refresh() {
     this.loaded = false;
-    this.usuarioService.getAllById().subscribe(
+    this.usuarioService.getAllInfosById().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]

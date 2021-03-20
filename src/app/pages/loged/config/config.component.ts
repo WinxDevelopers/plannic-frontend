@@ -1,21 +1,24 @@
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { UserService } from 'src/app/service/user.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { MateriaService } from 'src/app/service/materia.service';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
+import { FormControl, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-config',
   templateUrl: './config.component.html'
 })
-export class ConfigComponent implements OnInit, AfterViewInit {
+export class ConfigComponent implements OnInit {
 
   constructor(
     public userService: UserService,
     public agService: AgendamentoService,
     public matService: MateriaService,
-    public notaService: NotaMateriaService
+    public notaService: NotaMateriaService,
+    private router: Router
   ) { }
 
   /* Alert */
@@ -29,14 +32,20 @@ export class ConfigComponent implements OnInit, AfterViewInit {
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   })
-
-  email: string;
-  nome: string;
   userInfos;
 
-  ngAfterViewInit(): void {
+  email: string;
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+  nome: string;
+  senha: string = '';
+  senhaConf: string = '';
+  passMinOk = true;
 
-    this.userService.getAllById().subscribe(
+  ngOnInit() {
+    this.userService.getAllInfosById().subscribe(
       (data: any) => {
         data = JSON.parse(data);
         this.userInfos = data[0];
@@ -44,65 +53,97 @@ export class ConfigComponent implements OnInit, AfterViewInit {
         this.nome = this.userInfos.nome;
       },
       err => {
-
+        this.alertError(err);
       }
     )
   }
 
-  ngOnInit() {
+  alterarSenha() {
+    this.userService.changePass(this.senha).subscribe(
+      () => {
+        this.alertSucess("pass", "update");
+      },
+      err => { this.alertError(err) }
+    );
+  }
+
+  alterarInfos() {
+    this.userService.edit(this.nome, this.email).subscribe(
+      () => { this.alertSucess("user", "update") },
+      err => { this.alertError(err); }
+    );
   }
 
   deleteUser() {
-    this.confDel().then((result) => {
-      if (result.isConfirmed) {
-        this.userInfos.agendamentos.forEach(async ag => {
-            await this.agService.delete(ag.idAgendamento)
-        });
-        this.userInfos.notasMateria.forEach(async nota => {
-          await this.notaService.delete(nota.idNotaMateria)
-        });
-        this.userInfos.materias.forEach(async mat => {
-          await this.matService.delete(mat.idMateria)
-        });
-        this.userService.deleteUser().subscribe(
-          () => { this.alertSucess("delete") },
-          err => { this.alertError(err); }
-        );
-      }
-    })
+    this.userInfos.agendamentos.forEach(async ag => {
+      await this.agService.delete(ag.idAgendamento).toPromise()
+    });
+    this.userInfos.notasMateria.forEach(async nota => {
+      await this.notaService.delete(nota.idNotaMateria).toPromise()
+    });
+    this.userInfos.materias.forEach(async mat => {
+      await this.matService.delete(mat.idMateria).toPromise()
+    });
+    this.userService.delete().subscribe(
+      () => {
+        this.alertSucess("user", "delete");
+        localStorage.clear();
+        this.router.navigate(['../']);
+      },
+      err => { this.alertError(err); }
+    );
   }
 
-  async confDel() {
-    if (localStorage.getItem('lang') === "pt-BR") {
-      return Swal.fire({
-        title: 'Tem certeza?',
-        text: `A operação não pode ser desfeita`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sim',
-        cancelButtonText: 'Não'
-      })
-    } else {
-      return Swal.fire({
-        title: 'Are you sure?',
-        text: `The operation cannot be undone`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No'
-      })
+  /* FUNÇÕES AUXILIARES */
+
+  changeTab(type) {
+    switch (type) {
+      case "infos":
+        document.getElementById("edit-infos-tab").click()
+        break;
+      case "senha":
+        document.getElementById("senha-tab").click()
+        break;
+      case "excluir":
+        document.getElementById("delete-account-tab").click()
+        break;
+      default:
+        break;
     }
   }
 
-  alertSucess(crud) {
+  passMin() {
+    if (this.senha === '') return true;
+    let letrasMaiusculas = /[A-Z]/;
+    let letrasMinusculas = /[a-z]/;
+    let numeros = /[0-9]/;
+    let caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_|.]/;
+    if (this.senha.length >= 8 &&
+      letrasMaiusculas.test(this.senha) &&
+      letrasMinusculas.test(this.senha) &&
+      numeros.test(this.senha) &&
+      caracteresEspeciais.test(this.senha)) {
+      this.passMinOk = true;
+      return true;
+    } else {
+      this.passMinOk = false;
+      return false;
+    }
+  }
+
+  alertSucess(obj, crud) {
     let portTitle;
     let engTitle;
-    portTitle = 'Usuário';
-    engTitle = 'User';
+    switch (obj) {
+      case "user":
+        portTitle = 'Usuário';
+        engTitle = 'User';
+        break;
+      case "pass":
+        portTitle = 'Senha';
+        engTitle = 'Password';
+        break;
+    }
 
     switch (crud) {
       case "update":
