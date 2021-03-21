@@ -19,14 +19,13 @@
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="email" id="exampleInputEmail"
                                     aria-describedby="emailHelp" placeholder="{{'CRUD-USUARIO.EMAIL' | translate}}"
-                                    [ngStyle]="{'border-color': !isNull() && (emailFormControl.invalid || senhaFormControl.invalid) ? 'red' : null}"
-                                    name="email" [(ngModel)]="this.form.email" [formControl]="emailFormControl">
+                                    [ngStyle]="{'border-color': !valEmail || !valCampos ? 'red' : null}" name="email"
+                                    [(ngModel)]="this.form.email">
                             </div>
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="password"
-                                    [(ngModel)]="this.form.password" [formControl]="senhaFormControl"
-                                    id="exampleInputPassword"
-                                    [ngStyle]="{'border-color': !isNull() && senhaFormControl.invalid ? 'red' : null}"
+                                    [(ngModel)]="this.form.password" id="exampleInputPassword"
+                                    [ngStyle]="{'border-color': !valCampos ? 'red' : null}"
                                     placeholder="{{'CRUD-USUARIO.SENHA' | translate}}" name="password">
                             </div>
 
@@ -36,19 +35,15 @@
                                 }
                             </style>
                             <div class="form-group" style="margin-left: 10px;">
-                                <p *ngIf="!isNull() && (emailFormControl.hasError('required') || senhaFormControl.hasError('required'))"
-                                    style="color: red; ">
+                                <p *ngIf=" !valCampos" style="color: red; ">
                                     {{'CRUD-USUARIO.CAMPOS' | translate}}
                                 </p>
-                                <p *ngIf="!isNull() && emailFormControl.hasError('email')" style="color: red; ">
+                                <p *ngIf=" !valEmail" style="color: red; ">
                                     {{'CRUD-USUARIO.EMAIL-ERR' | translate}}
                                 </p>
                             </div>
-                            <button
-                                [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || senhaFormControl.hasError('required')"
-                                style="color: white;background-color: #19647e;"
-                                class="btn btn-block btn-user" (click)="onSubmit()"
-                                type="button">{{'CRUD-USUARIO.LOGIN' | translate}}</button>
+                            <button style="color: white;background-color: #19647e;" class="btn btn-block btn-user"
+                                (click)="onSubmit()" type="button">{{'CRUD-USUARIO.LOGIN' | translate}}</button>
                             <hr>
                         </form>
                         <div class="text-center">
