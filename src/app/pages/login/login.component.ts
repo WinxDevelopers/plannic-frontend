@@ -39,7 +39,9 @@ export class LoginComponent implements OnInit {
 
   valEmail: boolean = true;
   valCampos: boolean = true;
+  loading: boolean = false;
   onSubmit(): void {
+    this.loading = true;
     this.valEmail = true;
     this.valCampos = true;
     const { email, password } = this.form;
@@ -65,6 +67,7 @@ export class LoginComponent implements OnInit {
     if (emailFormControl.valid && senhaFormControl.valid) {
       this.authService.login(email, password).subscribe(
         data => {
+          this.loading = false;
           this.dadosLogin = JSON.parse(data);
           localStorage.setItem('idUsuario', this.dadosLogin.idUsuario)
           localStorage.setItem('nome', this.dadosLogin.nome)
@@ -72,6 +75,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard/calendario']);
         },
         err => {
+          this.loading = false;
           this.errorMessage = err.error.message;
           switch (err.status) {
             case 500:
@@ -99,6 +103,7 @@ export class LoginComponent implements OnInit {
                   title: 'Verify your e-mail'
                 })
               }
+              document.getElementById("send_email").click()
               break;
 
             default:

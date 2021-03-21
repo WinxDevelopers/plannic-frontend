@@ -43,7 +43,16 @@
                                 </p>
                             </div>
                             <button style="color: white;background-color: #19647e;" class="btn btn-block btn-user"
-                                (click)="onSubmit()" type="button">{{'CRUD-USUARIO.LOGIN' | translate}}</button>
+                                (click)="onSubmit()" type="button">
+                                <span *ngIf="!loading">{{'CRUD-USUARIO.LOGIN' | translate}}</span>
+                                <span *ngIf="loading">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </span>
+                            </button>
                             <hr>
                         </form>
                         <div class="text-center">
@@ -52,6 +61,7 @@
                     </div>
                 </div>
                 <select-lang></select-lang>
+                <resend_email style="display: none;" id="send_email"></resend_email>
             </div>
         </div>
     </div>

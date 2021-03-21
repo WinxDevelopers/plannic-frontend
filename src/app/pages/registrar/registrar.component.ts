@@ -63,10 +63,13 @@ export class RegistrarComponent implements AfterViewInit {
     Validators.required
   ]);
 
+  loading: boolean = false;
   onSubmit(): void {
+    this.loading = true;
     let { email, password, nome } = this.form;
     this.loginService.register(email, password, nome).subscribe(
       () => {
+        this.loading = false;
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.Toast.fire({
@@ -75,6 +78,7 @@ export class RegistrarComponent implements AfterViewInit {
           this.router.navigate(['/email']);
       },
       err => {
+        this.loading = false;
         this.Toast.fire({
           title: 'Cadastro não realizado!',
           icon: 'error'

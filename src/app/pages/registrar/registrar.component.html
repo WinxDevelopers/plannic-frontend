@@ -63,7 +63,16 @@
                                 [disabled]="emailFormControl.hasError('email') || !camposOk() || isNull()"
                                 style="background-color: #19647e; color: white;"
                                 class="btn btn-block btn-user" type="button"
-                                (click)="onSubmit()">{{'CRUD-USUARIO.REGISTRAR' | translate}}</button>
+                                (click)="onSubmit()">
+                                <span *ngIf="!loading">{{'CRUD-USUARIO.REGISTRAR' | translate}}</span>
+                                <span *ngIf="loading">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </span>                                
+                            </button>
                             <hr>
                         </form>
                         <!-- <div class="text-center"><a class="small" href="#">{{'CRUD-USUARIO.SENHA-FORGOT' |
