@@ -93,32 +93,37 @@ export class CalendarioComponent implements OnInit {
   }
 
   /* CRIAR MATERIA PELO SELECT */
-  async criarMateria(nomeMateria) {
-    
-    Swal.mixin({
-      input: 'text',
-      confirmButtonText: 'Next &rarr;',
-      showCancelButton: true,
-      progressSteps: ['1', '2']
-    }).queue([
-      {
-        title: 'Matéria',
-        inputValue: nomeMateria
+  async criarMateria(nomeMateria: any) {
+    this.materiaService.create(nomeMateria, null).subscribe(
+      () => {
+        document.getElementById("close").click();
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'success',
+            title: 'Matéria salva'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'Subject saved'
+          })
+        }
+        this.refresh();
       },
-      'Descrição'
-    ]).then((result: any) => {
-      if (result.value) {
-        const answers = JSON.stringify(result.value)
-        Swal.fire({
-          title: 'All done!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
-          confirmButtonText: 'Lovely!'
-        })
+      error => {
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'Ocorreu um erro'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'An error has occurred'
+          })
+        }
       }
-    })
+    )
 
     /* https://stackblitz.com/run?file=src%2Ftags-backend-example.component.ts */
     console.log(nomeMateria)

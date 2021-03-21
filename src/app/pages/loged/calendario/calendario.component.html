@@ -35,9 +35,11 @@
                                 <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' | translate}}</label>
                                 <ng-select [(ngModel)]="this.newForm.idMateria"
                                     [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
-                                    bindValue="idMateria" [addTag]="criarMateria">
+                                    bindValue="idMateria" [addTag]="true">
                                     <ng-template ng-tag-tmp let-search="searchTerm">
-                                        {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                        <div (click)="criarMateria(search)" >
+                                            {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                        </div>
                                     </ng-template>
                                     <ng-template ng-option-tmp let-item="item">
                                         {{item.nomeMateria}} <br />
