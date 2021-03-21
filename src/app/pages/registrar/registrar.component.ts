@@ -79,10 +79,34 @@ export class RegistrarComponent implements AfterViewInit {
       },
       err => {
         this.loading = false;
-        this.Toast.fire({
-          title: 'Cadastro não realizado!',
-          icon: 'error'
-        })
+        switch (err.status) {
+          case 500:
+            if (localStorage.getItem("lang") != "en") {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'E-mail ja cadastrado'
+              })
+            } else {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'E-mail already registered'
+              })
+            }
+            break;
+          default:
+            if (localStorage.getItem("lang") != "en") {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'Ocorreu um erro'
+              })
+            } else {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'An error has occurred'
+              })
+            }
+            break;
+        }
       }
     );
   }
