@@ -94,12 +94,12 @@ export class LoginComponent implements OnInit {
             case 401:
               if (localStorage.getItem("lang") != "en") {
                 Toast.fire({
-                  icon: 'error',
+                  icon: 'info',
                   title: 'Verifique seu e-mail'
                 })
               } else {
                 Toast.fire({
-                  icon: 'error',
+                  icon: 'info',
                   title: 'Verify your e-mail'
                 })
               }
