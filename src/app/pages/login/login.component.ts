@@ -26,13 +26,19 @@ export class LoginComponent implements OnInit {
   senha: String;
 
   ngOnInit(): void {
-    document.getElementById("body").classList.remove("pag_inicial");
-    document.getElementById("body").classList.add("pag_login");
-    this.route.queryParams.subscribe((params: Params) => {
-      this.redirectTo = params.redirectTo || '/dashboard';
-    });
-    if (localStorage.getItem('token')) {
-      this.router.navigate(['dashboard/calendario']);
+    if(!window.location.href.includes("verify?code")){
+      document.getElementById("body").classList.remove("pag_inicial");
+      document.getElementById("body").classList.add("pag_login");
+      this.route.queryParams.subscribe((params: Params) => {
+        this.redirectTo = params.redirectTo || '/dashboard';
+      });
+      if (localStorage.getItem('token')) {
+        this.router.navigate(['dashboard/calendario']);
+      }
+    }else{
+      localStorage.removeItem("idUsuario")
+      localStorage.removeItem("nome")
+      localStorage.removeItem("token")
     }
   }
 
