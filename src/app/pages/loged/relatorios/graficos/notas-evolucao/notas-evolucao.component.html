@@ -1,20 +1,17 @@
 <h4 class="text-gray-500">{{'GRAFICOS.NOTA_EVOLUCAO' | translate}}</h4>
 <h6 class="text-gray-500">Selecione a matéria desejada: </h6>
- <select class="form-control" [(ngModel)]="form.idMateria" (change)="getNotas()">
-    <option *ngFor="let materias of materias"   value= {{materias.idMateria}}>
-      {{materias.nomeMateria}}
-    </option>
- </select>
-
+<select class="form-control" [(ngModel)]="form.idMateria" (change)="getNotas()">
+  <option *ngFor="let materias of materias" value={{materias.idMateria}}>
+    {{materias.nomeMateria}}
+  </option>
+</select>
+<div class="text-center">
+  <div [hidden]="this.loaded" class="spinner-border my-5"
+    style="width: 6rem; height: 6rem;" role="status">
+  </div>
+</div>
 <div style="display: block">
-  <canvas mdbChart
-      [chartType]="chartType"
-      [datasets]="chartDatasets"
-      [labels]="chartLabels"
-      [colors]="chartColors"
-      [options]="chartOptions"
-      [legend]="true"
-      (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)">
+  <canvas [hidden]="!this.loaded" mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels" [colors]="chartColors"
+    [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
   </canvas>
 </div>

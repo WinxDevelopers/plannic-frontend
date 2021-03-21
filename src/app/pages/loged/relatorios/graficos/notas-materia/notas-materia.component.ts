@@ -53,7 +53,9 @@ export class NotasMateriaComponent {
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
+  loaded:boolean = true
   getNotas() {
+    this.loaded = false;
     this.graficoService.notaMateria(this.idUsuario).subscribe(
       (notas) => {
         notas = JSON.parse(notas);
@@ -62,6 +64,7 @@ export class NotasMateriaComponent {
           { data: this.notas.map(i => i.notaMateria.toFixed(2)), label: 'Matéria' }
         ];
         this.chartLabels = this.notas.map(i => i.nomeMateria);
+        this.loaded = true
       }
     )
   }

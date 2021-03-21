@@ -1,5 +1,9 @@
 <h4 class="text-gray-500">{{'GRAFICOS.NOTA_MATERIA' | translate}}</h4>
 <div style="display: block">
+  <div class="d-flex justify-content-center">
+    <div [hidden]="this.loaded" class="spinner-border" style="position: relative; top: 100px;width: 6rem; height: 6rem;" role="status">
+    </div>
+  </div>
   <canvas mdbChart
       [chartType]="chartType"
       [datasets]="chartDatasets"

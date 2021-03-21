@@ -29,7 +29,9 @@ export class HorasEstudoComponent{
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
+  loaded: boolean = true;
   getNotas() {
+    this.loaded = false;
     this.graficoService.notaHora(this.idUsuario).subscribe(
       (notas) => {
         notas = JSON.parse(notas);
@@ -38,6 +40,7 @@ export class HorasEstudoComponent{
           { data: this.notas.map(i => i.minEstudo), label: 'Horas' }
         ];
         this.chartLabels = this.notas.map(i => i.nomeMateria);
+        this.loaded = true;
       }
     )
   }

@@ -12,8 +12,9 @@ import { UserService } from 'src/app/service/user.service';
   templateUrl: './notas-evolucao.component.html'
 })
 export class NotasEvolucaoComponent {
-  constructor(private graficoService: GraficosService,private usuarioService: UserService) { 
-    this.getNotas(),  this.refresh(); }
+  constructor(
+    private graficoService: GraficosService,
+    private usuarioService: UserService) { }
   public idUsuario = localStorage.getItem('idUsuario');
   public notas;
   public chartDatasets: Array<any>;
@@ -26,10 +27,8 @@ export class NotasEvolucaoComponent {
   dataSource = new MatTableDataSource();
 
   ngOnInit() {
-    this.getNotas();
-    this.refresh();
+    this.refresh();    
   }
-
 
   public chartType: string = 'line';
 
@@ -43,11 +42,11 @@ export class NotasEvolucaoComponent {
 
   public chartOptions: any = {
     responsive: true,
-      scales: {
-        xAxes: [{
-          stacked: true
-          }],
-        yAxes: [
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [
         {
           stacked: true
         }
@@ -64,25 +63,29 @@ export class NotasEvolucaoComponent {
         let data = JSON.parse(stringData)
         data = data[0]
         this.materias = data.materias;
-        this.dataSource.data = this.materias.map(m => {
+        this.dataSource.data = this.materias.map((m, i) => {
+          if (i === 0) { this.form.idMateria = m.idMateria }
           return {
             idMateria: m.idMateria,
-            nomeMateria: m.nomeMateria,
-
+            nomeMateria: m.nomeMateria
           }
         });
+        this.getNotas();
       })
   }
 
+  loaded: boolean = true;
   getNotas() {
+    this.loaded = false
     this.graficoService.notaEvolucao(this.idUsuario, this.form.idMateria).subscribe(
       (notas) => {
         notas = JSON.parse(notas);
         this.notas = notas;
         this.chartDatasets = [
-          { data: this.notas.map(i => i.notaMateria), label: 'Notas' }    
-            ];     
+          { data: this.notas.map(i => i.notaMateria), label: 'Notas' }
+        ];
         this.chartLabels = this.notas.map(i => this.dateToString(new Date(i.dataNota)));
+        this.loaded = true;
       }
     )
   }

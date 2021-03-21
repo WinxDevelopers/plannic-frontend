@@ -55,7 +55,9 @@ export class NotasTipoComponent implements OnInit{
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
+  loaded: boolean = true;
   getNotas() {
+    this.loaded = false;
     this.graficoService.notaTipo(this.idUsuario).subscribe(
       (notas) => {
         notas = JSON.parse(notas);
@@ -64,6 +66,7 @@ export class NotasTipoComponent implements OnInit{
           { data: this.notas.map(i => i.nota.toFixed(2)), label: 'Notas' }
         ];     
         this.chartLabels = this.notas.map(i => i.tipo_nota);
+        this.loaded = true;
       }
     )
   }
