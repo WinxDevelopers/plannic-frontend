@@ -4,27 +4,30 @@
   </span>
 </h2>
 <div class="container" style="position: relative; top: 85px;">
-  <div class="card shadow-lg o-hidden border-0 my-5" style="height: 100%;">
+  <div class="card shadow-lg o-hidden border-0 my-4" style="height: 100%;">
+    <div class="row justify-content-end">
+      <div routerLink="/login" class="col-3 text-muted text-right pr-4 pt-2" style="font-size: 1.2rem; cursor: pointer;">
+        {{'EMAIL_CONF.LOGIN' | translate}}<i class="ml-1 fas fa-angle-double-right"></i>
+      </div>
+    </div>
     <div class="card-body p-0" style="height: 100%;">
-
       <div class="row justify-content-center">
         <div class="col-lg-12">
-          <div class="p-5">
-            <div class="text-center" style="font-family: Comfortaa;">
+          <div class="p-4">
+            <div class="mt-4 text-center" style="font-family: Comfortaa;">
               <h3 class="text-dark mb-4">{{'EMAIL_CONF.PRINCIPAL' | translate}}</h3>
               <h4>{{'EMAIL_CONF.MENSAGEM' | translate}}</h4>
               <h5>{{'EMAIL_CONF.SPAN' | translate}}</h5>
               <br>
-              <button type="button" class="btn btn-info btn-lg" routerLink="/login">
-                {{'EMAIL_CONF.LOGIN' | translate}}
-              </button>
+              <resend_email></resend_email>
               <hr style="width: 70%;">
-              <app-resend_email></app-resend_email>
             </div>
+          </div>
+          <div class="pb-3">
+            <select-lang></select-lang>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<select-lang></select-lang>

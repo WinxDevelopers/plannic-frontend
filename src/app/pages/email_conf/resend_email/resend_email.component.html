@@ -1,3 +1,11 @@
-<div (click)="this.sendNewEmail()" class="text-center small" style="color: 	#007BFF; cursor: pointer;">
-  {{'EMAIL_CONF.SEGUNDO_ENVIO' | translate}}
-</div>
+<button id="resend_email" [disabled]="progress<=100" (click)="this.sendNewEmail()" type="button pb-0 btn-lg" class="btn">
+  <div>
+    {{'EMAIL_CONF.SEGUNDO_ENVIO' | translate}}
+  </div>
+  <div>
+    <mat-progress-bar style="position: relative;
+    right:    0;
+    bottom:   0;
+    width:100%;" mode="determinate" [value]='progress'></mat-progress-bar>
+  </div>
+</button>

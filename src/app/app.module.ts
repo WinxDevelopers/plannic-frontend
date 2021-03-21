@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MDBBootstrapModule, ChartsModule, WavesModule } from 'angular-bootstrap-md';
 //Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -75,22 +76,23 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ConfigComponent,
   ],
   imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatProgressBarModule,
     BrowserModule,
     MDBBootstrapModule.forRoot(),
     ChartsModule,
     WavesModule,
     FullCalendarModule,
     AppRoutingModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatSelectModule,
     ReactiveFormsModule,
     NgSelectModule,
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatIconModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
