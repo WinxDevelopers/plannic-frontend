@@ -28,7 +28,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     document.getElementById("body").classList.remove("pag_login");
     document.getElementById("body").classList.add("pag_inicial");
-    localStorage.setItem("lang", "pt-BR");
+    if(!localStorage.getItem("lang"))
+      localStorage.setItem("lang", "pt-BR");
     if (!localStorage.getItem('token')) {
       this.isLogged = false;
       this.router.navigate(['../']);
