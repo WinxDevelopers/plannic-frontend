@@ -93,7 +93,38 @@ export class CalendarioComponent implements OnInit {
   }
 
   /* CRIAR MATERIA PELO SELECT */
-  criarMateria(nomeMateria) {
+  async criarMateria(nomeMateria: any) {
+    this.materiaService.create(nomeMateria, null).subscribe(
+      () => {
+        document.getElementById("close").click();
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'success',
+            title: 'Matéria salva'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'Subject saved'
+          })
+        }
+        this.refresh();
+      },
+      error => {
+        if (localStorage.getItem("lang") != "en") {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'Ocorreu um erro'
+          })
+        } else {
+          this.Toast.fire({
+            icon: 'error',
+            title: 'An error has occurred'
+          })
+        }
+      }
+    )
+
     /* https://stackblitz.com/run?file=src%2Ftags-backend-example.component.ts */
     console.log(nomeMateria)
   }
