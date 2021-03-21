@@ -95,21 +95,7 @@ export class CalendarioComponent implements OnInit {
   /* CRIAR MATERIA PELO SELECT */
   async criarMateria(nomeMateria: any) {
     this.materiaService.create(nomeMateria, null).subscribe(
-      () => {
-        document.getElementById("close").click();
-        if (localStorage.getItem("lang") != "en") {
-          this.Toast.fire({
-            icon: 'success',
-            title: 'Matéria salva'
-          })
-        } else {
-          this.Toast.fire({
-            icon: 'error',
-            title: 'Subject saved'
-          })
-        }
-        this.refresh();
-      },
+      () => {this.refresh()},
       error => {
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
