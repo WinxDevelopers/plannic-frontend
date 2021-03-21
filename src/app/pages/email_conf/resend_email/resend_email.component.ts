@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, Validators } from "@angular/forms";
 import { LoginService } from 'src/app/service/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-resend_email',
-  templateUrl: './resend_email.component.html'
+  selector: 'resend_email',
+  templateUrl: './resend_email.component.html',
+  styleUrls: ['./resend_email.component.scss']
+
 })
-export class Resend_emailComponent implements OnInit {
+export class Resend_emailComponent implements OnInit, AfterViewInit {
 
   constructor(public loginService: LoginService) { }
 
@@ -26,6 +28,12 @@ export class Resend_emailComponent implements OnInit {
   })
 
   email: string;
+  progress = 0;
+  ngAfterViewInit(): void {
+    window.setInterval(() => {
+      this.progress = this.progress + 1;
+    }, 150);
+  }
 
   async sendNewEmail() {
     let title;
