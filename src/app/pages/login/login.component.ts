@@ -129,6 +129,7 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
+      this.loading = false;
       if (emailFormControl.hasError("required") || senhaFormControl.hasError("required")) {
         this.valCampos = false;
         return
