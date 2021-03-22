@@ -93,6 +93,7 @@
         "SOBRE": "About",
         "DESCRICAO": "Description",
         "SEM_MATERIAS": "There is no subject registered",
+        "SEM_NOTAS": "There is no grade registered",
         "FECHAR": "Close",
         "SALVAR": "Save"
     },

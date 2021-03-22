@@ -1,7 +1,7 @@
 import { NotaMateria } from './../../../interface/notaMateria';
 import { UserService } from './../../../service/user.service';
 import { MateriaService } from './../../../service/materia.service';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Materia } from 'src/app/interface/materia';
@@ -15,8 +15,9 @@ import Swal from 'sweetalert2';
 
 export class MateriasComponent implements AfterViewInit {
   /* CONFIG TABELA DE NOTAS */
+  notasXmaterias: NotaMateria[] = [];
   displayedColumns: string[] = ['notaMateria', 'tipoNota', 'dataNota', 'acoes'];
-  dataSource = new MatTableDataSource();
+  dataSource: MatTableDataSource<NotaMateria>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -38,6 +39,7 @@ export class MateriasComponent implements AfterViewInit {
     private materiaService: MateriaService,
     private usuarioService: UserService,
     private notaMateriaService: NotaMateriaService) {
+    this.dataSource = new MatTableDataSource([]);
     this.refresh();
   }
 
@@ -45,18 +47,16 @@ export class MateriasComponent implements AfterViewInit {
   materias: Materia[] = [];
   notas: NotaMateria[] = [];
   tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"];
-  nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês"];
+  //nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês"];
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   /* CRUD Matéria */
-
   newMateria: any = {
     nome: null,
     descricao: null
   };
 
   saveMateria() {
-    console.log(this.newMateria)
     if (this.newMateria.nome && !this.materias.includes(this.newMateria.nome)) {
       this.materiaService.create(this.newMateria.nome, this.newMateria.descricao).subscribe(
         () => {
@@ -113,8 +113,6 @@ export class MateriasComponent implements AfterViewInit {
         );
       }
     })
-
-
   }
 
   /* CRUD Nota */
@@ -124,7 +122,7 @@ export class MateriasComponent implements AfterViewInit {
     nota: null,
   }
 
-  //VERIFIDADORES
+  //VERIFICADORES
   notaValida = true;
   dataValida = true;
   camposValidos = true;
@@ -135,7 +133,7 @@ export class MateriasComponent implements AfterViewInit {
     this.camposValidos = true;
 
     //Campos preenchidos:
-    if (this.newNota.tipoNota && this.newNota.nota && this.newNota.data) {
+    if (this.newNota.tipoNota && this.newNota.nota != null && this.newNota.data) {
       //Campos Válidos:
       if (
         (this.newNota.nota >= 0 && this.newNota.nota <= 10) &&
@@ -233,6 +231,7 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   /* FUNÇÕES AUXILIARES */
+  nomeMaterias: string[];
   refresh() {
     this.loaded = false;
     this.usuarioService.getAllInfosById().subscribe(
@@ -244,6 +243,8 @@ export class MateriasComponent implements AfterViewInit {
         this.materias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
         this.notas = data.notasMateria;
         this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
+        this.dataSource = new MatTableDataSource(this.notas);
+        this.dataSource.paginator = this.paginator;
         this.loaded = true;
       }
     )
@@ -251,8 +252,9 @@ export class MateriasComponent implements AfterViewInit {
     this.materiaService.getAll().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
-        this.nomeMaterias = this.nomeMaterias.concat(data.map((materia) => { return materia.nomeMateria }))
+        this.nomeMaterias = data.map((materia) => { return materia.nomeMateria })
         this.nomeMaterias.sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
+
       }
     )
   }
@@ -263,6 +265,7 @@ export class MateriasComponent implements AfterViewInit {
     /*  - ${date.getHours()}:${date.getMinutes()}`; */
   }
 
+  length = 0;
   setTable(idMateria) {
     this.dataSource.data = this.notas.reduce((a, v) => {
       if (v.idMateria === idMateria) {
@@ -270,6 +273,7 @@ export class MateriasComponent implements AfterViewInit {
       }
       return a
     }, [])
+    this.length = this.dataSource.data.length;
   }
 
   notaToEdit: any = {
@@ -283,7 +287,6 @@ export class MateriasComponent implements AfterViewInit {
   setEditNota(idNotaMateria) {
     this.notas.forEach((nota) => {
       if (nota.idNotaMateria === idNotaMateria) {
-        console.log(nota)
         this.notaToEdit = nota
         let date = new Date(nota.dataNota)
         this.notaToEdit.dataNota = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`

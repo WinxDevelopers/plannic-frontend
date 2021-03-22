@@ -110,9 +110,6 @@ export class CalendarioComponent implements OnInit {
         }
       }
     )
-
-    /* https://stackblitz.com/run?file=src%2Ftags-backend-example.component.ts */
-    console.log(nomeMateria)
   }
 
   /* CRUD AGENDAMENTO */
@@ -467,7 +464,6 @@ export class CalendarioComponent implements OnInit {
 
   setInfos(event) {
     if (event) {
-      console.log(event)
       this.editForm = {
         recorrencia: event.extendedProps.recorrencia,
         tipoEstudo: event.extendedProps.tipoEstudo,
