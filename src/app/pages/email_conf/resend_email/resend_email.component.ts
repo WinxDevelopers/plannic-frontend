@@ -81,6 +81,7 @@ export class Resend_emailComponent implements OnInit, AfterViewInit {
               title: 'E-mail sent'
             })
           }
+          this.progress = 0;
         },
         err => {
           switch (err.status) {
@@ -125,6 +126,7 @@ export class Resend_emailComponent implements OnInit, AfterViewInit {
               break;
           }
 
+          this.progress = 0;
         })
     }
   }
