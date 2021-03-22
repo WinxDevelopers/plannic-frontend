@@ -17,11 +17,6 @@ export class RegistrarComponent implements AfterViewInit {
     private router: Router,) { }
 
   confPass: string = null;
-  emailOk: boolean = true;
-  passOk: boolean = true;
-  passMinOk: boolean = true;
-  passConfOk: boolean = true;
-  formOk: boolean = true;
   form: any = {
     nome: null,
     email: null,
@@ -49,75 +44,110 @@ export class RegistrarComponent implements AfterViewInit {
     }
   }
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-  nomeFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  senhaFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  confSenhaFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
   loading: boolean = false;
   onSubmit(): void {
-    this.loading = true;
     let { email, password, nome } = this.form;
-    this.loginService.register(email, password, nome).subscribe(
-      () => {
-        this.loading = false;
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.Toast.fire({
-          title: 'Cadastro realizado com sucesso!',
-          icon: 'success'})
+    this.loading = true;
+    if (this.verify(email, password, nome)) {
+      this.loginService.register(email, password, nome).subscribe(
+        () => {
+          this.loading = false;
+          this.isSuccessful = true;
+          this.isSignUpFailed = false;
+          this.Toast.fire({
+            title: 'Cadastro realizado com sucesso!',
+            icon: 'success'
+          })
           this.router.navigate(['/email']);
-      },
-      err => {
-        this.loading = false;
-        switch (err.status) {
-          case 500:
-            if (localStorage.getItem("lang") != "en") {
-              this.Toast.fire({
-                icon: 'error',
-                title: 'E-mail ja cadastrado'
-              })
-            } else {
-              this.Toast.fire({
-                icon: 'error',
-                title: 'E-mail already registered'
-              })
-            }
-            break;
-          default:
-            if (localStorage.getItem("lang") != "en") {
-              this.Toast.fire({
-                icon: 'error',
-                title: 'Ocorreu um erro'
-              })
-            } else {
-              this.Toast.fire({
-                icon: 'error',
-                title: 'An error has occurred'
-              })
-            }
-            break;
+        },
+        err => {
+          this.loading = false;
+          switch (err.status) {
+            case 500:
+              if (localStorage.getItem("lang") != "en") {
+                this.Toast.fire({
+                  icon: 'error',
+                  title: 'E-mail ja cadastrado'
+                })
+              } else {
+                this.Toast.fire({
+                  icon: 'error',
+                  title: 'E-mail already registered'
+                })
+              }
+              break;
+            default:
+              if (localStorage.getItem("lang") != "en") {
+                this.Toast.fire({
+                  icon: 'error',
+                  title: 'Ocorreu um erro'
+                })
+              } else {
+                this.Toast.fire({
+                  icon: 'error',
+                  title: 'An error has occurred'
+                })
+              }
+              break;
+          }
         }
-      }
-    );
+      );
+    }
   }
 
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
+  camposVal: boolean = true;
+  emailVal: boolean = true;
+  senhaMin: boolean = true;
+  senhaVal: boolean = true;
+  verify(email, password, nome) {
+    this.camposVal = true;
+    this.emailVal = true;
+    this.senhaMin = true;
+    this.senhaVal = true;
+
+    let emailFormControl = new FormControl(email, [
+      Validators.required,
+      Validators.email,
+    ]);
+    let nomeFormControl = new FormControl(nome, [
+      Validators.required
+    ]);
+    let senhaFormControl = new FormControl(password, [
+      Validators.required,
+    ]);
+
+    if (emailFormControl.hasError('required') ||
+      nomeFormControl.hasError('required') ||
+      senhaFormControl.hasError('required') ||
+      !this.confPass) {
+      this.camposVal = false;
+      this.loading = false;
+      return;
+    }
+    if (!this.passMin()) {
+      this.senhaMin = false;
+    }
+    if (password != this.confPass) {
+      this.senhaVal = false
+    }
+
+    if (emailFormControl.hasError("email")) {
+      this.emailVal = false;
+    }
+
+    this.loading = false;
+    if (this.camposVal &&
+      this.senhaMin &&
+      this.senhaVal &&
+      this.emailVal
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   passMin() {
-    if (this.form.password === null || this.isNull() === true) return true;
     let password = this.form.password;
     let letrasMaiusculas = /[A-Z]/;
     let letrasMinusculas = /[a-z]/;
@@ -128,33 +158,9 @@ export class RegistrarComponent implements AfterViewInit {
       letrasMinusculas.test(password) &&
       numeros.test(password) &&
       caracteresEspeciais.test(password)) {
-      this.passMinOk = true;
       return true;
     } else {
-      this.passMinOk = false;
       return false;
-    }
-  }
-
-  camposOk() {
-    if (this.isNull()) return true;
-    if (this.emailFormControl.hasError('required')) return false
-    if (this.nomeFormControl.hasError('required')) return false
-    if (this.senhaFormControl.hasError('required')) return false
-    if (this.confSenhaFormControl.hasError('required')) return false
-    return true;
-  }
-
-  isNull() {
-    if (
-      this.form.nome == null &&
-      this.form.email == null &&
-      this.form.password == null &&
-      this.confPass == null
-    ) {
-      return true
-    } else {
-      return false
     }
   }
 }

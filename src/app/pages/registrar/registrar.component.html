@@ -11,59 +11,56 @@
                             Plannic
                         </span>
                     </div>
-                    <div class="p-5" style="position: relative;top: 50px;">
+                    <div class="px-5 pt-5">
                         <div class="text-center">
                             <h4 class="text-dark mb-4">{{'CRUD-USUARIO.CONTA' | translate}}</h4>
                         </div>
                         <form class="user">
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="text" id="exampleName"
-                                    [ngStyle]="{'border-color': (!isNull() && nomeFormControl.hasError('required')) ? 'red' : null}" [(ngModel)]="this.form.nome"
-                                    [formControl]="nomeFormControl" placeholder="{{'CRUD-USUARIO.NOME' | translate}}"
-                                    name="nome">
+                                    [ngStyle]="{'border-color': !camposVal ? 'red' : null}" [(ngModel)]="this.form.nome"
+                                    placeholder="{{'CRUD-USUARIO.NOME' | translate}}" name="nome">
                             </div>
                             <div class="form-group">
                                 <input class="form-control form-control-user" type="email" id="exampleInputEmail"
-                                    [ngStyle]="{'border-color': !isNull() && (emailFormControl.hasError('email') || emailFormControl.hasError('required')) ? 'red' : null}" aria-describedby="emailHelp"
-                                    [(ngModel)]="this.form.email" [formControl]="emailFormControl"
+                                    [ngStyle]="{'border-color': (!camposVal||!emailVal) ? 'red' : null}"
+                                    aria-describedby="emailHelp" [(ngModel)]="this.form.email"
                                     placeholder="{{'CRUD-USUARIO.EMAIL' | translate}}" name="email">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input [ngStyle]="" class="form-control form-control-user" type="password"
-                                        [ngStyle]="{'border-color': !isNull() && ((this.form.password!=this.confPass) || this.senhaFormControl.hasError('required')) ? 'red' : null}" id="exampleSenhaInput"
-                                        [(ngModel)]="this.form.password" [formControl]="senhaFormControl"
+                                        [ngStyle]="{'border-color':  (!camposVal || !senhaMin || !senhaVal) ? 'red' : null}"
+                                        id="exampleSenhaInput" [(ngModel)]="this.form.password"
                                         placeholder="{{'CRUD-USUARIO.SENHA' | translate}}" name="senha">
                                 </div>
                                 <div class="col-sm-6">
                                     <input class="form-control form-control-user" type="password"
-                                        [ngStyle]="{'border-color': !isNull() && ((this.form.password!=this.confPass) || this.confSenhaFormControl.hasError('required')) ? 'red' : null}" name="password"
-                                        [(ngModel)]="this.confPass" [formControl]="confSenhaFormControl"
-                                        id="exampleRepeatSenhaInput"
+                                        [ngStyle]="{'border-color': (!camposVal || !senhaMin || !senhaVal) ? 'red' : null}"
+                                        name="password" [(ngModel)]="this.confPass" id="exampleRepeatSenhaInput"
                                         placeholder="{{'CRUD-USUARIO.SENHA2' | translate}}">
                                 </div>
                             </div>
 
                             <style>
-                                p{
+                                p {
                                     margin: 3px;
                                 }
                             </style>
                             <div id="erros" class="form-group" style="margin-left: 10px;">
-                                <p *ngIf="!camposOk()" style="color: red; ">{{'CRUD-USUARIO.CAMPOS' |
+                                <p *ngIf="!camposVal" style="color: red; ">{{'CRUD-USUARIO.CAMPOS' |
                                     translate}}</p>
-                                <p *ngIf="this.form.password!=this.confPass" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR' |
+                                <p *ngIf="!senhaVal" style="color: red; ">
+                                    {{'CRUD-USUARIO.SENHA-ERR' |
                                     translate}}</p>
-                                <p *ngIf="!passMin()" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR2' |
-                                    translate}}</p>      
-                                <p *ngIf="emailFormControl.hasError('email')" style="color: red; ">{{'CRUD-USUARIO.EMAIL-ERR' |
+                                <p *ngIf="!senhaMin" style="color: red; ">{{'CRUD-USUARIO.SENHA-ERR2' |
+                                    translate}}</p>
+                                <p *ngIf="!emailVal" style="color: red; ">
+                                    {{'CRUD-USUARIO.EMAIL-ERR' |
                                     translate}}</p>
                             </div>
-                            <button
-                                [disabled]="emailFormControl.hasError('email') || !camposOk() || isNull()"
-                                style="background-color: #19647e; color: white;"
-                                class="btn btn-block btn-user" type="button"
-                                (click)="onSubmit()">
+                            <button style="background-color: #19647e; color: white;" class="btn btn-block btn-user"
+                                type="button" (click)="onSubmit()">
                                 <span *ngIf="!loading">{{'CRUD-USUARIO.REGISTRAR' | translate}}</span>
                                 <span *ngIf="loading">
                                     <div class="d-flex justify-content-center">
@@ -71,7 +68,7 @@
                                             <span class="sr-only">Loading...</span>
                                         </div>
                                     </div>
-                                </span>                                
+                                </span>
                             </button>
                             <hr>
                         </form>
@@ -83,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <select-lang></select-lang>
+                <select-lang style="margin-bottom: 10px;"></select-lang>
             </div>
         </div>
     </div>
