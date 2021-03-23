@@ -25,7 +25,8 @@
                                 {{'CRUD-GERAL.EDITAR' | translate}}
                             </span>
                         </h5>
-                        <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" (click)="closeModal()" class="close" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -170,6 +171,19 @@
                                                 {{materia.nomeMateria}}
                                             </option>
                                         </select>
+                                        <ng-select id="select_materia" [(ngModel)]="this.editForm.idMateria"
+                                            [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
+                                            bindValue="idMateria" [addTag]="true">
+                                            <ng-template ng-option-tmp let-item="item">
+                                                {{item.nomeMateria}} <br />
+                                                <small *ngIf="item.descricao">
+                                                    <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
+                                                </small>
+                                            </ng-template>
+                                            <ng-template ng-tag-tmp let-search="searchTerm">
+                                                {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                            </ng-template>
+                                        </ng-select>
                                     </div>
                                 </div>
                             </div>
@@ -325,9 +339,6 @@
                             style="position:relative; right:215px;" type="button"
                             class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
                             translate}}</button>
-                        <button id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
-                            data-dismiss="modal">{{'MATERIAS.FECHAR' |
-                            translate}}</button>
                         <button *ngIf="modal.seguinte === 'create'" (click)="countAgendamento()" type="button"
                             class="btn btn-primary">{{'MATERIAS.SALVAR'
                             |
@@ -335,6 +346,9 @@
                         <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button"
                             class="btn btn-primary">{{'MATERIAS.SALVAR'
                             |
+                            translate}}</button>
+                        <button id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">{{'MATERIAS.FECHAR' |
                             translate}}</button>
                     </div>
                 </div>

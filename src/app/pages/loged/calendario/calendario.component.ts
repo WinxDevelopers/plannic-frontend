@@ -408,17 +408,18 @@ export class CalendarioComponent implements OnInit {
           let mat;
           data.materias.forEach((m) => {
             if (m.idMateria === ag.idMateria)
-              mat = m.nomeMateria;
+              mat = {nome: m.nomeMateria, descricao: m.descricao};
           })
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
-            title: mat,
+            title: mat.nome,
             id: ag.idAgendamento,
             recorrencia: ag.recorrencia,
             idMateria: ag.idMateria,
             idAgendamento: ag.idAgendamento,
-            tipoEstudo: ag.tipoEstudo
+            tipoEstudo: ag.tipoEstudo,
+            descricao: mat.descricao
             //allDay: true||false
             //groupId: StringConstructor
           }

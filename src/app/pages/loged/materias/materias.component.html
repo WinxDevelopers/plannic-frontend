@@ -101,12 +101,12 @@
                               </p>
                             </div>
                             <div class="modal-footer">
+                              <button (click)="editMateria()" type="button" class="btn btn-primary">
+                                {{'MATERIAS.SALVAR' | translate}}
+                              </button>
                               <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
                                 data-dismiss="modal">
                                 {{'MATERIAS.FECHAR' | translate}}
-                              </button>
-                              <button (click)="editMateria()" type="button" class="btn btn-primary">
-                                {{'MATERIAS.SALVAR' | translate}}
                               </button>
                             </div>
                           </div>
@@ -297,12 +297,12 @@
                 </p>
               </div>
               <div class="modal-footer">
+                <button (click)="saveMateria()" type="button" class="btn btn-primary">
+                  {{'MATERIAS.SALVAR' | translate}}
+                </button>
                 <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
                   data-dismiss="modal">
                   {{'MATERIAS.FECHAR' | translate}}
-                </button>
-                <button (click)="saveMateria()" type="button" class="btn btn-primary">
-                  {{'MATERIAS.SALVAR' | translate}}
                 </button>
               </div>
             </div>
@@ -359,11 +359,11 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button id="close_createNota" type="button" class="btn btn-secondary"
-                  data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
                 <button (click)="this.saveNota()" type="button" class="btn btn-info">
                   {{'CRUD-GERAL.SALVAR' | translate}}
                 </button>
+                <button id="close_createNota" type="button" class="btn btn-secondary"
+                  data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
               </div>
             </div>
           </div>
