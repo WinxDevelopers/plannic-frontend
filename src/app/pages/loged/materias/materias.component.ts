@@ -53,21 +53,32 @@ export class MateriasComponent implements AfterViewInit {
   /* CRUD Matéria */
   newMateria: any = {
     nome: null,
-    descricao: null
+    descricao: null,
+    camposVal: true,
   };
 
+  onChange(event) {
+    if (event) {
+      this.newMateria.nome = event.nomeMateria;
+      this.newMateria.descricao = event.descricao;
+    }
+  }
+
   saveMateria() {
-    if (this.newMateria.nome && !this.materias.includes(this.newMateria.nome)) {
+    this.newMateria.camposVal = true;
+    if (this.newMateria.nome && this.newMateria.descricao) {
       this.materiaService.create(this.newMateria.nome, this.newMateria.descricao).subscribe(
         () => {
+          document.getElementById("closeModal").click();
           this.alertSucess("materia", "create");
-          this.closeModal();
           this.refresh();
         },
         (err) => {
           this.alertError(err)
         }
-      );
+        );
+      }else{
+        this.newMateria.camposVal = false;
     }
   }
 
@@ -231,7 +242,7 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   /* FUNÇÕES AUXILIARES */
-  nomeMaterias: string[];
+  dbMaterias: Materia[];
   refresh() {
     this.loaded = false;
     this.usuarioService.getAllInfosById().subscribe(
@@ -252,9 +263,31 @@ export class MateriasComponent implements AfterViewInit {
     this.materiaService.getAll().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
-        this.nomeMaterias = data.map((materia) => { return materia.nomeMateria })
-        this.nomeMaterias.sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
-
+        this.dbMaterias = data;
+        this.dbMaterias = this.dbMaterias.filter(mat => mat.descricao)
+        let materiasUnicas = this.dbMaterias.reduce(
+          (arr, mat) => {
+            if (arr.indexOf(mat.nomeMateria) == -1) {
+              arr.push(mat.nomeMateria)
+            }
+            console.log(arr)
+            return arr;
+          }
+          , [])
+        this.dbMaterias = this.dbMaterias.concat(
+          materiasUnicas.map((mat) => {
+            return {
+              idMateria: null,
+              idUsuario: null,
+              nomeMateria: mat,
+              tempo: null,
+              media: null,
+              descricao: null,
+            };
+          })
+        )
+        console.log(this.dbMaterias)
+        this.dbMaterias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
       }
     )
   }

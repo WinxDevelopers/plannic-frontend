@@ -268,13 +268,16 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                      <ng-select [(ngModel)]="newMateria.nome" [items]="nomeMaterias" [selectOnTab]="true"
-                        bindLabel="nomeMateria" bindValue="nomeMaterias" [addTag]="true">
+                      <ng-select id="select_materia" [(ngModel)]="this.newMateria.idMateria" [items]="this.dbMaterias" [selectOnTab]="true"
+                        bindLabel="nomeMateria" bindValue="idMateria" [addTag]="true" (change)="onChange($event)">
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.nomeMateria}} <br />
+                          <small *ngIf="item.descricao">
+                            <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
+                          </small>
+                        </ng-template>
                         <ng-template ng-tag-tmp let-search="searchTerm">
                           {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
-                        </ng-template>
-                        <ng-template ng-option-tmp let-item="item">
-                          {{item}}
                         </ng-template>
                       </ng-select>
                     </div>
@@ -289,13 +292,17 @@
                     </div>
                   </div>
                 </div>
+                <p [hidden]="this.newMateria.camposVal" style="color: red; ">
+                  {{'NOTAS.ERROS.CAMPOS' | translate}}
+                </p>
               </div>
               <div class="modal-footer">
-                <button (click)="closeModal()" type="button" class="btn btn-secondary"
-                  data-dismiss="modal">{{'MATERIAS.FECHAR' |
-                  translate}}</button>
-                <button (click)="saveMateria()" type="button" class="btn btn-primary"
-                  data-dismiss="modal">{{'MATERIAS.SALVAR' | translate}}</button>
+                <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary" data-dismiss="modal">
+                  {{'MATERIAS.FECHAR' | translate}}
+                </button>
+                <button (click)="saveMateria()" type="button" class="btn btn-primary">
+                  {{'MATERIAS.SALVAR' | translate}}
+                </button>
               </div>
             </div>
           </div>
