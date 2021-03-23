@@ -266,8 +266,8 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                      <ng-select id="select_materia" [(ngModel)]="this.newMateria.idMateria" [items]="this.dbMaterias"
-                        [selectOnTab]="true" bindLabel="nomeMateria" bindValue="idMateria" [addTag]="true"
+                      <ng-select id="select_materia" [(ngModel)]="this.newMateria.nome" [items]="this.dbMaterias"
+                        [selectOnTab]="true" bindLabel="nomeMateria" bindValue="nomeMateria" [addTag]="true"
                         (change)="onChange($event, 'create')"
                         >
                         <ng-template ng-option-tmp let-item="item">
@@ -300,7 +300,7 @@
                 <button (click)="saveMateria()" type="button" class="btn btn-primary">
                   {{'MATERIAS.SALVAR' | translate}}
                 </button>
-                <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
+                <button id="closeModal_criarMat" (click)="closeModal()" type="button" class="btn btn-secondary"
                   data-dismiss="modal">
                   {{'MATERIAS.FECHAR' | translate}}
                 </button>

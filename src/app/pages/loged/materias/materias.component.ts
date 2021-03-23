@@ -80,11 +80,12 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   saveMateria() {
+    console.log(this.newMateria)
     this.newMateria.camposVal = true;
     if (this.newMateria.nome && this.newMateria.descricao) {
       this.materiaService.create(this.newMateria.nome, this.newMateria.descricao).subscribe(
         () => {
-          document.getElementById("closeModal").click();
+          document.getElementById("closeModal_criarMat").click();
           this.alertSucess("materia", "create");
           this.userMaterias = [];
           this.refresh();
