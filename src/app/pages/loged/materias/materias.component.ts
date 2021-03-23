@@ -104,14 +104,14 @@ export class MateriasComponent implements AfterViewInit {
     console.log(this.materiaToEdit);
 
     if(this.materiaToEdit.nomeMateria && this.materiaToEdit.descricao){
-      /* this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.descricao).subscribe(
+      this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.descricao).subscribe(
         () => {
           this.alertSucess("materia", "update");
         },
         (err) => {
           this.alertError(err);
         }
-      ); */
+      );
     }else{
       this.materiaToEdit.camposVal = false;
     }
