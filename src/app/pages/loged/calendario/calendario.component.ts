@@ -94,7 +94,7 @@ export class CalendarioComponent implements OnInit {
 
   /* CRIAR MATERIA PELO SELECT */
   async criarMateria(nomeMateria: any) {
-    this.materiaService.create(nomeMateria, null).subscribe(
+    this.materiaService.create(nomeMateria, "Sem Descrição").subscribe(
       () => {this.refresh()},
       error => {
         if (localStorage.getItem("lang") != "en") {
