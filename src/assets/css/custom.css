@@ -15,6 +15,21 @@
   }
 }
 
+
+/* ============================================================================ */
+/* Matérias */
+
+.link_materias:hover{
+  background-color: #fbfcee;
+}
+
+
+.card-body .link_materias.active{
+  background:#19647e !important; 
+  color: #fbfcee !important;
+  text-decoration:underline #31d0aa;
+}
+
 /* ============================================================================ */
 /* Index */
 

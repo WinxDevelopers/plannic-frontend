@@ -15,237 +15,235 @@
         *ngIf="this.materias.length===0">
         {{'MATERIAS.SEM_MATERIAS' | translate}}
       </h4>
-      <div *ngIf="this.materias.length>0" class="accordion" id="accordionExample">
-        <!-- Card Matéria -->
-        <div class="card" *ngFor="let materia of this.materias">
-          <div class="card-header" id="headingOne">
+      <!-- Card Matéria -->
+      <div *ngIf="this.materias.length>0" class="accordion" id="accordionMaterias">
+        <div class="card" *ngFor="let materia of this.userMaterias | keyvalue">
+          <div class="card-header" id="heading{{materia.value['id']}}" (click)="setTable(undefined)">
             <h2 class="mb-0">
               <div class="row">
-                <div class="col btn btn-block text-left" type="button" data-toggle="collapse"
-                  (click)="setTable(materia.idMateria)" [attr.data-target]="'#collapse'+materia.idMateria"
-                  aria-expanded="true" aria-controls="collapseOne">
+                <div class="btn col btn btn-block text-left collapsed" type="button" data-toggle="collapse"
+                  attr.data-target="#collapse{{materia.value['id']}}" aria-expanded="false"
+                  attr.aria-controls="collapse{{materia.value['id']}}">
                   <i class="fa fa-align-left" style="font-size: 15px;"></i>
-                  {{materia.nomeMateria}}
+                  {{materia.key}}
                 </div>
-                <button type="button" (click)="this.delMateria(materia.idMateria)" class="btn btn-outline-danger mr-3">
-                  {{'CRUD-GERAL.EXCLUIR' | translate}}
-                </button>
               </div>
             </h2>
           </div>
-          <div id="collapse{{materia.idMateria}}" class="collapse" aria-labelledby="headingOne"
-            data-parent="#accordionExample">
+          <div id="collapse{{materia.value['id']}}" class="collapse"
+            attr.aria-labelledby="heading{{materia.value['id']}}" data-parent="#accordionMaterias">
             <div class="card-body">
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="sobre-tab" data-toggle="tab" [href]="'#sobre'+materia.idMateria"
-                    role="tab" aria-controls="sobre" aria-selected="true">{{'MATERIAS.SOBRE' | translate}}</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="notas-tab" data-toggle="tab" [href]="'#notas'+materia.idMateria" role="tab"
-                    aria-controls="notas" aria-selected="false">{{'LOGED.NOTAS' | translate}}</a>
-                </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="sobre{{materia.idMateria}}" role="tabpanel"
-                  aria-labelledby="sobre-tab">
-                  <div class="form-group row mt-3">
-                    <label [attr.for]="'nome'+materia.idMateria" class="col-sm-2">{{'MATERIAS.NOME' |
-                      translate}}</label>
-                    <div class="col-sm-6">
-                      <input *ngIf="materia.idUsuario==this.idUsuario" type="text" class="form-control"
-                        id="nome{{materia.idMateria}}" [(ngModel)]="materia.nomeMateria">
-                      <span *ngIf="materia.idUsuario!=this.idUsuario">
-                        {{materia.nomeMateria}}
-                      </span>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label [attr.for]="'desc'+materia.idMateria" class="col-sm-2">{{'MATERIAS.DESCRICAO' |
-                      translate}}</label>
-                    <div class="col-sm-6">
-                      <input *ngIf="materia.idUsuario==this.idUsuario" type="text" class="form-control"
-                        id="desc{{materia.idMateria}}" [(ngModel)]="materia.descricao">
-                      <span *ngIf="materia.idUsuario!=this.idUsuario">
-                        {{materia.descricao}}
-                      </span>
-                    </div>
-                  </div>
-                  <div *ngIf="materia.idUsuario==this.idUsuario" class="form-group row justify-content-around">
-                    <div class="col-3">
-                    </div>
-                    <div class="col-4">
-                      <button (click)="this.editMateria(materia.idMateria)" type="button" class="btn btn-outline-info">
-                        {{'CRUD-GERAL.EDITAR' | translate}}
+              <div class="card-group">
+                <div class="card col-4">
+                  <div class="card-body">
+                    <div class="nav flex-column nav-pills" id="{{materia.value['id']}}-tab" role="tablist"
+                      aria-orientation="vertical">
+                      <a *ngFor="let descricao of materia.value['descs'] | keyvalue" class="nav-link link_materias"
+                        id="{{descricao.value['idMateria']}}-tab" data-toggle="pill"
+                        href="#v-pills-{{descricao.value['idMateria']}}" role="tab"
+                        (click)="this.setTable(descricao.value['idMateria'])"
+                        attr.aria-controls="v-pills-{{descricao.value['idMateria']}}" aria-selected="true">
+                        <span style="position: relative; top:5px">{{descricao.value['desc']}}</span>
+                        <button type="button" (click)="this.delMateria(descricao.value['idMateria'])"
+                          style="position: relative; left:23px" class="btn btn-sm btn-outline-danger mr-3 float-right">
+                          {{'CRUD-GERAL.EXCLUIR' | translate}}
+                        </button>
+                      </a>
+                      <hr style="width: 70%;">
+                      <!-- Edição de Matérias -->
+                      <button *ngIf="materiaToEdit.descricao!=null" id="btn_EditMateria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditarMateriaModal">
+                        {{'CRUD-GERAL.EDITAR' | translate}} {{materiaToEdit.descricao}}
                       </button>
+                      <div class="modal fade" id="EditarMateriaModal" tabindex="-1" aria-labelledby="EditarMateriaModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="EditarMateriaModalLabel">
+                                {{'CRUD-GERAL.EDITAR' | translate}}
+                              </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="form-row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
+                                    <ng-select id="select_materia" [(ngModel)]="this.materiaToEdit.nomeMateria" [items]="this.dbMaterias"
+                                      [selectOnTab]="true" bindLabel="nomeMateria" bindValue="nomeMateria" [addTag]="true"
+                                      (change)="onChange($event, 'edit')">
+                                      <ng-template ng-option-tmp let-item="item">
+                                        {{item.nomeMateria}} <br />
+                                        <small *ngIf="item.descricao">
+                                          <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
+                                        </small>
+                                      </ng-template>
+                                      <ng-template ng-tag-tmp let-search="searchTerm">
+                                        {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                      </ng-template>
+                                    </ng-select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label class="small mb-1" for="descricao_{{materia.value['id']}}">{{'MATERIAS.DESCRICAO' | translate}}</label>
+                                    <input class="form-control" id="descricao_{{materia.value['id']}}" name="descricaoEdit" type="text"
+                                      [(ngModel)]="this.materiaToEdit.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
+                                  </div>
+                                </div>
+                              </div>
+                              <p [hidden]="this.materiaToEdit.camposVal" style="color: red; ">
+                                {{'NOTAS.ERROS.CAMPOS' | translate}}
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
+                                data-dismiss="modal">
+                                {{'MATERIAS.FECHAR' | translate}}
+                              </button>
+                              <button (click)="editMateria()" type="button" class="btn btn-primary">
+                                {{'MATERIAS.SALVAR' | translate}}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane fade" id="notas{{materia.idMateria}}" role="tabpanel" aria-labelledby="notas-tab">
-                  <h5 class="row mt-3">
-                    <button class="col-1 mb-1  mr-3 ml-auto btn btn-sm btn-outline-success" type="button"
-                      data-toggle="collapse" data-target="#criar_nota" aria-expanded="false" aria-controls="criar_nota">
-                      <i class="fa fa-plus" style="font-size: 15px;"></i>
-                    </button>
-                  </h5>
-                  <div class="row">
-                    <!-- Exibição de Notas por matéria -->
-                    <div class="col mat-elevation-z8" *ngIf="length>0">
-                      <table mat-table [dataSource]="dataSource" style="width: 100%;">
-                        <ng-container matColumnDef="notaMateria">
-                          <th mat-header-cell *matHeaderCellDef> {{'LOGED.NOTA' | translate}} </th>
-                          <td mat-cell *matCellDef="let element"> {{element.notaMateria}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="tipoNota">
-                          <th mat-header-cell *matHeaderCellDef> {{'NOTAS.TIPO_AVALIACAO' | translate}} </th>
-                          <td mat-cell *matCellDef="let element"> {{element.tipoNota}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="dataNota">
-                          <th mat-header-cell *matHeaderCellDef> {{'NOTAS.DATA' | translate}} </th>
-                          <td mat-cell *matCellDef="let element"> {{element.dataNota}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="acoes">
-                          <th mat-header-cell *matHeaderCellDef> {{'NOTAS.ACOES' | translate}} </th>
-                          <td mat-cell *matCellDef="let element">
-                            <button (click)="setEditNota(element.idNotaMateria)" type="button"
-                              class="btn btn-outline-info" data-toggle="collapse" data-target="#editar_nota"
-                              aria-expanded="false" aria-controls="criar_nota"
-                              style="margin-left: 5px;width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;">
-                              <i class="fa fa-edit" style="font-size: 15px;"></i>
-                            </button>
-                            |
-                            <button (click)="delNota(element.idNotaMateria ,false)" class="btn btn-outline-danger"
-                              title="Excluir"
-                              style="width: 30px;height: 30px;padding-top: 0px;padding-left: 8px;padding-bottom: 0px;"
-                              type="submit">
-                              <i class="fa fa-trash-alt" style="font-size: 15px;"></i>
-                            </button>
-                          </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                      </table>
-                      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="length" showFirstLastButtons>
-                      </mat-paginator>
+                <div class="card">
+                  <div class="card-body">
+                    <div *ngIf="length>0">
+                      <!-- Criação de Nota -->
+                      <button type="button" class="btn btn-primary btn-block mt-4 mb-3"
+                        style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
+                        data-target="#CriarNotaModal">
+                        <i class="fas fa-plus-circle mr-1"></i>
+                        {{'CRUD-GERAL.CRIAR' | translate}}
+                      </button>
+                      <div class="tab-content" id="{{materia.value['id']}}-tabContent">
+                        <div *ngFor="let descricao of materia.value['descs'] | keyvalue" class="tab-pane fade show"
+                          id="v-pills-{{descricao.value['idMateria']}}" role="tabpanel"
+                          attr.aria-labelledby="{{descricao.value['idMateria']}}-tab">
+                          <div class="mat-elevation-z8">
+                            <table mat-table multiTemplateDataRows [dataSource]="dataSource" style="width: 100%;">
+                              <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+                                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                  <span *ngIf="(element[column]?.length>=0 || element[column]>=0)">
+                                    {{element[column]}}
+                                  </span>
+                                  <!-- Exclusão de nota -->
+                                  <span *ngIf="element[column]===undefined">
+                                    <button type="button" (click)="this.delNota(element.idNotaMateria,false)"
+                                      class="btn btn-sm btn-outline-danger mr-3 float-right">
+                                      X
+                                    </button>
+                                  </span>
+                                </td>
+                              </ng-container>
+                              <!-- Edição de notas -->
+                              <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                                  <div class="example-element-detail"
+                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                    <div class="example-element-diagram">
+                                      <div class="px-4 py-1">
+                                        <div class="form-row">
+                                          <div class="col-md-12">
+                                            <div class="form-group">
+                                              <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' |
+                                                translate}}
+                                              </label>
+                                              <select [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
+                                                [(ngModel)]="notaToEdit.tipoNota" class="form-control">
+                                                <option *ngFor="let tipo of tipos">{{tipo}}</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="form-row">
+                                          <div class="col-md-12">
+                                            <div class="form-group">
+                                              <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' |
+                                                translate}}</label>
+                                              <input
+                                                [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
+                                                [(ngModel)]="notaToEdit.dataNota" class="form-control" type="date" />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="form-row">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
+                                              <input
+                                                [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
+                                                [(ngModel)]="notaToEdit.notaMateria" class="form-control" id="nota"
+                                                name="nota" type="number" placeholder="Nota">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                          <div class="col-md-12">
+                                            <span [hidden]="camposValidos" style="color: red; ">
+                                              {{'NOTAS.ERROS.CAMPOS' | translate}}
+                                              <br>
+                                            </span>
+                                            <span [hidden]="dataValida" style="color: red; ">
+                                              {{'NOTAS.ERROS.DATA' | translate}}
+                                              <br>
+                                            </span>
+                                            <span [hidden]="notaValida" style="color: red; ">
+                                              {{'NOTAS.ERROS.NOTA' | translate}}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div class="form-row">
+                                          <div class="col">
+                                            <button (click)="editNota()" type="button"
+                                              class="btn btn-info btn-block">{{'CRUD-GERAL.EDITAR' |
+                                              translate}}</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr (click)="setEditNota(element.idNotaMateria)" mat-row
+                                *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                                [class.example-expanded-row]="expandedElement === element"
+                                (click)="expandedElement = expandedElement === element ? null : element">
+                              </tr>
+                              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                              </tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="length" showFirstLastButtons>
+                            </mat-paginator>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col" style="color: black" *ngIf="length==0">
+                    <div style="color: #505050" *ngIf="length===0">
                       <h5 class="text-center">
                         {{'MATERIAS.SEM_NOTAS' | translate}}
+                        <br>
+                        <!-- Criação de Nota -->
+                        <button id="btn_createNota" type="button" class="btn btn-primary btn-lg mt-4"
+                          style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
+                          data-target="#CriarNotaModal">
+                          <i class="fas fa-plus-circle mr-1"></i>
+                          {{'CRUD-GERAL.CRIAR' | translate}}
+                        </button>
                       </h5>
                     </div>
-                    <!-- Criação de Notas por matéria -->
-                    <div class="collapse mb-3 col-3 ml-auto" id="criar_nota">
-                      <div class="card card-body">
-                        <div class="form-row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' | translate}}
-                              </label>
-                              <select [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
-                                [(ngModel)]="newNota.tipoNota" class="form-control">
-                                <option *ngFor="let tipo of tipos">{{tipo}}</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
-                              <input [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
-                                [(ngModel)]="newNota.data" class="form-control" type="date" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
-                              <input [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
-                                [(ngModel)]="newNota.nota" class="form-control" id="nota" name="nota" type="number"
-                                placeholder="Nota">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row mb-2">
-                          <div class="col">
-                            <span [hidden]="camposValidos" style="color: red; ">
-                              {{'NOTAS.ERROS.CAMPOS' | translate}}
-                              <br>
-                            </span>
-                            <span [hidden]="dataValida" style="color: red; ">
-                              {{'NOTAS.ERROS.DATA' | translate}}
-                              <br>
-                            </span>
-                            <span [hidden]="notaValida" style="color: red; ">{{'NOTAS.ERROS.NOTA' | translate}}</span>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4">
-                            <button (click)="this.saveNota(materia.idMateria)" type="button" class="btn btn-info">
-                              {{'CRUD-GERAL.SALVAR' | translate}}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Edição de Notas por matéria -->
-                    <div class="collapse mb-3 col-3 ml-auto" id="editar_nota">
-                      <div class="card card-body">
-                        <div class="form-row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' | translate}}
-                              </label>
-                              <select [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
-                                [(ngModel)]="notaToEdit.tipoNota" class="form-control">
-                                <option *ngFor="let tipo of tipos">{{tipo}}</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
-                              <input [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
-                                [(ngModel)]="notaToEdit.dataNota" class="form-control" type="date" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
-                              <input [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
-                                [(ngModel)]="notaToEdit.notaMateria" class="form-control" id="nota" name="nota"
-                                type="number" placeholder="Nota">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-row mb-2">
-                          <div class="col-md-12">
-                            <span [hidden]="camposValidos" style="color: red; ">
-                              {{'NOTAS.ERROS.CAMPOS' | translate}}
-                              <br>
-                            </span>
-                            <span [hidden]="dataValida" style="color: red; ">
-                              {{'NOTAS.ERROS.DATA' | translate}}
-                              <br>
-                            </span>
-                            <span [hidden]="notaValida" style="color: red; ">
-                              {{'NOTAS.ERROS.NOTA' | translate}}
-                            </span>
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4">
-                            <button (click)="editNota()" type="button" class="btn btn-info">{{'CRUD-GERAL.EDITAR' |
-                              translate}}</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div *ngIf="length===undefined"></div>
                   </div>
                 </div>
               </div>
@@ -253,12 +251,12 @@
           </div>
         </div>
         <!-- Criação de Matéria -->
-        <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="CriarMateriaModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
+                <h5 class="modal-title" id="CriarMateriaModalLabel">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -268,8 +266,10 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                      <ng-select id="select_materia" [(ngModel)]="this.newMateria.idMateria" [items]="this.dbMaterias" [selectOnTab]="true"
-                        bindLabel="nomeMateria" bindValue="idMateria" [addTag]="true" (change)="onChange($event)">
+                      <ng-select id="select_materia" [(ngModel)]="this.newMateria.idMateria" [items]="this.dbMaterias"
+                        [selectOnTab]="true" bindLabel="nomeMateria" bindValue="idMateria" [addTag]="true"
+                        (change)="onChange($event, 'create')"
+                        >
                         <ng-template ng-option-tmp let-item="item">
                           {{item.nomeMateria}} <br />
                           <small *ngIf="item.descricao">
@@ -297,7 +297,8 @@
                 </p>
               </div>
               <div class="modal-footer">
-                <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
+                  data-dismiss="modal">
                   {{'MATERIAS.FECHAR' | translate}}
                 </button>
                 <button (click)="saveMateria()" type="button" class="btn btn-primary">
@@ -307,6 +308,67 @@
             </div>
           </div>
         </div>
+        <!-- Modal Criação de Nota -->
+        <div class="modal fade" id="CriarNotaModal" tabindex="-1" aria-labelledby="CriarNotaModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="CriarNotaModal">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-left">
+                <div class="form-group">
+                  <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO_AVALIACAO' |
+                    translate}}
+                  </label>
+                  <select id="tipoAvaliacao" [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
+                    [(ngModel)]="newNota.tipoNota" class="form-control">
+                    <option *ngFor="let tipo of tipos">{{tipo}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' | translate}}</label>
+                  <input [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
+                    [(ngModel)]="newNota.data" class="form-control" type="date" />
+                </div>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
+                      <input [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
+                        [(ngModel)]="newNota.nota" class="form-control" id="nota" name="nota" type="number"
+                        placeholder="Nota">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row mb-2 small">
+                  <div class="col">
+                    <span [hidden]="camposValidos" style="color: red; ">
+                      {{'NOTAS.ERROS.CAMPOS' | translate}}
+                      <br>
+                    </span>
+                    <span [hidden]="dataValida" style="color: red; ">
+                      {{'NOTAS.ERROS.DATA' | translate}}
+                      <br>
+                    </span>
+                    <span [hidden]="notaValida" style="color: red; ">{{'NOTAS.ERROS.NOTA' |
+                      translate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="close_createNota" type="button" class="btn btn-secondary"
+                  data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
+                <button (click)="this.saveNota()" type="button" class="btn btn-info">
+                  {{'CRUD-GERAL.SALVAR' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
