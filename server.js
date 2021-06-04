@@ -1,16 +1,17 @@
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended:true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended:true }));
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "default-src": ["'self'",'https://plannic-backend.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com'],
+        "default-src": ["'self'",'https://plannic-backend.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com', 'https://securepubads.g.doubleclick.net/'],
         "img-src": ["'self'", 'https://plannic.herokuapp.com', '*.googleapis.com', "data:" ],
         "script-src": ["'self'", 'https://plannic.herokuapp.com'],
         "style-src": ["'unsafe-inline'", "'self'", "https://fonts.googleapis.com"]
@@ -19,7 +20,8 @@ app.use(helmet.contentSecurityPolicy({
 
 app.use((_, res, next) => {
     res.setHeader(
-      "Permissions-Policy"
+      "Permissions-Policy",
+      'geolocation=(self), microphone=()'
     );
     next();
 });
