@@ -11,8 +11,8 @@ app.use(helmet.contentSecurityPolicy({
     directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         "default-src": ["'self'",'https://plannic-backend.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com'],
-        "img-src": ["'self'", '*.googleapis.com', "data:" ],
-        "script-src": ["'self'"],
+        "img-src": ["'self'", 'https://plannic.herokuapp.com', '*.googleapis.com', "data:" ],
+        "script-src": ["'self'", 'https://plannic.herokuapp.com'],
         "style-src": ["'unsafe-inline'", "'self'", "https://fonts.googleapis.com"]
     }
 }));
