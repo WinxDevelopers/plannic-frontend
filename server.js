@@ -10,7 +10,7 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "default-src": ["'self'",'https://plannic-backend.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com'],
+        "default-src": ["'self'",'https://plannic-backend.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com'],
         "img-src": ["'self'", '*.googleapis.com', "data:" ],
         "script-src": ["'self'"],
         "style-src": ["'unsafe-inline'", "'self'", "https://fonts.googleapis.com"]
