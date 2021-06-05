@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://plannic-back.herokuapp.com/'
-
+  API_URL: 'http://localhost:8080/'
 };
 
 /*
