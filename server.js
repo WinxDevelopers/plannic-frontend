@@ -14,7 +14,7 @@ app.use(helmet.contentSecurityPolicy({
         "default-src": ["'self'",'https://plannic-back.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com', 'https://securepubads.g.doubleclick.net/'],
         "img-src": ["'self'", 'https://plannic.herokuapp.com', '*.googleapis.com', "data:" ],
         "script-src": ["'self'", 'https://plannic.herokuapp.com', 'https://cdnjs.cloudflare.com'],
-        "style-src": ["'self'", "https://fonts.googleapis.com", 'https://cdnjs.cloudflare.com']
+        "style-src": ["'unsafe-inline'", "'self'", "https://fonts.googleapis.com", 'https://cdnjs.cloudflare.com']
     }
 }));
 
