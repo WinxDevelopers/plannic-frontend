@@ -20,7 +20,7 @@ export class UserService {
                                'X-Frame-Options': 'SAMEORIGIN',
                                'X-Content-Type-Options': 'nosniff always',
                                'Referrer-Policy': 'no-referrer',
-                               'Permissions-Policy': 'geolocation=(self "https://plannic-back.herokuapp.com"; "http://localhost:8080")' }),
+                               'Permissions-Policy': 'geolocation=(self "https://plannic-back.herokuapp.com" "http://localhost:8080")' }),
     responseType: 'text' as 'json'
 }
 
