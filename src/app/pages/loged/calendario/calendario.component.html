@@ -52,12 +52,6 @@
                                                     {{item.descricao}}</small>
                                             </ng-template>
                                         </ng-select>
-                                        <!-- <select [(ngModel)]="newForm.idMateria"
-                                                 class="form-control">
-                                                <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
-                                                    {{materia.nomeMateria}}
-                                                </option>
-                                            </select> -->
                                     </div>
                                 </div>
                             </div>
@@ -104,29 +98,69 @@
                                                 <input [(ngModel)]="this.recorrencia.disable" class="form-check-input"
                                                     type="checkbox" id="gridCheck">
                                                 <label class="form-check-label" for="gridCheck">
-                                                    Nunca
+                                                    {{'AGENDAMENTOS.NUNCA' | translate}}
                                                 </label>
                                             </div>
                                         </div>
                                         <div *ngIf="!recorrencia.disable" class="form-group">
                                             <div class="row justify-content-between">
                                                 <label class="col-2 mt-2 form-label" for="repeat_form">
-                                                    Repetir:
+                                                    {{'AGENDAMENTOS.REPETIR' | translate}}:
                                                 </label>
                                                 <div class="col-5">
                                                     <select [(ngModel)]="recorrencia.repeticao" class="form-control"
                                                         id="repeat_form">
-                                                        <option value="dia">Diariamente</option>
-                                                        <option value="semana">Semanalmente</option>
-                                                        <option value="mes">Mensalmente</option>
+                                                        <option value="dia">{{'AGENDAMENTOS.DIARIAMENTE' | translate}}</option>
+                                                        <option value="semana">{{'AGENDAMENTOS.SEMANALMENTE' | translate}}
+                                                        </option>
+                                                        <option value="mes">{{'AGENDAMENTOS.MENSALMENTE' | translate}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input [(ngModel)]="recorrencia.vezes" min="0"
+                                                    <input [(ngModel)]="recorrencia.vezes" min="1"
                                                         [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
                                                         class="form-control" type="number">
                                                 </div>
-                                                <div class="col mt-2">vezes</div>
+                                                <div class="col mt-2">{{'AGENDAMENTOS.VEZES' | translate}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input [(ngModel)]="this.notificacao.disable" class="form-check-input"
+                                                    type="checkbox" id="gridCheck">
+                                                <label class="form-check-label" for="gridCheck">                                                    
+                                                    {{'AGENDAMENTOS.NUNCA' | translate}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!notificacao.disable" class="form-group">
+                                            <div class="row justify-content-between">
+                                                <div class="col-3">
+                                                    <input [(ngModel)]="notificacao.tempo" min="1"
+                                                        [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
+                                                        class="form-control" type="number">
+                                                </div>
+                                                <div class="col-4">
+                                                    <select [(ngModel)]="notificacao.medida" class="form-control"
+                                                        id="repeat_form">
+                                                        <option value="dia">{{'AGENDAMENTOS.DIA' | translate}}<span *ngIf="notificacao.tempo>1">s</span></option>
+                                                        <option value="semana">{{'AGENDAMENTOS.SEMANA' | translate}}<span *ngIf="notificacao.tempo>1">s</span></option>
+                                                        <option value="mes">
+                                                            <span *ngIf="notificacao.tempo>1 && lang != 'en';else other_content">Meses</span>
+                                                            <ng-template #other_content>                                                            
+                                                                {{'AGENDAMENTOS.MES' | translate}}<span *ngIf="notificacao.tempo>1">s</span>
+                                                            </ng-template>
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col mt-2">{{'AGENDAMENTOS.ANTES' | translate}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -142,8 +176,12 @@
                                         </label>
                                         <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
                                             [(ngModel)]="newForm.tipoEstudo" class="form-control">
-                                            <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}
-                                            </option>
+                                            <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
+                                            <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
+                                            <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
+                                            <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
+                                            <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
+                                            <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
                                         </select>
                                     </div>
                                 </div>

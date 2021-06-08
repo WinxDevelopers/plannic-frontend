@@ -33,8 +33,8 @@
         "SENHA-ERR": "Senhas diferentes",
         "SENHA-ERR2": "A senha deve conter, no minímo, 8 caracteres, 1 maiúsculo, 1 minúsculo, 1 número e um caracter especial"
     },
-    "EMAIL_CONF":{
-        "PRINCIPAL": "Verificação de e-mail", 
+    "EMAIL_CONF": {
+        "PRINCIPAL": "Verificação de e-mail",
         "MENSAGEM": "Um e-mail foi enviado com um link de confirmação de cadastro",
         "SPAN": "Caso não o encontre verifique se foi mandado para o spam",
         "LOGIN": "Ir para login",
@@ -63,14 +63,14 @@
         "NOTA_ESTUDO": "Tipos de Estudo",
         "HORAS_ESTUDO": "Horas de Estudo (Minutos)"
     },
-    "CRUD-GERAL":{
+    "CRUD-GERAL": {
         "SALVAR": "Salvar",
         "CRIAR": "Criar",
         "VER": "Ver",
         "EDITAR": "Editar",
         "EXCLUIR": "Excluir"
     },
-    "NOTAS":{
+    "NOTAS": {
         "NOME": "Nota",
         "NOME_MATERIA": "Nome Matéria",
         "TIPO_AVALIACAO": "Tipo de Avaliação",
@@ -79,13 +79,13 @@
         "CRIAR": "Adicionar Nota",
         "FECHAR": "Fechar",
         "SALVAR": "Salvar",
-        "ERROS":{
-            "CAMPOS":"Preencha todos os campos",
+        "ERROS": {
+            "CAMPOS": "Preencha todos os campos",
             "DATA": "Data inválida",
             "NOTA": "Nota inválida"
         }
     },
-    "MATERIAS":{
+    "MATERIAS": {
         "NOME": "Nome",
         "TEMPO": "Tempo Estudado (em horas)",
         "MEDIA": "Média das Notas",
@@ -97,7 +97,7 @@
         "FECHAR": "Fechar",
         "SALVAR": "Salvar"
     },
-    "CONFIGURACOES":{
+    "CONFIGURACOES": {
         "DADOS": "Dados",
         "NOME": "Nome",
         "EMAIL": "E-mail",
@@ -110,7 +110,7 @@
         "DEL_INFO2": "Você não poderá recuperar as informações da sua conta",
         "EXCLUIR": "Excluir conta"
     },
-    "METODOS":{        
+    "METODOS": {
         "AUTO": "Autoexplicação",
         "AUTO1": "A autoexplicação é um método em que a ideia é ler o texto e explicá-lo para você mesmo em voz alta.Para isso, é sempre bom relacionar outras informações e matérias que possam ter ligação com a leitura.",
         "AUTO2": "Um exemplo é estudar história e relembrar os períodos anteriores e os principais acontecimentos do momento descrito — ou estudar biologia e relembrar a definição de cada conceito e de cada nome citado.",
@@ -147,15 +147,16 @@
         "MAPA3": "Você não precisa seguir uma regra rígida para criar mapa mental, mas existem algumas orientações que podem te guiar nesse processo.",
         "MAPA4": "Existem diversas ferramentas online onde você pode criar o seu mapa mental, no entanto, o mais indicado é que ele seja feito manualmente, pois o cérebro absorve melhor as informações quando escritas à mão.",
         "MAPA5": "A primeira coisa que você deve fazer é pegar uma folha de papel, e após o estudo de um determinado tema, coloque o assunto principal desse tema no meio da folha. Após isso, vá criando conexões entre o assunto principal, com as outras outras informações abordadas no tema. Utilize desenhos, monte gráficos ou insira símbolos. A partir disso você desenvolverá o estudo e organizará as principais informações do tema.",
-        "CLIQUE_DUPLO": "Dê dois cliques para selecionar o método"
+        "CLIQUE_DUPLO": "Dê dois cliques para selecionar o método",
+        "OUTRO": "Outro"
     },
-    "BADGES":{
+    "BADGES": {
         "BUSQUETUTOR1": "Infelizmente sua nota em ",
         "BUSQUETUTOR2": " está baixa. Você gostaria de buscar um ",
         "SEJATUTOR1": "Sua nota em ",
-        "SEJATUTOR2": " está muito boa. Você não gostaria de ajudar outros usuários sendo "      
+        "SEJATUTOR2": " está muito boa. Você não gostaria de ajudar outros usuários sendo "
     },
-    "AGENDAMENTOS":{
+    "AGENDAMENTOS": {
         "MATERIA": "Matéria",
         "DATAINICIO": "Data de Início",
         "DATAFIM": "Data de Término",
@@ -165,6 +166,17 @@
         "INICIO": "Início",
         "FIM": "Fim",
         "RECORRENCIA": "Recorrência",
+        "NUNCA": "Nunca",
+        "REPETIR": "Repetir",
+        "DIARIAMENTE": "Diariamente",
+        "SEMANALMENTE": "Semanalmente",
+        "MENSALMENTE": "Mensalmente",
+        "DIA": "Dia",
+        "SEMANA": "Semana",
+        "MES": "Mês",
+        "VEZES": "vezes",
+        "ANTES": "antes",
+        "NOTIFICACAO": "Notificação",
         "METODO": "Método de Estudo",
         "ACOES": "Ações",
         "ERRO_RECORRENCIA": "Recorrência inválida"

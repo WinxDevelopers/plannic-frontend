@@ -16,6 +16,8 @@ import { add } from 'date-fns';
 })
 export class CalendarioComponent implements OnInit {
 
+  lang = localStorage.getItem('lang');
+
   calendarVisible = true;
   materias: Materia[] = [];
   newForm: any = {
@@ -38,11 +40,15 @@ export class CalendarioComponent implements OnInit {
   };
   recorrenciaInicio;
   recorrenciaFim;
-  metodos = ["Autoexplicação", "Resumo", "Teste Prático", "Técnica Pomodoro", "Mapa Mental", "Outro"]
   recorrencia = {
     disable: true,
-    vezes: 0,
+    vezes: 1,
     repeticao: "dia"
+  };
+  notificacao = {
+    disable: true,
+    tempo: 1,
+    medida: "dia"
   };
 
   calendarOptions: CalendarOptions = {
@@ -405,11 +411,12 @@ export class CalendarioComponent implements OnInit {
         this.materias = data.materias;
         this.calendarOptions.events = data.agendamentos.map((ag) => {
           ag = ag as Agendamento;
-          let mat;
+          let mat = undefined;
           data.materias.forEach((m) => {
             if (m.idMateria === ag.idMateria)
               mat = {nome: m.nomeMateria, descricao: m.descricao};
           })
+          if (!mat) return
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
@@ -446,8 +453,18 @@ export class CalendarioComponent implements OnInit {
     this.camposVal = true;
     this.dateVal = true;
     this.recorVal = true;
-    this.newForm = {}
-    this.editForm = {}
+    this.newForm = {};
+    this.editForm = {};
+    this.recorrencia = {
+      disable: true,
+      vezes: 1,
+      repeticao: "dia"
+    };
+    this.notificacao = {
+      disable: true,
+      tempo: 1,
+      medida: "dia"
+    };
   }
 
   DateToString(data: Date, type) {

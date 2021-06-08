@@ -33,8 +33,8 @@
         "SENHA-ERR": "Different passwords",
         "SENHA-ERR2": "The password must contain at least 8 characters, 1 lowercase character, 1 uppercase character, 1 number and 1 special character"
     },
-    "EMAIL_CONF":{
-        "PRINCIPAL": "E-mail verification", 
+    "EMAIL_CONF": {
+        "PRINCIPAL": "E-mail verification",
         "MENSAGEM": "An email was sent with a link to confirm your registration",
         "SPAN": "If you can't find it, check if it was sent to spam",
         "LOGIN": "Go to login",
@@ -63,14 +63,14 @@
         "NOTA_ESTUDO": "Study",
         "HORAS_ESTUDO": "Minutes"
     },
-    "CRUD-GERAL":{
+    "CRUD-GERAL": {
         "SALVAR": "Save",
         "VER": "Show",
         "CRIAR": "Create",
         "EDITAR": "Edit",
         "EXCLUIR": "Delete"
     },
-    "NOTAS":{
+    "NOTAS": {
         "NOME": "Grade",
         "NOME_MATERIA": "Name of Subject",
         "TIPO_AVALIACAO": "Type of Avaliation",
@@ -79,13 +79,13 @@
         "CRIAR": "Include Grade",
         "FECHAR": "Close",
         "SALVAR": "Save",
-        "ERROS":{
-            "CAMPOS":"Please complete all required text fields",
+        "ERROS": {
+            "CAMPOS": "Please complete all required text fields",
             "DATA": "Invalid date",
             "NOTA": "Invalid grade"
         }
     },
-    "MATERIAS":{
+    "MATERIAS": {
         "NOME": "Name",
         "TEMPO": "Studied Time (in hours)",
         "MEDIA": "Grades Average",
@@ -97,7 +97,7 @@
         "FECHAR": "Close",
         "SALVAR": "Save"
     },
-    "CONFIGURACOES":{
+    "CONFIGURACOES": {
         "DADOS": "Data",
         "NOME": "Name",
         "EMAIL": "E-mail",
@@ -108,7 +108,7 @@
         "DEL_INFO1": "Are you sure?",
         "DEL_INFO2": "You will not be able to recover your account information"
     },
-    "METODOS":{
+    "METODOS": {
         "AUTO": "Self-explanation ",
         "AUTO1": "Self-explanation is a method in which the idea is to read the text and explain it to yourself out loud. For this, it is always good to relate other information and materials that may be connected with reading.",
         "AUTO2": "An example is to study history and remember the previous periods and the main events of the moment described - or to study biology and remember the definition of each concept and each name mentioned.",
@@ -145,15 +145,16 @@
         "MAPA3": "You don't have to follow a strict rule to create a mind map, but there are some guidelines that can guide you through this process.",
         "MAPA4": "There are several online tools where you can create your mind map, however, it is best to do it manually, as the brain absorbs information better when written by hand.",
         "MAPA5": "The first thing you should do is take a sheet of paper, and after studying a certain topic, place the main subject of that topic in the middle of the sheet. After that, create connections between the main subject, with the other information covered in the topic. Use drawings, assemble graphics or insert symbols. From this you will develop the study and organize the main information on the topic.",
-        "CLIQUE_DUPLO": "Double-click to select the method"
+        "CLIQUE_DUPLO": "Double-click to select the method",
+        "OUTRO": "Other"
     },
-    "BADGES":{
+    "BADGES": {
         "BUSQUETUTOR1": "Unfortunately your grade in  ",
         "BUSQUETUTOR2": " it's low. You would like to get one  ",
         "SEJATUTOR1": "Your grade in ",
-        "SEJATUTOR2": " It's very good. You would not want to help other users by being "   
+        "SEJATUTOR2": " It's very good. You would not want to help other users by being "
     },
-    "AGENDAMENTOS":{
+    "AGENDAMENTOS": {
         "MATERIA": "Subject",
         "DATAINICIO": "Start Date",
         "DATAFIM": "End Date",
@@ -163,6 +164,17 @@
         "INICIO": "Begin",
         "FIM": "End",
         "RECORRENCIA": "Recurrence",
+        "NUNCA": "Never",
+        "REPETIR": "Repeat",
+        "DIARIAMENTE": "Daily",
+        "SEMANALMENTE": "Weekly",
+        "MENSALMENTE": "Monthly",
+        "DIA": "Day",
+        "SEMANA": "Week",
+        "MES": "Month",        
+        "VEZES": "times",
+        "ANTES": "before",
+        "NOTIFICACAO": "Notification",
         "METODO": "Study Method",
         "ACOES": "Actions",
         "ERRO_RECORRENCIA": "Invalid recurrence"
