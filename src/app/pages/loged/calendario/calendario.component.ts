@@ -407,7 +407,7 @@ export class CalendarioComponent implements OnInit {
         data = data[0]
         data.agendamentos = data.agendamentos.filter(Boolean)
         this.materias = data.materias;
-        this.calendarOptions.events = data.agendamentos.filter((ag) => {
+        this.calendarOptions.events = data.agendamentos.map((ag) => {
           ag = ag as Agendamento;
           let mat = undefined;
           data.materias.forEach((m) => {
