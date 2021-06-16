@@ -37,6 +37,7 @@ export class CalendarioComponent implements OnInit {
     horaInicio: null,
     dataFim: null,
     horaFim: null,
+    notificacao: null
   };
   recorrenciaInicio;
   recorrenciaFim;
@@ -101,7 +102,7 @@ export class CalendarioComponent implements OnInit {
   /* CRIAR MATERIA PELO SELECT */
   async criarMateria(nomeMateria: any) {
     this.materiaService.create(nomeMateria, "Sem Descrição").subscribe(
-      () => {this.refresh()},
+      () => { this.refresh() },
       error => {
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
@@ -323,6 +324,10 @@ export class CalendarioComponent implements OnInit {
     this.camposVal = true;
     this.dateVal = true;
     this.recorVal = true;
+
+    //Declarando notificação
+    this.newForm.notificacao = this.notificacao.disable ? "N" : `${this.notificacao.tempo}_${this.notificacao.medida}`;
+
     //Caso a hora inicial seja maior q a final
     if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
       this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10)) + 1).toString();
@@ -343,14 +348,6 @@ export class CalendarioComponent implements OnInit {
       this.dateVal = false;
       return;
     }
-
-    /* 
-    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-pristine ng-invalid ng-touched ng-select-bottom ng-select-opened
-    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-untouched ng-pristine ng-invalid ng-select-opened ng-select-bottom
-    ng-select ng-select-single ng-select-searchable ng-select-clearable ng-untouched ng-pristine ng-invalid
-    
-    */
-
 
     if (!this.newForm.idMateria) {
       document.getElementsByTagName("ng-select")[0].classList.add("ng-invalid");
@@ -408,13 +405,14 @@ export class CalendarioComponent implements OnInit {
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]
+        data.agendamentos = data.agendamentos.filter(Boolean)
         this.materias = data.materias;
-        this.calendarOptions.events = data.agendamentos.map((ag) => {
+        this.calendarOptions.events = data.agendamentos.filter((ag) => {
           ag = ag as Agendamento;
           let mat = undefined;
           data.materias.forEach((m) => {
             if (m.idMateria === ag.idMateria)
-              mat = {nome: m.nomeMateria, descricao: m.descricao};
+              mat = { nome: m.nomeMateria, descricao: m.descricao };
           })
           if (!mat) return
           return {
@@ -431,6 +429,7 @@ export class CalendarioComponent implements OnInit {
             //groupId: StringConstructor
           }
         })
+        console.log(this.calendarOptions.events)
       })
   }
 

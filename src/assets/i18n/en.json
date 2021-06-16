@@ -169,6 +169,7 @@
         "DIARIAMENTE": "Daily",
         "SEMANALMENTE": "Weekly",
         "MENSALMENTE": "Monthly",
+        "HORA": "Hour",
         "DIA": "Day",
         "SEMANA": "Week",
         "MES": "Month",        
