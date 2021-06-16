@@ -405,31 +405,36 @@ export class CalendarioComponent implements OnInit {
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]
-        data.agendamentos = data.agendamentos.filter(Boolean)
-        this.materias = data.materias;
-        this.calendarOptions.events = data.agendamentos.map((ag) => {
-          ag = ag as Agendamento;
+        data.agendamentos = data.agendamentos.filter((ag)=>{
           let mat = undefined;
           data.materias.forEach((m) => {
             if (m.idMateria === ag.idMateria)
               mat = { nome: m.nomeMateria, descricao: m.descricao };
           })
-          if (!mat) return
+          if (!mat) return;
+          ag.mat = {
+            nome: mat.nome,
+            descricao: mat.descricao
+          }
+          return ag;
+        })
+        this.materias = data.materias;
+        this.calendarOptions.events = data.agendamentos.map((ag) => {
+          ag = ag as Agendamento;          
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
-            title: mat.nome,
+            title: ag.mat.nome,
             id: ag.idAgendamento,
             recorrencia: ag.recorrencia,
             idMateria: ag.idMateria,
             idAgendamento: ag.idAgendamento,
             tipoEstudo: ag.tipoEstudo,
-            descricao: mat.descricao
+            descricao: ag.mat.descricao
             //allDay: true||false
             //groupId: StringConstructor
           }
         })
-        console.log(this.calendarOptions.events)
       })
   }
 
