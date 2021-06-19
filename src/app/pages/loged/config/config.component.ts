@@ -43,6 +43,10 @@ export class ConfigComponent implements OnInit {
   senha: string = '';
   senhaConf: string = '';
   passMinOk = true;
+  notificacao = {
+    active: null,
+    numero: null
+  }
 
   ngOnInit() {
     this.userService.getAllInfosById().subscribe(
@@ -51,6 +55,14 @@ export class ConfigComponent implements OnInit {
         this.userInfos = data[0];
         this.email = this.userInfos.email;
         this.nome = this.userInfos.nome;
+        if (this.userInfos.notificacao) {
+          data = JSON.parse(data)
+        } else {
+          this.notificacao = {
+            active: false,
+            numero: null
+          };
+        }
       },
       err => {
         this.alertError(err);
@@ -68,7 +80,7 @@ export class ConfigComponent implements OnInit {
   }
 
   alterarInfos() {
-    this.userService.edit(this.nome, this.email).subscribe(
+    this.userService.edit(this.nome, this.email, JSON.stringify(this.notificacao)).subscribe(
       () => { this.alertSucess("user", "update") },
       err => { this.alertError(err); }
     );

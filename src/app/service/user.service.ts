@@ -50,11 +50,12 @@ export class UserService {
     return this.http.delete(API_URL + `usuario/${this.idUsuario}`, this.httpOptions)
   }
 
-  edit(nome: string, email: string) {
+  edit(nome: string, email: string, notificacao: string) {
     return this.http.put(API_URL + `usuario`, {
       idUsuario: this.idUsuario,
       nome,
-      email
+      email/*, 
+      notificacao*/
     }, this.httpOptions)
   }
 
