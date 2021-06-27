@@ -61,6 +61,16 @@ export class MateriaService {
         return this.http.get(this.LOGIN_SERVICE_URL + 'materia/base', this.httpOptions)
     };
 
+    //CRUD Materiais
+
+    newMaterial(nomeMateria, material): Observable<any> {
+        return this.http.post(this.LOGIN_SERVICE_URL + 'material/cadastro', {
+            idUsuario: this.idUsuario,
+            nomeMateria,
+            material
+        }, this.httpOptions);
+    }
+
     // Sugestão de Matérias
     createSugestão(nomeMateria: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/sugestoes', {
