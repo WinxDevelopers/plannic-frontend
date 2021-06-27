@@ -28,13 +28,15 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     document.getElementById("body").classList.remove("pag_login");
     document.getElementById("body").classList.add("pag_inicial");
-    if (new Date() > new Date(localStorage.getItem("time"))) {
-      localStorage.clear();
-      this.isLogged = false;
-      this.router.navigate(['../']);
-    }else{
-      this.isLogged = true;
-      this.router.navigate(['dashboard/calendario']);          
+    if(localStorage.getItem("time")){
+      if (new Date() > new Date(localStorage.getItem("time"))) {
+        localStorage.clear();
+        this.isLogged = false;
+        this.router.navigate(['../']);
+      }else{
+        this.isLogged = true;
+        this.router.navigate(['dashboard/calendario']);          
+      }
     }
     if(!localStorage.getItem("lang"))
       localStorage.setItem("lang", "pt-BR");

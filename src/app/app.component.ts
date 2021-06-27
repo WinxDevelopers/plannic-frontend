@@ -15,9 +15,4 @@ export class AppComponent implements AfterViewInit {
       }
     }
   }
-
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
-  }
 }
