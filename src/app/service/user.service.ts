@@ -65,4 +65,8 @@ export class UserService {
       password
     }, this.httpOptions)
   }
+
+  getFunction() {
+    return this.http.get(API_URL + `usuario/funcao/${this.idUsuario}`, this.httpOptions)
+  };
 }

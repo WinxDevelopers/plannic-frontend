@@ -49,12 +49,37 @@ export class MateriaService {
         return this.http.get(this.LOGIN_SERVICE_URL + 'materia', this.httpOptions)
     };
 
-    newMaterial(nomeMateria, material): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'material/cadastro', {
+    // Buscar Matérias Base
+    createBase(materiaBase: string): Observable<any> {
+        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/base', {
             idUsuario: this.idUsuario,
-            nomeMateria,
-            material
+            materiaBase
         }, this.httpOptions);
     }
 
+    getAllBase(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + 'materia/base', this.httpOptions)
+    };
+
+    // Sugestão de Matérias
+    createSugestão(nomeMateria: string): Observable<any> {
+        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/sugestoes', {
+            idUsuario: this.idUsuario,
+            nomeMateria
+        }, this.httpOptions);
+    }
+
+    updateSugestao(idSugestoesMateria: number, nomeMateria: string, votos: number, totalVotos: number): Observable<any> {
+        return this.http.put(this.LOGIN_SERVICE_URL + 'materia/sugestoes', {
+            idSugestoesMateria,
+            idUsuario: this.idUsuario,
+            nomeMateria,
+            votos,
+            totalVotos
+        }, this.httpOptions);
+    }
+
+    getAllSugestao(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + 'materia/sugestoes', this.httpOptions)
+    };
 }
