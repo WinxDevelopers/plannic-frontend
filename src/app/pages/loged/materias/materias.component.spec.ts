@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { UserService } from './../../../service/user.service';
 import { MateriaService } from './../../../service/materia.service';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
-import { Swal } from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { MateriasComponent } from './materias.component';
 

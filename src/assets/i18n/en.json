@@ -94,6 +94,8 @@
         "DESCRICAO": "Description",
         "SEM_MATERIAS": "There is no subject registered",
         "SEM_NOTAS": "There is no grade registered",
+        "MATERIAIS": "Files",
+        "ESCOLHER": "Choose files",
         "FECHAR": "Close",
         "SALVAR": "Save"
     },

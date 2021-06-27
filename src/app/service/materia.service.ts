@@ -49,4 +49,12 @@ export class MateriaService {
         return this.http.get(this.LOGIN_SERVICE_URL + 'materia', this.httpOptions)
     };
 
+    newMaterial(nomeMateria, material): Observable<any> {
+        return this.http.post(this.LOGIN_SERVICE_URL + 'material/cadastro', {
+            idUsuario: this.idUsuario,
+            nomeMateria,
+            material
+        }, this.httpOptions);
+    }
+
 }

@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgxFileDropModule } from 'ngx-file-drop';
 //Angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -86,7 +85,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatSelectModule,
     MatFormFieldModule,
     MatProgressBarModule,
-    NgxFileDropModule,
     NgxMaskModule.forRoot(),
     BrowserModule,
     MDBBootstrapModule.forRoot(),

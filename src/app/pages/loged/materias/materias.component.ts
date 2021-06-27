@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Materia } from 'src/app/interface/materia';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,8 +15,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./materias.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -57,7 +57,6 @@ export class MateriasComponent implements AfterViewInit {
   materias: Materia[] = [];
   notas: NotaMateria[] = [];
   tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"];
-  //nomeMaterias = ["Matemática", "Física", "Biologia", "História", "Inglês"];
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   /* CRUD Matéria */
@@ -69,10 +68,10 @@ export class MateriasComponent implements AfterViewInit {
 
   onChange(event, type) {
     if (event) {
-      if(type==="crate"){
+      if (type === "create") {
         this.newMateria.nome = event.nomeMateria;
         this.newMateria.descricao = event.descricao;
-      }else{
+      } else {
         this.materiaToEdit.nome = event.nomeMateria;
         this.materiaToEdit.descricao = event.descricao;
       }
@@ -103,7 +102,7 @@ export class MateriasComponent implements AfterViewInit {
     this.materiaToEdit.camposVal = true;
     console.log(this.materiaToEdit);
 
-    if(this.materiaToEdit.nomeMateria && this.materiaToEdit.descricao){
+    if (this.materiaToEdit.nomeMateria && this.materiaToEdit.descricao) {
       this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.descricao).subscribe(
         () => {
           this.alertSucess("materia", "update");
@@ -112,7 +111,7 @@ export class MateriasComponent implements AfterViewInit {
           this.alertError(err);
         }
       );
-    }else{
+    } else {
       this.materiaToEdit.camposVal = false;
     }
   }
@@ -257,6 +256,48 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
+  /* MATERIAIS */
+
+  arquivos: Set<File>;
+  getFiles(event){
+    console.log(event);
+
+    const selecionados = <FileList> event.srcElement.files;
+
+    let label = []
+    this.arquivos = new Set();
+    for(let s=0; s<selecionados.length;s++){
+      label.push(selecionados[s].name);
+      this.arquivos.add(selecionados[s])
+    }
+    document.getElementById("customFileLabel").innerHTML = label.join("; ");
+  }
+
+  uploadFiles(){
+    let mat;
+    this.materias.forEach((materia)=>{
+      console.log(materia.idMateria)
+      if(this.newNota.idMateria === materia.idMateria){
+        mat = materia.descricao;
+        return;
+      }
+    })
+    if (this.arquivos && this.arquivos.size>0){
+      this.materiaService.newMaterial(mat, this.arquivos).subscribe(
+        () => {
+          this.alertSucess("material", "create");
+          this.userMaterias = [];
+          this.refresh()
+        },
+        err => {
+          this.alertError(err)
+        }
+      );
+    }
+  }
+
+
+
   /* FUNÇÕES AUXILIARES */
   dbMaterias: Materia[];
   userMaterias: any = {};
@@ -326,18 +367,17 @@ export class MateriasComponent implements AfterViewInit {
 
   dateToString(date: Date) {
     return `
-    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
-    /*  - ${date.getHours()}:${date.getMinutes()}`; */
+    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;    
   }
 
-  openCreateNota(){
+  openCreateNota() {
     document.getElementById("btn_createNota").click()
   }
 
   length = undefined;
   setTable(idMateria) {
     this.setEditMateria(idMateria);
-    if(idMateria){
+    if (idMateria) {
       this.newNota.idMateria = idMateria;
       this.dataSource.data = this.notas.reduce((a, v) => {
         if (v.idMateria === idMateria) {
@@ -347,14 +387,14 @@ export class MateriasComponent implements AfterViewInit {
       }, [])
       this.length = this.dataSource.data.length;
 
-    }else{
+    } else {
       this.length = undefined;
       let links = document.getElementsByClassName("link_materias");
       for (var i = 0; i < links.length; i++) {
-        if(links[i].classList.contains("active"))
-          links[i].classList.remove("active");          
+        if (links[i].classList.contains("active"))
+          links[i].classList.remove("active");
       }
-      this.materiaToEdit ={
+      this.materiaToEdit = {
         nomeMateria: null,
         descricao: null,
         idMateria: null
@@ -380,7 +420,7 @@ export class MateriasComponent implements AfterViewInit {
     })
   }
 
-  materiaToEdit: any ={
+  materiaToEdit: any = {
     nomeMateria: null,
     descricao: null,
     idMateria: null
@@ -403,6 +443,10 @@ export class MateriasComponent implements AfterViewInit {
     let portTitle;
     let engTitle;
     switch (type) {
+      case "material":
+        portTitle = 'Material'
+        engTitle = 'File'
+        break;
       case "materia":
         portTitle = 'Matéria'
         engTitle = 'Subject'
