@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class GraficosService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
+    public idUsuario = localStorage.getItem('idUsuario');
     
     httpOptions = {
         headers: new HttpHeaders({ 'Content-type': 'application/json',
@@ -23,31 +24,31 @@ export class GraficosService {
     }
     constructor(private http: HttpClient) { }
 
-    notaEvolucao(idUsuario: string, idMateria: number): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsdata/${idUsuario}/${idMateria}`, this.httpOptions)
+    notaEvolucao(idMateria: number): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsdata/${this.idUsuario}/${idMateria}`, this.httpOptions)
     };
 
-    notaTipo(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notastipo/${idUsuario}`, this.httpOptions)
+    notaTipo(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notastipo/${this.idUsuario}`, this.httpOptions)
     };
 
-    notaEstudo(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvstipo/${idUsuario}`, this.httpOptions)
+    notaEstudo(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvstipo/${this.idUsuario}`, this.httpOptions)
     };
 
-    notaMateria(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsMateria/${idUsuario}`, this.httpOptions)
+    notaMateria(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notasvsMateria/${this.idUsuario}`, this.httpOptions)
     };
 
-    notaHora(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/horasvsnota/${idUsuario}`, this.httpOptions)
+    notaHora(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/horasvsnota/${this.idUsuario}`, this.httpOptions)
     };
 
-    notaMaior(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamaior/${idUsuario}`, this.httpOptions)
+    notaMaior(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamaior/${this.idUsuario}`, this.httpOptions)
     };
 
-    notaMenor(idUsuario: string): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamenor/${idUsuario}`, this.httpOptions)
+    notaMenor(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/notamenor/${this.idUsuario}`, this.httpOptions)
     };
 }

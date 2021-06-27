@@ -15,7 +15,6 @@ export class NotasEvolucaoComponent {
   constructor(
     private graficoService: GraficosService,
     private usuarioService: UserService) { }
-  public idUsuario = localStorage.getItem('idUsuario');
   public notas;
   public chartDatasets: Array<any>;
   public chartLabels: Array<any>;
@@ -77,7 +76,7 @@ export class NotasEvolucaoComponent {
   loaded: boolean = true;
   getNotas() {
     this.loaded = false
-    this.graficoService.notaEvolucao(this.idUsuario, this.form.idMateria).subscribe(
+    this.graficoService.notaEvolucao(this.form.idMateria).subscribe(
       (notas) => {
         notas = JSON.parse(notas);
         this.notas = notas;

@@ -7,7 +7,6 @@ import { GraficosService } from 'src/app/service/graficos.service';
 })
 export class NotasMateriaComponent {
   constructor(private graficoService: GraficosService) { this.getNotas() }
-  public idUsuario = localStorage.getItem('idUsuario');
   public notas;
   public chartDatasets: Array<any>;
   public chartLabels: Array<any>;
@@ -56,7 +55,7 @@ export class NotasMateriaComponent {
   loaded:boolean = true
   getNotas() {
     this.loaded = false;
-    this.graficoService.notaMateria(this.idUsuario).subscribe(
+    this.graficoService.notaMateria().subscribe(
       (notas) => {
         notas = JSON.parse(notas);
         this.notas = notas;

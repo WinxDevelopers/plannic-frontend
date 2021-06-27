@@ -11,7 +11,6 @@ export class BadgesComponent implements OnInit{
   ){}
 
   public nomeUsuario = localStorage.getItem('nome')
-  public idUsuario = localStorage.getItem('idUsuario')
   public notaMenor;
   public notaMaior;
   public buscaTutor = false;
@@ -23,7 +22,7 @@ export class BadgesComponent implements OnInit{
   }
 
   menorNota() {
-    this.graficoService.notaMenor(this.idUsuario).subscribe(
+    this.graficoService.notaMenor().subscribe(
       (notaMenor) => {
         if (!notaMenor) {
           this.buscaTutor = false;
@@ -37,7 +36,7 @@ export class BadgesComponent implements OnInit{
   }
 
   maiorNota() {
-    this.graficoService.notaMaior(this.idUsuario).subscribe(
+    this.graficoService.notaMaior().subscribe(
       (notaMaior) => {
         if (!notaMaior) {
           this.sejaTutor = false;
