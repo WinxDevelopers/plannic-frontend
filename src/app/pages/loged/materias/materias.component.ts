@@ -60,20 +60,10 @@ export class MateriasComponent implements AfterViewInit {
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   /* SUGESTÃO DE MATÉRIA */
-  createSugestao(sugestao) {
+  createSugestao( sugestao) {
     this.materiaService.createSugestao(sugestao).subscribe(
       () => {
-        let sugest = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-        sugest.fire({
+        this.Toast.fire({
           icon: 'info',
           title: localStorage.getItem("lang") === "pt-BR" ? 'Enviado para análise' : "Sent to analyze"
         })

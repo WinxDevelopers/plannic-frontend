@@ -66,8 +66,8 @@ export class UserService {
     }, this.httpOptions)
   }
 
-  //1 - Admin / 2 - User
-  getFunction() {
+  userType() {
+    //1 - Admin / 2 - User
     return this.http.get(API_URL + `usuario/funcao/${this.idUsuario}`, this.httpOptions)
   };
 }

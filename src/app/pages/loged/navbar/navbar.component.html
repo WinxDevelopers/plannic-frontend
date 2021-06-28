@@ -32,7 +32,7 @@
   </div>
   <span class="navbar-text">
     <ul class="list-inline" style="position: relative; top: 5px">
-      <li *ngIf="canVote" class="list-inline-item">
+      <li *ngIf="isAdm" class="list-inline-item">
         <div class="dropdown">
           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -65,24 +65,35 @@
         <select-lang></select-lang>
       </li>
       <li class="list-inline-item align-middle">
-        <div class="dropdown float-right" style="font-size: 1.3em;">
-          <a class="dropdown-toggle" id="drop_user" role="button" data-toggle="dropdown" aria-haspopup="true"
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-light"><i class="fas fa-user"></i></button>
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false" id="drop_user">
+              <i class="fas fa-cogs"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+              <span class="ml-4">{{'LOGED.OLA' | translate}}, {{nome}}</span>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="./configuracoes">
+                <i class="fas fa-cog"></i>
+                {{'LOGED.CONFIGURACOES' | translate}}
+              </a>
+              <a class="dropdown-item" (click)="deslogar()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>{{'LOGED.SAIR' | translate}}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="dropdown float-right">
+          <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <i class="fas fa-user"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="drop_user" style="cursor: default;">
-            <span class="ml-4">{{'LOGED.OLA' | translate}}, {{nome}}</span>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" routerLink="./configuracoes">
-              <i class="fas fa-cog"></i>
-              {{'LOGED.CONFIGURACOES' | translate}}
-            </a>
-            <a class="dropdown-item" (click)="deslogar()">
-              <i class="fas fa-sign-out-alt"></i>
-              <span>{{'LOGED.SAIR' | translate}}</span>
-            </a>
-          </div>
-        </div>
+            
+        </div> -->
       </li>
     </ul>
   </span>
