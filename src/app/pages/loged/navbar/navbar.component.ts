@@ -66,8 +66,8 @@ export class NavbarComponent implements OnInit {
     sug.faltaVotar = sug.faltaVotar
       ? sug.faltaVotar.split("_").filter(id => id != this.idUser).join("_")
       : "";
-    sug.votos += voto
-    sug.totalVotos++;
+    sug.totalVotos += voto
+    sug.votos++;
     console.log(sug)
     /* this.materiaService.updateSugestao(sug).subscribe(
       () => {
