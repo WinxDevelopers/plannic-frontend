@@ -78,7 +78,6 @@ export class MateriasComponent implements AfterViewInit {
           title: localStorage.getItem("lang") === "pt-BR" ? 'Enviado para análise' : "Sent to analyze"
         })
         document.getElementById("closeModal_criarMat").click();
-        this.alertSucess("materia", "create");
         this.userMaterias = [];
         this.refresh();
       },
@@ -113,8 +112,16 @@ export class MateriasComponent implements AfterViewInit {
     if(!this.newMateria.descricao){
       this.newMateria.descricao = this.newMateria.nome
     }
+    let idMateriaBase;
+    this.dbMaterias.forEach((materia)=>{
+      if(materia.nomeMateria === this.newMateria.nome){
+        idMateriaBase = materia.idMateriaBase
+      }
+    })
     if (this.newMateria.nome && this.newMateria.descricao) {
-      this.materiaService.create(this.newMateria.nome, this.newMateria.descricao).subscribe(
+      console.log(this.newMateria)
+      console.log(idMateriaBase)
+      this.materiaService.create(idMateriaBase, this.newMateria.nome, this.newMateria.descricao).subscribe(
         () => {
           document.getElementById("closeModal_criarMat").click();
           this.alertSucess("materia", "create");
@@ -370,7 +377,8 @@ export class MateriasComponent implements AfterViewInit {
     this.materiaService.getAllBase().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
-        this.dbMaterias = data.map(mat => { return { nomeMateria: mat.materiaBase } });
+        console.log(data)
+        this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
         this.dbMaterias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
       }
     )

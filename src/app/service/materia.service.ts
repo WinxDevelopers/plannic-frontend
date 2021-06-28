@@ -24,11 +24,12 @@ export class MateriaService {
     }
     constructor(private http: HttpClient) { }
 
-    create(nomeMateria: string, descricao: string): Observable<any> {
+    create(idMateriaBase: number, nomeMateria: string, descricao: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro', {
             idUsuario: this.idUsuario,
             nomeMateria,
-            descricao
+            descricao,
+            idMateriaBase
         }, this.httpOptions);
     }
 
