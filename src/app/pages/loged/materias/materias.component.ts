@@ -77,6 +77,10 @@ export class MateriasComponent implements AfterViewInit {
           icon: 'info',
           title: localStorage.getItem("lang") === "pt-BR" ? 'Enviado para análise' : "Sent to analyze"
         })
+        document.getElementById("closeModal_criarMat").click();
+        this.alertSucess("materia", "create");
+        this.userMaterias = [];
+        this.refresh();
       },
       err => {
         this.alertError(err)
@@ -105,7 +109,6 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   saveMateria() {
-    console.log(this.newMateria)
     this.newMateria.camposVal = true;
     if(!this.newMateria.descricao){
       this.newMateria.descricao = this.newMateria.nome
