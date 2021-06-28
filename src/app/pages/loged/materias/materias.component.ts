@@ -59,6 +59,32 @@ export class MateriasComponent implements AfterViewInit {
   tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"];
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
+  /* SUGESTÃO DE MATÉRIA */
+  createSugestao(sugestao) {
+    this.materiaService.createSugestao(sugestao).subscribe(
+      () => {
+        let sugest = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        sugest.fire({
+          icon: 'info',
+          title: localStorage.getItem("lang") === "pt-BR" ? 'Enviado para análise' : "Sent to analyze"
+        })
+      },
+      err => {
+        this.alertError(err)
+      }
+    );
+  }
+
+
   /* CRUD Matéria */
   newMateria: any = {
     nome: null,
@@ -81,6 +107,9 @@ export class MateriasComponent implements AfterViewInit {
   saveMateria() {
     console.log(this.newMateria)
     this.newMateria.camposVal = true;
+    if(!this.newMateria.descricao){
+      this.newMateria.descricao = this.newMateria.nome
+    }
     if (this.newMateria.nome && this.newMateria.descricao) {
       this.materiaService.create(this.newMateria.nome, this.newMateria.descricao).subscribe(
         () => {
@@ -259,30 +288,30 @@ export class MateriasComponent implements AfterViewInit {
   /* MATERIAIS */
 
   arquivos: Set<File>;
-  getFiles(event){
+  getFiles(event) {
     console.log(event);
 
-    const selecionados = <FileList> event.srcElement.files;
+    const selecionados = <FileList>event.srcElement.files;
 
     let label = []
     this.arquivos = new Set();
-    for(let s=0; s<selecionados.length;s++){
+    for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
       this.arquivos.add(selecionados[s])
     }
     document.getElementById("customFileLabel").innerHTML = label.join("; ");
   }
 
-  uploadFiles(){
+  uploadFiles() {
     let mat;
-    this.materias.forEach((materia)=>{
+    this.materias.forEach((materia) => {
       console.log(materia.idMateria)
-      if(this.newNota.idMateria === materia.idMateria){
+      if (this.newNota.idMateria === materia.idMateria) {
         mat = materia.descricao;
         return;
       }
     })
-    if (this.arquivos && this.arquivos.size>0){
+    if (this.arquivos && this.arquivos.size > 0) {
       this.materiaService.newMaterial(mat, this.arquivos).subscribe(
         () => {
           this.alertSucess("material", "create");
@@ -299,7 +328,7 @@ export class MateriasComponent implements AfterViewInit {
 
 
   /* FUNÇÕES AUXILIARES */
-  dbMaterias: Materia[];
+  dbMaterias: any[];
   userMaterias: any = {};
   refresh() {
     this.loaded = false;
@@ -335,31 +364,10 @@ export class MateriasComponent implements AfterViewInit {
       }
     )
     //Materias do BD
-    this.materiaService.getAll().subscribe(
+    this.materiaService.getAllBase().subscribe(
       (stringData: string) => {
         let data = JSON.parse(stringData)
-        this.dbMaterias = data;
-        this.dbMaterias = this.dbMaterias.filter(mat => mat.descricao)
-        let dbmateriasUnicas = this.dbMaterias.reduce(
-          (arr, mat) => {
-            if (arr.indexOf(mat.nomeMateria) == -1) {
-              arr.push(mat.nomeMateria)
-            }
-            return arr;
-          }
-          , [])
-        this.dbMaterias = this.dbMaterias.concat(
-          dbmateriasUnicas.map((mat) => {
-            return {
-              idMateria: null,
-              idUsuario: null,
-              nomeMateria: mat,
-              tempo: null,
-              media: null,
-              descricao: null,
-            };
-          })
-        )
+        this.dbMaterias = data.map(mat => { return { nomeMateria: mat.materiaBase } });
         this.dbMaterias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
       }
     )
@@ -367,7 +375,7 @@ export class MateriasComponent implements AfterViewInit {
 
   dateToString(date: Date) {
     return `
-    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;    
+    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
   }
 
   openCreateNota() {
