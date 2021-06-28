@@ -72,20 +72,20 @@ export class MateriaService {
     }
 
     // Sugestão de Matérias
-    createSugestão(nomeMateria: string): Observable<any> {
+    createSugestao(nomeMateria: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/sugestoes', {
             idUsuario: this.idUsuario,
             nomeMateria
         }, this.httpOptions);
     }
 
-    updateSugestao(idSugestoesMateria: number, nomeMateria: string, votos: number, totalVotos: number): Observable<any> {
+    updateSugestao(sugestao: any): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'materia/sugestoes', {
-            idSugestoesMateria,
+            idSugestoesMateria: sugestao.idSugestoesMateria,
             idUsuario: this.idUsuario,
-            nomeMateria,
-            votos,
-            totalVotos
+            nomeMateria: sugestao.nomeMateria,
+            votos: sugestao.votos,
+            totalVotos: sugestao.totalVotos
         }, this.httpOptions);
     }
 
