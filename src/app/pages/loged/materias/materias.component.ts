@@ -303,26 +303,35 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   uploadFiles() {
-    let mat;
-    this.materias.forEach((materia) => {
-      console.log(materia.idMateria)
-      if (this.newNota.idMateria === materia.idMateria) {
-        mat = materia.descricao;
-        return;
+    const [file] = this.arquivos;
+    var name = file.name;
+    var type = file.type;
+    var publico = false;
+    console.log(name)
+    console.log(type)
+       
+    this.readFile(file).then((result) => {
+      var material = result;
+      let mat;
+      this.materias.forEach((materia) => {
+        if (this.newNota.idMateria === materia.idMateria) {
+          mat = materia.idMateriaBase;
+          return;
+        }
+      })
+      if (this.arquivos && this.arquivos.size > 0) {
+        this.materiaService.newMaterial(mat, material, name, type, publico).subscribe(
+          () => {
+            this.alertSucess("material", "create");
+            this.userMaterias = [];
+            this.refresh()
+          },
+          err => {
+            this.alertError(err)
+          }
+        );
       }
     })
-    if (this.arquivos && this.arquivos.size > 0) {
-      this.materiaService.newMaterial(mat, this.arquivos).subscribe(
-        () => {
-          this.alertSucess("material", "create");
-          this.userMaterias = [];
-          this.refresh()
-        },
-        err => {
-          this.alertError(err)
-        }
-      );
-    }
   }
 
 
@@ -534,4 +543,19 @@ export class MateriasComponent implements AfterViewInit {
       })
     }
   }
+
+  readFile(file){
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();  
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result)
+      };
+    });
+  }
+}
+
+function callback(file: File, callback: any) {
+  throw new Error('Function not implemented.');
 }
