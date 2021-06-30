@@ -1,3 +1,4 @@
+import { TutoriaComponent } from './pages/loged/tutoria/tutoria.component';
 import { ConfigComponent } from './pages/loged/config/config.component';
 import { CalendarioComponent } from './pages/loged/calendario/calendario.component';
 import { MateriasComponent } from './pages/loged/materias/materias.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'relatorios', component: RelatoriosComponent },
       { path: 'materias', component: MateriasComponent },
       { path: 'configuracoes', component: ConfigComponent },
+      { path: 'tutoria', component: TutoriaComponent }
     ]
   }
 ];
