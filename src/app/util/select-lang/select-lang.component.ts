@@ -3,7 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'select-lang',
-  templateUrl: './select-lang.component.html'
+  templateUrl: './select-lang.component.html',
+  styleUrls: ['./select-lang.component.scss'],
 })
 export class SelectLangComponent implements OnInit {
 
@@ -13,12 +14,28 @@ export class SelectLangComponent implements OnInit {
     this.translate.use(localStorage.getItem('lang') || 'pt-BR');
   }
 
+  public firstload = true;
+
   ngOnInit() {
+    if(this.translate.currentLang==="pt-BR"){
+      document.getElementById("button_switch").click();
+    }else{
+      this.firstload = false;
+    }
   }
 
-  switchLang(lang: string): void {
-    localStorage.setItem('lang', lang);
-    window.location.reload();
+  switchLang(): void {
+    if(this.firstload){
+      this.firstload = false;
+      return;
+    }else{
+      if(this.translate.currentLang==="pt-BR"){
+        localStorage.setItem('lang', "en");
+      }else{
+        localStorage.setItem('lang', "pt-BR");
+      }
+      setTimeout(() => window.location.reload(),500);
+    }
   }
 
 }

@@ -1,4 +1,17 @@
-<select id="select_lang" class="form-control" #langSelect (change)="switchLang(langSelect.value)">
+<!-- <select id="select_lang" class="form-control" #langSelect (change)="switchLang(langSelect.value)">
   <option *ngFor="let lang of translate.getLangs()" [value]="lang"
       [selected]="lang === translate.currentLang">{{ lang }}</option>
-</select>
+</select> -->
+
+<ul class="list-inline align-middle">
+  <li class="list-inline-item"><img class="align-top" src="../../../assets/img/eua.png" height="45"></li>
+  <li class="list-inline-item">
+    <div class="df-switch">
+      <button id="button_switch" (click)="switchLang()" type="button" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off">
+        <div class="inner-handle"></div>
+        <div class="handle"></div>
+      </button>
+    </div>
+  </li>
+  <li class="list-inline-item"><img class="align-top" src="../../../assets/img/br.png" height="45"></li>
+</ul>
