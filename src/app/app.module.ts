@@ -1,3 +1,4 @@
+import { TutoriaComponent } from './pages/loged/tutoria/tutoria.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -63,6 +64,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     RegistrarComponent,
     LoginComponent,
     Email_confComponent,
+    TutoriaComponent,
     NavbarComponent,
     LogedComponent,
     MateriasComponent,

@@ -49,6 +49,7 @@
         "MATERIA": "Subject",
         "AGENDAMENTO": "Scheduling",
         "AGENDAMENTOS": "Schedules",
+        "TUTORIA": "Tutoring",
         "NOTA": "Grade",
         "NOTAS": "Grades",
         "METODOS": "Study Methods",
