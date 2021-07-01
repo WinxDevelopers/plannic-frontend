@@ -390,7 +390,7 @@ export class MateriasComponent implements AfterViewInit {
             }
           }
         })
-        this.materias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
+        this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
         this.notas = data.notasMateria;
         this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
         this.dataSource = new MatTableDataSource(this.notas);
@@ -404,7 +404,7 @@ export class MateriasComponent implements AfterViewInit {
         let data = JSON.parse(stringData)
         console.log(data)
         this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
-        this.dbMaterias.sort((a, b) => (a.nomeMateria.toLowerCase() > b.nomeMateria.toLowerCase()) ? 1 : -1)
+        this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
       }
     )
   }
