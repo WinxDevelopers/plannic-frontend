@@ -106,6 +106,11 @@ export class MateriaService {
         return this.http.get(this.LOGIN_SERVICE_URL + `material/${this.idUsuario}`, this.httpOptions)
     };
 
+    //Busca todos o material por ID
+    getMaterialById(idMaterial): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `material/download/${idMaterial}`, this.httpOptions)
+    };
+
     // Sugestão de Matérias
     createSugestao(nomeMateria: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/sugestoes', {

@@ -334,11 +334,37 @@ export class MateriasComponent implements AfterViewInit {
     })
   }
 
+  downloadFiles() {
+    //PASSAR ID DO MATERIAL - idMaterial
+    this.materiaService.getMaterialById(13).subscribe(
+      (stringData: string) => {
+        let data = JSON.parse(stringData)
+        this.dataURL = data.material;
+        this.filename = data.nomeMaterial;
+        var file = this.dataURLtoFile(this.dataURL, this.filename)
+
+        const blob = window.URL.createObjectURL(file);
+
+        const link = document.createElement('a');
+        link.href = blob;
+
+        link.download = this.filename;
+
+        link.click();
+
+        window.URL.revokeObjectURL(blob);
+        link.remove();
+      }
+    )
+  }
+
 
 
   /* FUNÇÕES AUXILIARES */
   dbMaterias: any[];
   userMaterias: any = {};
+  dataURL: any;
+  filename: any;
   refresh() {
     this.loaded = false;
     this.usuarioService.getAllInfosById().subscribe(
@@ -554,6 +580,21 @@ export class MateriasComponent implements AfterViewInit {
       };
     });
   }
+
+  dataURLtoFile(dataurl, filename) {
+ 
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, {type:mime});
+}
 }
 
 function callback(file: File, callback: any) {
