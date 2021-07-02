@@ -74,7 +74,7 @@
     "NOTAS": {
         "NOME": "Nota",
         "NOME_MATERIA": "Nome Matéria",
-        "TIPO_AVALIACAO": "Tipo de Avaliação",
+        "TIPO": "Tipo de Avaliação",
         "DATA": "Data",
         "ACOES": "Ações",
         "CRIAR": "Adicionar Nota",

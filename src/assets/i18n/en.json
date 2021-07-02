@@ -74,7 +74,7 @@
     "NOTAS": {
         "NOME": "Grade",
         "NOME_MATERIA": "Name of Subject",
-        "TIPO_AVALIACAO": "Type of Avaliation",
+        "TIPO": "Type of Avaliation",
         "DATA": "Date",
         "ACOES": "Actions",
         "CRIAR": "Include Grade",
