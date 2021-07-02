@@ -279,13 +279,18 @@
                                                 class="fas fa-question-circle"></i>
                                         </label>
                                         <select [(ngModel)]="editForm.tipoEstudo" class="form-control">
-                                            <option *ngFor="let metodo of metodos" value="{{metodo}}">{{metodo}}
-                                            </option>
+                                            <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
+                                            <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
+                                            <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
+                                            <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
+                                            <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
+                                            <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- MÉTODOS DE ESTUDO -->
                         <div *ngIf="modal.seguinte === 'metodos'">
                             <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' |
                                 translate}}</span>
