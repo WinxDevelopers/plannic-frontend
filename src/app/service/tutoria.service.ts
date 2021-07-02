@@ -93,7 +93,7 @@ export class TutoriaaService {
 
     // Deleta tutoria
     deleteTutoria(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/cadastro/${id}`, this.httpOptions);
+        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/cadastro/${this.idUsuario}/${id}`, this.httpOptions);
     }
 
     // Busa todas as tutorias

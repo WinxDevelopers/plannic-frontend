@@ -70,4 +70,27 @@ export class UserService {
     //1 - Admin / 2 - User
     return this.http.get(API_URL + `usuario/funcao/${this.idUsuario}`, this.httpOptions)
   };
+
+  //NotasUsuario
+  //Busca avaliações pendentes em que o usuário precisa dar nota
+  getAvaliacoes() {
+    return this.http.get(API_URL + `notasusuario/${this.idUsuario}`, this.httpOptions)
+  };
+
+  //Nota que o usuário deu
+  notaUsuario(idNotaUsuario, idAvaliado, idTutoria, nota, ativo) {
+    return this.http.put(API_URL + `usuario`,  {
+      idNotaUsuario,
+      idAvalia: this.idUsuario, //Usuário que avalia
+      idAvaliado, //Usuário avaliado
+      idTutoria,
+      nota, 
+      ativo //Sempre falso
+    }, this.httpOptions)
+  }
+
+  //Busca a nota média do usuário
+  getNota() {
+    return this.http.get(API_URL + `notasusuario/nota/${this.idUsuario}`, this.httpOptions)
+  };
 }
