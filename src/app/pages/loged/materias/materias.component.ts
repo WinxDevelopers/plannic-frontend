@@ -1,3 +1,4 @@
+import { AgendamentoService } from './../../../service/agendamento.service';
 import { NotaMateria } from './../../../interface/notaMateria';
 import { UserService } from './../../../service/user.service';
 import { MateriaService } from './../../../service/materia.service';
@@ -48,6 +49,7 @@ export class MateriasComponent implements AfterViewInit {
   constructor(
     private materiaService: MateriaService,
     private usuarioService: UserService,
+    private agendamentoService: AgendamentoService,
     private notaMateriaService: NotaMateriaService) {
     this.dataSource = new MatTableDataSource([]);
     this.refresh();
@@ -60,7 +62,7 @@ export class MateriasComponent implements AfterViewInit {
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   /* SUGESTÃO DE MATÉRIA */
-  createSugestao( sugestao) {
+  createSugestao(sugestao) {
     this.materiaService.createSugestao(sugestao).subscribe(
       () => {
         this.Toast.fire({
@@ -99,12 +101,12 @@ export class MateriasComponent implements AfterViewInit {
 
   saveMateria() {
     this.newMateria.camposVal = true;
-    if(!this.newMateria.descricao){
+    if (!this.newMateria.descricao) {
       this.newMateria.descricao = this.newMateria.nome
     }
     let idMateriaBase;
-    this.dbMaterias.forEach((materia)=>{
-      if(materia.nomeMateria === this.newMateria.nome){
+    this.dbMaterias.forEach((materia) => {
+      if (materia.nomeMateria === this.newMateria.nome) {
         idMateriaBase = materia.idMateriaBase
       }
     })
@@ -153,6 +155,19 @@ export class MateriasComponent implements AfterViewInit {
             this.delNota(nota.idNotaMateria, true)
           }
         })
+        this.agendamentoService.getAll().subscribe(
+          (data) => {
+            data = JSON.parse(data)
+            data = data.filter(ag => { ag.idUsuario === this.idUsuario })
+            data.forEach(ag => {
+              if (ag.idMateria === idMateria) {
+                this.agendamentoService.delete(ag.idAgendamento)
+              }
+            });
+            console.log(data)
+          },
+          err => { console.log(err) }
+        )
         this.materiaService.delete(idMateria).subscribe(
           () => {
             this.alertSucess("materia", "delete");
@@ -309,7 +324,7 @@ export class MateriasComponent implements AfterViewInit {
     var publico = false;
     console.log(name)
     console.log(type)
-       
+
     this.readFile(file).then((result) => {
       var material = result;
       let mat;
@@ -570,9 +585,9 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
-  readFile(file){
+  readFile(file) {
     return new Promise((resolve, reject) => {
-      var reader = new FileReader();  
+      var reader = new FileReader();
       reader.onerror = reject;
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -582,19 +597,19 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   dataURLtoFile(dataurl, filename) {
- 
+
     var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), 
-        n = bstr.length, 
-        u8arr = new Uint8Array(n);
-        
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    
-    return new File([u8arr], filename, {type:mime});
-}
+
+    return new File([u8arr], filename, { type: mime });
+  }
 }
 
 function callback(file: File, callback: any) {
