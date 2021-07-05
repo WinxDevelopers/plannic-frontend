@@ -99,11 +99,19 @@ export class CalendarioComponent implements OnInit {
     this.refresh();
   }
 
-  /* CRIAR MATERIA PELO SELECT */
-  async criarMateria(nomeMateria: any) {
-    this.materiaService.create(1, nomeMateria, "Sem Descrição").subscribe(
-      () => { this.refresh() },
-      error => {
+  /* CRIAR SUGESTÃO DE MATERIA PELO SELECT */
+  newSugestaoID = undefined;
+  createSugestao(sugestao) {
+    this.materiaService.createSugestao(sugestao).subscribe(
+      (data) => {
+        data = JSON.parse(data)
+        this.Toast.fire({
+          icon: 'info',
+          title: localStorage.getItem("lang") === "pt-BR" ? 'Enviado para análise' : "Sent to analyze"
+        })
+        this.newSugestaoID = data.idMateria;
+      },
+      err => {
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
             icon: 'error',
@@ -116,7 +124,7 @@ export class CalendarioComponent implements OnInit {
           })
         }
       }
-    )
+    );
   }
 
   /* CRUD AGENDAMENTO */
@@ -125,6 +133,9 @@ export class CalendarioComponent implements OnInit {
   recorVal: boolean = true;
 
   save(form) {
+    if (this.newSugestaoID && !form.idMateria) {
+      form.idMateria = this.newSugestaoID
+    }
     if (
       form.recorrencia &&
       form.tipoEstudo &&
@@ -178,6 +189,9 @@ export class CalendarioComponent implements OnInit {
   }
 
   edit() {
+    if (this.newSugestaoID && !this.editForm.idMateria) {
+      this.editForm.idMateria = this.newSugestaoID
+    }
     this.recorrenciaInicio = this.editForm.dataInicio + "T12:00:00"
     this.recorrenciaFim = this.editForm.dataFim + "T12:00:00"
     this.agendamentoService.update(
@@ -405,7 +419,7 @@ export class CalendarioComponent implements OnInit {
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]
-        data.agendamentos = data.agendamentos.filter((ag)=>{
+        data.agendamentos = data.agendamentos.filter((ag) => {
           let mat = undefined;
           data.materias.forEach((m) => {
             if (m.idMateria === ag.idMateria)
@@ -420,7 +434,7 @@ export class CalendarioComponent implements OnInit {
         })
         this.materias = data.materias;
         this.calendarOptions.events = data.agendamentos.map((ag) => {
-          ag = ag as Agendamento;          
+          ag = ag as Agendamento;
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
@@ -459,6 +473,7 @@ export class CalendarioComponent implements OnInit {
     this.recorVal = true;
     this.newForm = {};
     this.editForm = {};
+    this.newSugestaoID = undefined;
     this.recorrencia = {
       disable: true,
       vezes: 1,

@@ -38,18 +38,15 @@
                                         <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
                                             translate}}</label>
                                         <ng-select [(ngModel)]="this.newForm.idMateria" [items]="this.materias"
-                                            [selectOnTab]="true" bindLabel="nomeMateria" bindValue="idMateria"
+                                            [selectOnTab]="true" bindLabel="nomeMateria" bindValue="idMateria"                                        
                                             [addTag]="true">
+                                            <ng-template ng-option-tmp let-item="item">
+                                                {{item.nomeMateria}}
+                                            </ng-template>
                                             <ng-template ng-tag-tmp let-search="searchTerm">
-                                                <div (click)="criarMateria(search)">
+                                                <div (click)="createSugestao(search)">
                                                     {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
                                                 </div>
-                                            </ng-template>
-                                            <ng-template ng-option-tmp let-item="item">
-                                                {{item.nomeMateria}} <br />
-                                                <small *ngIf="item.descricao"><b>{{'MATERIAS.DESCRICAO' |
-                                                        translate}}</b>:
-                                                    {{item.descricao}}</small>
                                             </ng-template>
                                         </ng-select>
                                     </div>
@@ -110,10 +107,13 @@
                                                 <div class="col-5">
                                                     <select [(ngModel)]="recorrencia.repeticao" class="form-control"
                                                         id="repeat_form">
-                                                        <option value="dia">{{'AGENDAMENTOS.DIARIAMENTE' | translate}}</option>
-                                                        <option value="semana">{{'AGENDAMENTOS.SEMANALMENTE' | translate}}
+                                                        <option value="dia">{{'AGENDAMENTOS.DIARIAMENTE' | translate}}
                                                         </option>
-                                                        <option value="mes">{{'AGENDAMENTOS.MENSALMENTE' | translate}}</option>
+                                                        <option value="semana">{{'AGENDAMENTOS.SEMANALMENTE' |
+                                                            translate}}
+                                                        </option>
+                                                        <option value="mes">{{'AGENDAMENTOS.MENSALMENTE' | translate}}
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="col-3">
@@ -135,7 +135,7 @@
                                             <div class="form-check">
                                                 <input [(ngModel)]="this.notificacao.disable" class="form-check-input"
                                                     type="checkbox" id="gridCheck">
-                                                <label class="form-check-label" for="gridCheck">                                                    
+                                                <label class="form-check-label" for="gridCheck">
                                                     {{'AGENDAMENTOS.NUNCA' | translate}}
                                                 </label>
                                             </div>
@@ -150,13 +150,19 @@
                                                 <div class="col-4">
                                                     <select [(ngModel)]="notificacao.medida" class="form-control"
                                                         id="repeat_form">
-                                                        <option value="hora">{{'AGENDAMENTOS.HORA' | translate}}<span *ngIf="notificacao.tempo>1">s</span></option>
-                                                        <option value="dia">{{'AGENDAMENTOS.DIA' | translate}}<span *ngIf="notificacao.tempo>1">s</span></option>
-                                                        <option value="semana">{{'AGENDAMENTOS.SEMANA' | translate}}<span *ngIf="notificacao.tempo>1">s</span></option>
+                                                        <option value="hora">{{'AGENDAMENTOS.HORA' | translate}}<span
+                                                                *ngIf="notificacao.tempo>1">s</span></option>
+                                                        <option value="dia">{{'AGENDAMENTOS.DIA' | translate}}<span
+                                                                *ngIf="notificacao.tempo>1">s</span></option>
+                                                        <option value="semana">{{'AGENDAMENTOS.SEMANA' |
+                                                            translate}}<span *ngIf="notificacao.tempo>1">s</span>
+                                                        </option>
                                                         <option value="mes">
-                                                            <span *ngIf="notificacao.tempo>1 && lang != 'en';else other_content">Meses</span>
-                                                            <ng-template #other_content>                                                            
-                                                                {{'AGENDAMENTOS.MES' | translate}}<span *ngIf="notificacao.tempo>1">s</span>
+                                                            <span
+                                                                *ngIf="notificacao.tempo>1 && lang != 'en';else other_content">Meses</span>
+                                                            <ng-template #other_content>
+                                                                {{'AGENDAMENTOS.MES' | translate}}<span
+                                                                    *ngIf="notificacao.tempo>1">s</span>
                                                             </ng-template>
                                                         </option>
                                                     </select>
@@ -205,22 +211,16 @@
                                     <div class="form-group">
                                         <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
                                             translate}}</label>
-                                        <select [(ngModel)]="editForm.idMateria" class="form-control">
-                                            <option *ngFor="let materia of materias" value="{{materia.idMateria}}">
-                                                {{materia.nomeMateria}}
-                                            </option>
-                                        </select>
                                         <ng-select id="select_materia" [(ngModel)]="this.editForm.idMateria"
                                             [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
-                                            bindValue="idMateria" [addTag]="true">
+                                            bindValue="idMateria" [addTag]="true" (change)="onChange($event, 'create')">
                                             <ng-template ng-option-tmp let-item="item">
-                                                {{item.nomeMateria}} <br />
-                                                <small *ngIf="item.descricao">
-                                                    <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
-                                                </small>
+                                                {{item.nomeMateria}}
                                             </ng-template>
                                             <ng-template ng-tag-tmp let-search="searchTerm">
-                                                {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                                <div (click)="createSugestao(search)">
+                                                    {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                                </div>
                                             </ng-template>
                                         </ng-select>
                                     </div>
