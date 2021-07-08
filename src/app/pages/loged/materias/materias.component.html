@@ -6,7 +6,7 @@
     <!-- Modal Criação de Matéria -->
     <div class="modal fade" id="criarmateria" tabindex="-1" role="dialog" aria-labelledby="CriarMateriaModalLabel"
       aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="CriarMateriaModalLabel">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
@@ -24,9 +24,6 @@
                     (change)="onChange($event, 'create')">
                     <ng-template ng-option-tmp let-item="item">
                       {{item.nomeMateria}} <br />
-                      <small *ngIf="item.descricao">
-                        <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
-                      </small>
                     </ng-template>
                     <ng-template ng-tag-tmp let-search="searchTerm">
                       <div (click)="createSugestao(search)">
@@ -34,15 +31,6 @@
                       </div>
                     </ng-template>
                   </ng-select>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="small mb-1" for="descricao">{{'MATERIAS.DESCRICAO' | translate}}</label>
-                  <input class="form-control" id="descricao" name="descricao" type="text"
-                    [(ngModel)]="newMateria.descricao" placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
                 </div>
               </div>
             </div>
@@ -74,287 +62,219 @@
         *ngIf="this.materias.length===0">
         {{'MATERIAS.SEM_MATERIAS' | translate}}
       </h4>
-      <!-- Card Matéria -->
-      <div *ngIf="this.materias.length>0" class="accordion" id="accordionMaterias">
-        <div class="card" *ngFor="let materia of this.userMaterias | keyvalue">
-          <div class="card-header" id="heading{{materia.value['id']}}" (click)="setTable(undefined)">
-            <h2 class="mb-0">
-              <div class="row">
-                <div class="btn col btn btn-block text-left collapsed" type="button" data-toggle="collapse"
-                  attr.data-target="#collapse{{materia.value['id']}}" aria-expanded="false"
-                  attr.aria-controls="collapse{{materia.value['id']}}">
-                  <i class="fa fa-align-left" style="font-size: 15px;"></i>
-                  {{materia.key}}
-                </div>
-              </div>
-            </h2>
-          </div>
-          <div id="collapse{{materia.value['id']}}" class="collapse"
-            attr.aria-labelledby="heading{{materia.value['id']}}" data-parent="#accordionMaterias">
-            <div class="card-body">
-              <div class="card-group">
-                <div class="card col-4">
-                  <div class="card-body">
-                    <div class="nav flex-column nav-pills" id="{{materia.value['id']}}-tab" role="tablist"
-                      aria-orientation="vertical">
-                      <a *ngFor="let descricao of materia.value['descs'] | keyvalue" class="nav-link link_materias"
-                        id="{{descricao.value['idMateria']}}-tab" data-toggle="pill"
-                        href="#v-pills-{{descricao.value['idMateria']}}" role="tab"
-                        (click)="this.setTable(descricao.value['idMateria'])"
-                        attr.aria-controls="v-pills-{{descricao.value['idMateria']}}" aria-selected="true">
-                        <span style="position: relative; top:5px">{{descricao.value['desc']}}</span>
-                        <button type="button" (click)="this.delMateria(descricao.value['idMateria'])"
-                          style="position: relative; left:23px" class="btn btn-sm btn-outline-danger mr-3 float-right">
-                          {{'CRUD-GERAL.EXCLUIR' | translate}}
+      <div class="row row-cols-1 row-cols-md-3">
+        <div class="col mb-4" *ngFor="let materia of this.userMaterias | keyvalue">
+          <div class="card h-100">
+            <div class="card-header" id="heading{{materia.key}}">
+              {{materia.value['nome']}}
+              <div class="float-right">
+                <!-- EDIÇÃO DE MATÉRIAS -->
+                <i (click)="setEditMateria(materia.key)" id="btn_EditMateria" data-toggle="modal"
+                  data-target="#EditarMateriaModal" style="color: #19647e; cursor: pointer;"
+                  class="far fa-edit fa-lg mr-3"></i>
+                <div class="modal fade" id="EditarMateriaModal" tabindex="-1" aria-labelledby="EditarMateriaModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="EditarMateriaModalLabel">
+                          {{'CRUD-GERAL.EDITAR' | translate}}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
                         </button>
-                      </a>
-                      <hr style="width: 70%;">
-                      <!-- Edição de Matérias -->
-                      <button *ngIf="materiaToEdit.descricao!=null" id="btn_EditMateria" type="button"
-                        class="btn btn-primary" data-toggle="modal" data-target="#EditarMateriaModal">
-                        {{'CRUD-GERAL.EDITAR' | translate}} {{materiaToEdit.descricao}}
-                      </button>
-                      <div class="modal fade" id="EditarMateriaModal" tabindex="-1"
-                        aria-labelledby="EditarMateriaModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="EditarMateriaModalLabel">
-                                {{'CRUD-GERAL.EDITAR' | translate}}
-                              </h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="form-row">
-                                <div class="col-md-12">
-                                  <div class="form-group">
-                                    <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
-                                    <ng-select id="select_materia" [(ngModel)]="this.materiaToEdit.nomeMateria"
-                                      [items]="this.dbMaterias" [selectOnTab]="true" bindLabel="nomeMateria"
-                                      bindValue="nomeMateria" [addTag]="true" (change)="onChange($event, 'edit')">
-                                      <ng-template ng-option-tmp let-item="item">
-                                        {{item.nomeMateria}} <br />
-                                        <small *ngIf="item.descricao">
-                                          <b>{{'MATERIAS.DESCRICAO' | translate}}</b>: {{item.descricao}}
-                                        </small>
-                                      </ng-template>
-                                      <ng-template ng-tag-tmp let-search="searchTerm">
-                                        {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
-                                      </ng-template>
-                                    </ng-select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="form-row">
-                                <div class="col-md-12">
-                                  <div class="form-group">
-                                    <label class="small mb-1"
-                                      for="descricao_{{materia.value['id']}}">{{'MATERIAS.DESCRICAO' |
-                                      translate}}</label>
-                                    <input class="form-control" id="descricao_{{materia.value['id']}}"
-                                      name="descricaoEdit" type="text" [(ngModel)]="this.materiaToEdit.descricao"
-                                      placeholder="{{'MATERIAS.DESCRICAO' | translate}}" />
-                                  </div>
-                                </div>
-                              </div>
-                              <p [hidden]="this.materiaToEdit.camposVal" style="color: red; ">
-                                {{'NOTAS.ERROS.CAMPOS' | translate}}
-                              </p>
-                            </div>
-                            <div class="modal-footer">
-                              <button (click)="editMateria()" type="button" class="btn btn-primary">
-                                {{'MATERIAS.SALVAR' | translate}}
-                              </button>
-                              <button id="closeModal" (click)="closeModal()" type="button" class="btn btn-secondary"
-                                data-dismiss="modal">
-                                {{'MATERIAS.FECHAR' | translate}}
-                              </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="small mb-1" for="nome-materia">{{'MATERIAS.NOME' | translate}}</label>
+                              <ng-select id="select_materia" [(ngModel)]="this.materiaToEdit.nomeMateria"
+                                [items]="this.dbMaterias" [selectOnTab]="true" bindLabel="nomeMateria"
+                                bindValue="nomeMateria" [addTag]="true" (change)="onChange($event, 'edit')">
+                                <ng-template ng-option-tmp let-item="item">
+                                  {{item.nomeMateria}} <br />
+                                </ng-template>
+                                <ng-template ng-tag-tmp let-search="searchTerm">
+                                  {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                </ng-template>
+                              </ng-select>
                             </div>
                           </div>
                         </div>
+                        <p [hidden]="this.materiaToEdit.camposVal" style="color: red; ">
+                          {{'NOTAS.ERROS.CAMPOS' | translate}}
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button (click)="editMateria()" type="button" class="btn btn-primary">
+                          {{'MATERIAS.SALVAR' | translate}}
+                        </button>
+                        <button id="closeModal_editMat" (click)="closeModal()" type="button" class="btn btn-secondary"
+                          data-dismiss="modal">
+                          {{'MATERIAS.FECHAR' | translate}}
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card">
-                  <div class="card-body">
-                    <div *ngIf="length!=undefined;else materia_nao_selecionada">
-                      <ul class="nav nav-tabs" id="myTab{{materia.value['id']}}" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <a class="nav-link active" id="notas-tab" data-toggle="tab"
-                            href="#notas{{materia.value['id']}}" role="tab" aria-controls="notas"
-                            aria-selected="true">{{'LOGED.NOTAS' | translate}}</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <a class="nav-link" id="material-tab" data-toggle="tab"
-                            href="#material{{materia.value['id']}}" role="tab" aria-controls="material"
-                            aria-selected="false">{{'MATERIAS.MATERIAIS' |
-                            translate}}</a>
-                        </li>
-                      </ul>
-                      <div class="tab-content" id="myTabContent{{materia.value['id']}}">
-                        <div class="tab-pane fade show active" id="notas{{materia.value['id']}}" role="tabpanel"
-                          aria-labelledby="notas-tab">
-                          <div *ngIf="length>0">
-                            <!-- Criação de Nota -->
-                            <button type="button" class="btn btn-primary btn-block mt-4 mb-3"
-                              style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
-                              data-target="#CriarNotaModal">
-                              <i class="fas fa-plus-circle mr-1"></i>
-                              {{'CRUD-GERAL.CRIAR' | translate}}
-                            </button>
-                            <div class="tab-content" id="{{materia.value['id']}}-tabContent">
-                              <div *ngFor="let descricao of materia.value['descs'] | keyvalue"
-                                class="tab-pane fade show" id="v-pills-{{descricao.value['idMateria']}}" role="tabpanel"
-                                attr.aria-labelledby="{{descricao.value['idMateria']}}-tab">
-                                <div class="mat-elevation-z8">
-                                  <table mat-table multiTemplateDataRows [dataSource]="dataSource" style="width: 100%;">
-                                    <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">                                      
-                                      <th mat-header-cell *matHeaderCellDef>                      
-                                        <span *ngIf="column=='Nota';else other_content">{{'NOTAS.NOME' | translate}}</span>
-                                        <ng-template #other_content>
-                                          <span *ngIf="column!=' '">
-                                            {{'NOTAS.'+column.toUpperCase() | translate}}
-                                          </span>
-                                        </ng-template>
-                                      </th>
-                                      <td mat-cell *matCellDef="let element">
-                                        <span *ngIf="(element[column]?.length>=0 || element[column]>=0)">
-                                          {{element[column]}}
-                                        </span>
-                                        <!-- Exclusão de nota -->
-                                        <span *ngIf="element[column]===undefined">
-                                          <button type="button" (click)="this.delNota(element.idNotaMateria,false)"
-                                            class="btn btn-sm btn-outline-danger mr-3 float-right">
-                                            X
-                                          </button>
-                                        </span>
-                                      </td>
-                                    </ng-container>
-                                    <!-- Edição de notas -->
-                                    <ng-container matColumnDef="expandedDetail">
-                                      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                                        <div class="example-element-detail"
-                                          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                                          <div class="example-element-diagram">
-                                            <div class="px-4 py-1">
-                                              <div class="form-row">
-                                                <div class="col-md-12">
-                                                  <div class="form-group">
-                                                    <label class="small mb-1"
-                                                      for="tipoAvaliacao">{{'NOTAS.TIPO'
-                                                      |
-                                                      translate}}
-                                                    </label>
-                                                    <select [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
-                                                      [(ngModel)]="notaToEdit.tipoNota" class="form-control">
-                                                      <option *ngFor="let tipo of tipos">{{tipo}}</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="form-row">
-                                                <div class="col-md-12">
-                                                  <div class="form-group">
-                                                    <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' |
-                                                      translate}}</label>
-                                                    <input
-                                                      [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
-                                                      [(ngModel)]="notaToEdit.dataNota" class="form-control"
-                                                      type="date" />
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="form-row">
-                                                <div class="col-md-4">
-                                                  <div class="form-group">
-                                                    <label class="small mb-1" for="nota">{{'LOGED.NOTA' |
-                                                      translate}}</label>
-                                                    <input
-                                                      [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
-                                                      [(ngModel)]="notaToEdit.notaMateria" class="form-control"
-                                                      id="nota" name="nota" type="number" placeholder="Nota">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="form-row mb-2">
-                                                <div class="col-md-12">
-                                                  <span [hidden]="camposValidos" style="color: red; ">
-                                                    {{'NOTAS.ERROS.CAMPOS' | translate}}
-                                                    <br>
-                                                  </span>
-                                                  <span [hidden]="dataValida" style="color: red; ">
-                                                    {{'NOTAS.ERROS.DATA' | translate}}
-                                                    <br>
-                                                  </span>
-                                                  <span [hidden]="notaValida" style="color: red; ">
-                                                    {{'NOTAS.ERROS.NOTA' | translate}}
-                                                  </span>
-                                                </div>
-                                              </div>
-                                              <div class="form-row">
-                                                <div class="col">
-                                                  <button (click)="editNota()" type="button"
-                                                    class="btn btn-info btn-block">{{'CRUD-GERAL.EDITAR' |
-                                                    translate}}</button>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-                                    </ng-container>
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                    <tr (click)="setEditNota(element.idNotaMateria)" mat-row
-                                      *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-                                      [class.example-expanded-row]="expandedElement === element"
-                                      (click)="expandedElement = expandedElement === element ? null : element">
-                                    </tr>
-                                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
-                                      class="example-detail-row">
-                                    </tr>
-                                  </table>
+                <!-- EXCLUSÃO DE MATÉRIAS -->
+                <i (click)="delMateria(materia.key)" style="color: #dc3545; cursor: pointer;"
+                  class="far fa-minus-square fa-lg"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <ul class="nav nav-tabs" id="myTab{{materia.key}}" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="notas-tab" data-toggle="tab" href="#notas{{materia.key}}" role="tab"
+                    aria-controls="notas" aria-selected="true">{{'LOGED.NOTAS' | translate}}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="material-tab" data-toggle="tab" href="#material{{materia.key}}" role="tab"
+                    aria-controls="material" aria-selected="false">{{'MATERIAS.MATERIAIS' |
+                    translate}}</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent{{materia.key}}">
+                <div class="tab-pane fade show active" id="notas{{materia.key}}" role="tabpanel"
+                  aria-labelledby="notas-tab">
+                  <div *ngIf="materia.value['notas'].length>0;else sem_notas">
+                    <!-- Criação de Nota -->
+                    <button type="button" class="btn btn-primary btn-block mt-4 mb-3"
+                      (click)="setIdMateria(materia.key)"
+                      style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
+                      data-target="#CriarNotaModal">
+                      <i class="fas fa-plus-circle mr-1"></i>
+                      {{'CRUD-GERAL.CRIAR' | translate}}
+                    </button>
+                    <table mat-table multiTemplateDataRows [dataSource]="materia.value['notas']">
+                      <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <span *ngIf="column=='nota';else other_content">{{'NOTAS.NOME' | translate}}</span>
+                          <ng-template #other_content>
+                            <span *ngIf="column!=' '">
+                              {{'NOTAS.'+column.toUpperCase() | translate}}
+                            </span>
+                          </ng-template>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span *ngIf="column!=' ';else excluir">
+                            <span *ngIf="column=='nota'">{{element['notaMateria']}}</span>
+                            <span *ngIf="column=='tipo'">{{element['tipoNota']}}</span>
+                            <span *ngIf="column=='data'">{{element['dataNota']}}</span>
+                          </span>
+                          <!-- Exclusão de nota -->
+                          <ng-template #excluir>
+                            <i (click)="delNota(element.idNotaMateria, false)" style="color: #dc3545; cursor: pointer;"
+                              class="far fa-minus-square fa-lg"></i>
+                          </ng-template>
+                        </td>
+                      </ng-container>
+                      <!-- Edição de notas -->
+                      <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                          <div class="example-element-detail"
+                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                            <div class="example-element-diagram">
+                              <div class="px-4 py-1">
+                                <div class="form-row">
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="small mb-1" for="tipoAvaliacao">{{'NOTAS.TIPO'
+                                        |
+                                        translate}}
+                                      </label>
+                                      <select [ngStyle]="{'border-color': !camposValidos ? 'red' : null}"
+                                        [(ngModel)]="notaToEdit.tipoNota" class="form-control">
+                                        <option *ngFor="let tipo of tipos">{{tipo}}</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="small mb-1" for="dataNota">{{'NOTAS.DATA' |
+                                        translate}}</label>
+                                      <input
+                                        [ngStyle]="{'border-color': (!camposValidos || !dataValida) ? 'red' : null}"
+                                        [(ngModel)]="notaToEdit.dataNota" class="form-control" type="date" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label class="small mb-1" for="nota">{{'LOGED.NOTA' |
+                                        translate}}</label>
+                                      <input
+                                        [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
+                                        [(ngModel)]="notaToEdit.notaMateria" class="form-control" id="nota" name="nota"
+                                        type="number" placeholder="Nota">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-row mb-2">
+                                  <div class="col-md-12">
+                                    <span [hidden]="camposValidos" style="color: red; ">
+                                      {{'NOTAS.ERROS.CAMPOS' | translate}}
+                                      <br>
+                                    </span>
+                                    <span [hidden]="dataValida" style="color: red; ">
+                                      {{'NOTAS.ERROS.DATA' | translate}}
+                                      <br>
+                                    </span>
+                                    <span [hidden]="notaValida" style="color: red; ">
+                                      {{'NOTAS.ERROS.NOTA' | translate}}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="col">
+                                    <button (click)="editNota()" type="button"
+                                      class="btn btn-info btn-block">{{'CRUD-GERAL.EDITAR' |
+                                      translate}}</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div style="color: #505050" *ngIf="length===0">
-                            <h5 class="mt-3 text-center">
-                              {{'MATERIAS.SEM_NOTAS' | translate}}
-                              <br>
-                              <!-- Criação de Nota -->
-                              <button id="btn_createNota" type="button" class="btn btn-primary btn-lg mt-4"
-                                style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
-                                data-target="#CriarNotaModal">
-                                <i class="fas fa-plus-circle mr-1"></i>
-                                {{'CRUD-GERAL.CRIAR' | translate}}
-                              </button>
-                            </h5>
-                          </div>
-                          <div *ngIf="length===undefined"></div>
-                        </div>
-                        <div class="tab-pane fade" id="material{{materia.value['id']}}" role="tabpanel"
-                          aria-labelledby="material-tab">
-                          <div class=" my-3 custom-file">
-                            <input type="file" (change)="getFiles($event)" class="custom-file-input" id="customFile"
-                              multiple>
-                            <label class="custom-file-label" for="customFile" id="customFileLabel">{{'MATERIAS.ESCOLHER'
-                              |
-                              translate}}</label>
-                          </div>
-                          <button type="button" (click)="uploadFiles()" class=" btn btn-info"
-                            [disabled]="!arquivos">{{'CRUD-GERAL.SALVAR' | translate}}</button>
-                        </div>
-                      </div>
-                    </div>
-                    <ng-template class="row justify-content-md-center" #materia_nao_selecionada >
-                      <div class="col text-center" style="color: #f5f5f5;">
-                        <i class="fas fa-graduation-cap fa-10x"></i>
-                      </div>
-                    </ng-template>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr (click)="setEditNota(element.idNotaMateria)" mat-row
+                        *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                      </tr>
+                      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                      </tr>
+                    </table>
                   </div>
+                  <ng-template style="color: #505050" #sem_notas>
+                    <h5 class="mt-3 text-center">
+                      {{'MATERIAS.SEM_NOTAS' | translate}}
+                      <br>
+                      <!-- Criação de Nota -->
+                      <button id="btn_createNota" type="button" class="btn btn-primary btn-lg mt-4"
+                        (click)="setIdMateria(materia.key)"
+                        style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
+                        data-target="#CriarNotaModal">
+                        <i class="fas fa-plus-circle mr-1"></i>
+                        {{'CRUD-GERAL.CRIAR' | translate}}
+                      </button>
+                    </h5>
+                  </ng-template>
+                </div>
+                <div class="tab-pane fade" id="material{{materia.key}}" role="tabpanel" aria-labelledby="material-tab">
+                  <div class=" my-3 custom-file">
+                    <input type="file" (change)="getFiles($event)" class="custom-file-input" id="customFile" multiple>
+                    <label class="custom-file-label" for="customFile" id="customFileLabel">{{'MATERIAS.ESCOLHER'
+                      |
+                      translate}}</label>
+                  </div>
+                  <button type="button" (click)="uploadFiles()" class=" btn btn-info"
+                    [disabled]="!arquivos">{{'CRUD-GERAL.SALVAR' | translate}}</button>
                 </div>
               </div>
             </div>
@@ -366,7 +286,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="CriarNotaModal">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
+              <h5 class="modal-title">{{'CRUD-GERAL.CRIAR' | translate}}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -415,7 +335,7 @@
               <button (click)="this.saveNota()" type="button" class="btn btn-info">
                 {{'CRUD-GERAL.SALVAR' | translate}}
               </button>
-              <button id="close_createNota" type="button" class="btn btn-secondary"
+              <button id="closeModal_createNota" type="button" class="btn btn-secondary"
                 data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
             </div>
           </div>

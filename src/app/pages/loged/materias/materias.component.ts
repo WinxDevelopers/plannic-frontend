@@ -2,8 +2,7 @@ import { AgendamentoService } from './../../../service/agendamento.service';
 import { NotaMateria } from './../../../interface/notaMateria';
 import { UserService } from './../../../service/user.service';
 import { MateriaService } from './../../../service/materia.service';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Materia } from 'src/app/interface/materia';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
@@ -26,12 +25,12 @@ import Swal from 'sweetalert2';
 export class MateriasComponent implements AfterViewInit {
   /* CONFIG TABELA DE NOTAS */
   notasXmaterias: NotaMateria[] = [];
-  displayedColumns: string[] = ['Nota', 'Tipo', 'Data', ' '];
+  displayedColumns: string[] = ['nota', 'tipo', 'data', ' '];
   dataSource: MatTableDataSource<NotaMateria>;
   expandedElement: NotaMateria | null;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.refresh();
   }
 
   /* Alert */
@@ -51,8 +50,6 @@ export class MateriasComponent implements AfterViewInit {
     private usuarioService: UserService,
     private agendamentoService: AgendamentoService,
     private notaMateriaService: NotaMateriaService) {
-    this.dataSource = new MatTableDataSource([]);
-    this.refresh();
   }
 
   loaded: boolean = false;
@@ -83,7 +80,6 @@ export class MateriasComponent implements AfterViewInit {
   /* CRUD Matéria */
   newMateria: any = {
     nome: null,
-    descricao: null,
     camposVal: true,
   };
 
@@ -91,29 +87,22 @@ export class MateriasComponent implements AfterViewInit {
     if (event) {
       if (type === "create") {
         this.newMateria.nome = event.nomeMateria;
-        this.newMateria.descricao = event.descricao;
       } else {
         this.materiaToEdit.nome = event.nomeMateria;
-        this.materiaToEdit.descricao = event.descricao;
       }
     }
   }
 
   saveMateria() {
     this.newMateria.camposVal = true;
-    if (!this.newMateria.descricao) {
-      this.newMateria.descricao = this.newMateria.nome
-    }
     let idMateriaBase;
     this.dbMaterias.forEach((materia) => {
       if (materia.nomeMateria === this.newMateria.nome) {
         idMateriaBase = materia.idMateriaBase
       }
     })
-    if (this.newMateria.nome && this.newMateria.descricao) {
-      console.log(this.newMateria)
-      console.log(idMateriaBase)
-      this.materiaService.create(idMateriaBase, this.newMateria.nome, this.newMateria.descricao).subscribe(
+    if (this.newMateria.nome) {
+      this.materiaService.create(idMateriaBase, this.newMateria.nome, this.newMateria.nome).subscribe(
         () => {
           document.getElementById("closeModal_criarMat").click();
           this.alertSucess("materia", "create");
@@ -129,14 +118,30 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
+  materiaToEdit: any = {
+    nomeMateria: null,
+    idMateria: null
+  };
+  setEditMateria(idMateria) {
+    console.log(idMateria)
+    this.materias.forEach((materia) => {
+      console.log(materia)
+      if (materia.idMateria == idMateria) {
+        this.materiaToEdit = materia;
+        this.materiaToEdit.camposVal = true;
+        return;
+      }
+    })
+  }
+
   editMateria() {
     this.materiaToEdit.camposVal = true;
-    console.log(this.materiaToEdit);
-
-    if (this.materiaToEdit.nomeMateria && this.materiaToEdit.descricao) {
-      this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.descricao).subscribe(
+    if (this.materiaToEdit.nomeMateria) {
+      this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.nomeMateria).subscribe(
         () => {
           this.alertSucess("materia", "update");
+          document.getElementById('closeModal_editMat').click();
+          this.refresh();
         },
         (err) => {
           this.alertError(err);
@@ -147,7 +152,7 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
-  async delMateria(idMateria) {
+  delMateria(idMateria) {
     this.confDel().then((result) => {
       if (result.isConfirmed) {
         this.notas.forEach((nota) => {
@@ -164,7 +169,6 @@ export class MateriasComponent implements AfterViewInit {
                 this.agendamentoService.delete(ag.idAgendamento)
               }
             });
-            console.log(data)
           },
           err => { console.log(err) }
         )
@@ -195,10 +199,17 @@ export class MateriasComponent implements AfterViewInit {
   dataValida = true;
   camposValidos = true;
 
+  idMateria:string;
+  //Definir materia que vai ser associada a nota nova
+  setIdMateria(idMateria) {
+    console.log(idMateria)
+    this.idMateria = idMateria
+  }
   saveNota() {
     this.notaValida = true;
     this.dataValida = true;
     this.camposValidos = true;
+    this.newNota.idMateria = parseInt(this.idMateria);
 
     //Campos preenchidos:
     if (this.newNota.tipoNota && this.newNota.nota != null && this.newNota.data) {
@@ -209,9 +220,9 @@ export class MateriasComponent implements AfterViewInit {
       ) {
         this.notaMateriaService.create(this.newNota.idMateria, this.newNota.nota, this.newNota.tipoNota, this.newNota.data + "T00:00:00").subscribe(
           () => {
-            this.newNota = {}
-            document.getElementById("close_createNota").click();
             this.alertSucess("nota", "create");
+            document.getElementById("closeModal_createNota").click();
+            this.newNota = {}
             this.userMaterias = [];
             this.refresh();
           },
@@ -232,6 +243,24 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
+  notaToEdit: any = {
+    idNotaMateria: null,
+    idMateria: null,
+    idUsuario: null,
+    notaMateria: null,
+    tipoNota: null,
+    dataNota: null
+  }
+  setEditNota(idNotaMateria) {
+    this.notas.forEach((nota) => {
+      if (nota.idNotaMateria === idNotaMateria) {
+        this.notaToEdit = JSON.parse(JSON.stringify(nota))
+        let date = new Date(nota.dataNota)
+        this.notaToEdit.dataNota = `${date.getFullYear()}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}`
+      }
+    })
+  }
+
   editNota() {
     this.notaValida = true;
     this.dataValida = true;
@@ -243,16 +272,9 @@ export class MateriasComponent implements AfterViewInit {
         (new Date(this.notaToEdit.dataNota) <= new Date())
       ) {
         this.notaMateriaService.update(this.notaToEdit.idNotaMateria, this.notaToEdit.idMateria, this.notaToEdit.notaMateria, this.notaToEdit.tipoNota, this.notaToEdit.dataNota + "T00:00:00").subscribe(
-          () => {
+          (data) => {
             this.alertSucess("nota", "update");
-            this.notas.forEach((nota, index) => {
-              if (nota.idNotaMateria === this.notaToEdit.idNotaMateria) {
-                this.notas[index] = this.notaToEdit;
-                return;
-              }
-            })
-            this.setTable(this.notaToEdit.idMateria);
-            document.getElementById('closeModal').click();
+            this.refresh();
             this.notaToEdit = {};
           },
           err => {
@@ -282,14 +304,7 @@ export class MateriasComponent implements AfterViewInit {
             () => {
               let idMat
               this.alertSucess("nota", "delete");
-              this.notas.forEach((nota, index) => {
-                if (nota.idNotaMateria === idNotaMateria) {
-                  idMat = nota.idMateria;
-                  this.notas.splice(index, 1);
-                  return;
-                }
-              })
-              this.setTable(idMat);
+              this.refresh()
             },
             err => {
               this.alertError(err);
@@ -301,7 +316,6 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   /* MATERIAIS */
-
   arquivos: Set<File>;
   getFiles(event) {
     console.log(event);
@@ -335,7 +349,12 @@ export class MateriasComponent implements AfterViewInit {
         }
       })
       if (this.arquivos && this.arquivos.size > 0) {
-        this.materiaService.newMaterial(mat, material, name, type, publico).subscribe(
+        console.log(mat)
+        console.log(material)
+        console.log(name)
+        console.log(type)
+        console.log(publico)
+        /* this.materiaService.newMaterial(mat, material, name, type, publico).subscribe(
           () => {
             this.alertSucess("material", "create");
             this.userMaterias = [];
@@ -344,7 +363,7 @@ export class MateriasComponent implements AfterViewInit {
           err => {
             this.alertError(err)
           }
-        );
+        ); */
       }
     })
   }
@@ -373,8 +392,6 @@ export class MateriasComponent implements AfterViewInit {
     )
   }
 
-
-
   /* FUNÇÕES AUXILIARES */
   dbMaterias: any[];
   userMaterias: any = {};
@@ -386,40 +403,35 @@ export class MateriasComponent implements AfterViewInit {
       (stringData: string) => {
         let data = JSON.parse(stringData)
         data = data[0]
+
+        //Notas do Usuário
+        data.notasMateria.forEach(nota => {
+          nota.dataNota = this.dateToString(new Date(nota.dataNota))
+        });
+        this.notas = data.notasMateria;
+        console.log(this.notas)
+        this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
+
         //Matérias do Usuario
         this.materias = data.materias;
-        this.materias.forEach((m, i) => {
-          if (this.userMaterias[m.nomeMateria]) {
-            this.userMaterias[m.nomeMateria].descs.push({
-              idMateria: m.idMateria,
-              desc: m.descricao
-            })
-          } else {
-            this.userMaterias[m.nomeMateria] = {
-              id: i,
-              idUsuario: m.idUsuario,
-              descs: [{
-                idMateria: m.idMateria,
-                desc: m.descricao
-              }]
-            }
+        this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+        this.materias.forEach((m) => {
+          let idMateria = m.idMateria;
+          this.userMaterias[m.idMateria] = {
+            nome: m.nomeMateria,
+            notas: data.notasMateria.filter(nota => idMateria === nota.idMateria),
+            materiais: []
           }
         })
-        this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
-        this.notas = data.notasMateria;
-        this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
-        this.dataSource = new MatTableDataSource(this.notas);
-        this.dataSource.paginator = this.paginator;
-        this.loaded = true;
-      }
-    )
-    //Materias do BD
-    this.materiaService.getAllBase().subscribe(
-      (stringData: string) => {
-        let data = JSON.parse(stringData)
-        console.log(data)
-        this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
-        this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+        //Materias do BD
+        this.materiaService.getAllBase().subscribe(
+          (stringData: string) => {
+            let data = JSON.parse(stringData)
+            this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
+            this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+            this.loaded = true;
+          }
+        )
       }
     )
   }
@@ -431,67 +443,6 @@ export class MateriasComponent implements AfterViewInit {
 
   openCreateNota() {
     document.getElementById("btn_createNota").click()
-  }
-
-  length = undefined;
-  setTable(idMateria) {
-    this.setEditMateria(idMateria);
-    if (idMateria) {
-      this.newNota.idMateria = idMateria;
-      this.dataSource.data = this.notas.reduce((a, v) => {
-        if (v.idMateria === idMateria) {
-          a.push({ idNotaMateria: v.idNotaMateria, Nota: v.notaMateria, Tipo: v.tipoNota, Data: v.dataNota ? this.dateToString(new Date(v.dataNota)) : this.dateToString(new Date()) })
-        }
-        return a
-      }, [])
-      this.length = this.dataSource.data.length;
-
-    } else {
-      this.length = undefined;
-      let links = document.getElementsByClassName("link_materias");
-      for (var i = 0; i < links.length; i++) {
-        if (links[i].classList.contains("active"))
-          links[i].classList.remove("active");
-      }
-      this.materiaToEdit = {
-        nomeMateria: null,
-        descricao: null,
-        idMateria: null
-      };
-    }
-  }
-
-  notaToEdit: any = {
-    idNotaMateria: null,
-    idMateria: null,
-    idUsuario: null,
-    notaMateria: null,
-    tipoNota: null,
-    dataNota: null
-  }
-  setEditNota(idNotaMateria) {
-    this.notas.forEach((nota) => {
-      if (nota.idNotaMateria === idNotaMateria) {
-        this.notaToEdit = nota
-        let date = new Date(nota.dataNota)
-        this.notaToEdit.dataNota = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-      }
-    })
-  }
-
-  materiaToEdit: any = {
-    nomeMateria: null,
-    descricao: null,
-    idMateria: null
-  };
-  setEditMateria(idMateria) {
-    console.log(idMateria)
-    this.materias.forEach((materia) => {
-      if (materia.idMateria === idMateria) {
-        this.materiaToEdit = materia;
-        this.materiaToEdit.camposVal = true;
-      }
-    })
   }
 
   closeModal() {
