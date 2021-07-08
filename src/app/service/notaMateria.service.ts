@@ -34,11 +34,11 @@ export class NotaMateriaService {
         }, this.httpOptions);
     }
 
-    update(id: number, idMateria: number ,notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
+    update(idNotaMateria: number, idMateria: number ,notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'notasMateria', {
             idUsuario: this.IdUsuario,
             idMateria,
-            id,
+            idNotaMateria,
             notaMateria,
             tipoNota,
             dataNota
