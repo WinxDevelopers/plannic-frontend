@@ -64,10 +64,10 @@ export class MateriaService {
 
     //CRUD Materiais
 
-    newMaterial(idMateriaBase, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
+    newMaterial(idMateria, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'material/cadastro', {
             idUsuario: this.idUsuario,
-            idMateriaBase,
+            idMateria,
             material,
             nomeMaterial,
             tipoMaterial,

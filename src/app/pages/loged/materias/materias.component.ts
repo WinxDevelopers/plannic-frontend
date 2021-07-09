@@ -344,7 +344,7 @@ export class MateriasComponent implements AfterViewInit {
       let mat;
       this.materias.forEach((materia) => {
         if (this.newNota.idMateria === materia.idMateria) {
-          mat = materia.idMateriaBase;
+          mat = materia.idMateria;
           return;
         }
       })
@@ -354,7 +354,7 @@ export class MateriasComponent implements AfterViewInit {
         console.log(name)
         console.log(type)
         console.log(publico)
-        /* this.materiaService.newMaterial(mat, material, name, type, publico).subscribe(
+        this.materiaService.newMaterial(33, material, name, type, publico).subscribe(
           () => {
             this.alertSucess("material", "create");
             this.userMaterias = [];
@@ -363,7 +363,7 @@ export class MateriasComponent implements AfterViewInit {
           err => {
             this.alertError(err)
           }
-        ); */
+        );
       }
     })
   }
