@@ -58,11 +58,11 @@
         "SAIR": "Logout"
     },
     "GRAFICOS": {
-        "NOTA_MATERIA": "Average of Banknotes",
-        "NOTA_EVOLUCAO": "Evolution",
-        "NOTA_TIPO": "Types",
-        "NOTA_ESTUDO": "Study",
-        "HORAS_ESTUDO": "Minutes"
+        "NOTA_MATERIA": "Averages per subject",
+        "NOTA_EVOLUCAO": "Grade Evolution",
+        "NOTA_TIPO": "Grade Types",
+        "NOTA_ESTUDO": "Study Types",
+        "HORAS_ESTUDO": "Hours Studied"
     },
     "CRUD-GERAL": {
         "SALVAR": "Save",

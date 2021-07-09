@@ -32,14 +32,17 @@ export class HorasEstudoComponent{
   getNotas() {
     this.loaded = false;
     this.graficoService.notaHora().subscribe(
-      (notas) => {
-        notas = JSON.parse(notas);
-        this.notas = notas;
+      (data) => {
+        data = JSON.parse(data);
+        this.notas = data;
         this.chartDatasets = [
-          { data: this.notas.map(i => i.minEstudo), label: 'Horas' }
+          { data: this.notas.map(i => Math.floor(i.minEstudo/60)), label: 'Horas' }
         ];
         this.chartLabels = this.notas.map(i => i.nomeMateria);
         this.loaded = true;
+      },
+      err =>{
+        console.log(err)
       }
     )
   }

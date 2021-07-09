@@ -4,7 +4,7 @@
     <div [hidden]="this.loaded" class="spinner-border" style="position: relative; top: 100px;width: 6rem; height: 6rem;" role="status">
     </div>
   </div>
-  <canvas mdbChart
+  <canvas *ngIf="this.notas.length!=0" mdbChart
       [chartType]="chartType"
       [datasets]="chartDatasets"
       [labels]="chartLabels"

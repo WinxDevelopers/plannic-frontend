@@ -62,7 +62,7 @@
         "NOTA_EVOLUCAO": "Evolução das Notas",
         "NOTA_TIPO": "Tipos de Nota",
         "NOTA_ESTUDO": "Tipos de Estudo",
-        "HORAS_ESTUDO": "Horas de Estudo (Minutos)"
+        "HORAS_ESTUDO": "Horas Estudadas"
     },
     "CRUD-GERAL": {
         "SALVAR": "Salvar",
