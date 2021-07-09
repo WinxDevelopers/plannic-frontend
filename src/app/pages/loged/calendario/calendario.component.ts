@@ -26,7 +26,7 @@ export class CalendarioComponent implements OnInit {
     idMateria: null,
     dataInicio: null,
     horaInicio: null,
-    notificacao: "N",
+    notificacao: "",
     dataFim: null,
     horaFim: null,
   };
@@ -475,7 +475,7 @@ export class CalendarioComponent implements OnInit {
       idMateria: null,
       dataInicio: null,
       horaInicio: null,
-      notificacao: "N",
+      notificacao: "",
       dataFim: null,
       horaFim: null,
     };
