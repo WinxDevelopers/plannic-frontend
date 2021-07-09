@@ -26,6 +26,7 @@ export class CalendarioComponent implements OnInit {
     idMateria: null,
     dataInicio: null,
     horaInicio: null,
+    notificacao: "N",
     dataFim: null,
     horaFim: null,
   };
@@ -45,11 +46,6 @@ export class CalendarioComponent implements OnInit {
     disable: true,
     vezes: 1,
     repeticao: "dia"
-  };
-  notificacao = {
-    disable: true,
-    tempo: 1,
-    medida: "dia"
   };
 
   calendarOptions: CalendarOptions = {
@@ -147,6 +143,7 @@ export class CalendarioComponent implements OnInit {
     ) {
       this.agendamentoService.create(
         form.idMateria,
+        form.notificacao,
         form.dataInicio + "T12:00:00",
         form.dataFim + "T12:00:00",
         form.recorrencia,
@@ -197,6 +194,7 @@ export class CalendarioComponent implements OnInit {
     this.agendamentoService.update(
       this.editForm.idAgendamento,
       this.editForm.idMateria,
+      this.editForm.notificacao,
       this.recorrenciaInicio,
       this.recorrenciaFim,
       this.editForm.recorrencia,
@@ -205,6 +203,7 @@ export class CalendarioComponent implements OnInit {
       this.editForm.tipoEstudo
     ).subscribe(
       () => {
+        document.getElementById("close").click(),
         this.refresh()
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
@@ -339,9 +338,6 @@ export class CalendarioComponent implements OnInit {
     this.dateVal = true;
     this.recorVal = true;
 
-    //Declarando notificação
-    this.newForm.notificacao = this.notificacao.disable ? "N" : `${this.notificacao.tempo}_${this.notificacao.medida}`;
-
     //Caso a hora inicial seja maior q a final
     if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
       this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10)) + 1).toString();
@@ -435,12 +431,14 @@ export class CalendarioComponent implements OnInit {
         this.materias = data.materias;
         this.calendarOptions.events = data.agendamentos.map((ag) => {
           ag = ag as Agendamento;
+          console.log(ag)
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
             title: ag.mat.nome,
             id: ag.idAgendamento,
             recorrencia: ag.recorrencia,
+            notificacao: ag.tempoNotificacao,
             idMateria: ag.idMateria,
             idAgendamento: ag.idAgendamento,
             tipoEstudo: ag.tipoEstudo,
@@ -471,18 +469,22 @@ export class CalendarioComponent implements OnInit {
     this.camposVal = true;
     this.dateVal = true;
     this.recorVal = true;
-    this.newForm = {};
+    this.newForm = {
+      recorrencia: null,
+      tipoEstudo: null,
+      idMateria: null,
+      dataInicio: null,
+      horaInicio: null,
+      notificacao: "N",
+      dataFim: null,
+      horaFim: null,
+    };
     this.editForm = {};
     this.newSugestaoID = undefined;
     this.recorrencia = {
       disable: true,
       vezes: 1,
       repeticao: "dia"
-    };
-    this.notificacao = {
-      disable: true,
-      tempo: 1,
-      medida: "dia"
     };
   }
 
@@ -506,6 +508,7 @@ export class CalendarioComponent implements OnInit {
         tipoEstudo: event.extendedProps.tipoEstudo,
         idAgendamento: event.extendedProps.idAgendamento,
         idMateria: event.extendedProps.idMateria,
+        notificacao: event.extendedProps.notificacao,
         dataInicio: this.DateToString(new Date(event.start), "data"),
         horaInicio: this.DateToString(new Date(event.start), "hora"),
         dataFim: this.DateToString(new Date(event.end), "data"),

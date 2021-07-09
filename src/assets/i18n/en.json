@@ -175,13 +175,16 @@
         "DIARIAMENTE": "Daily",
         "SEMANALMENTE": "Weekly",
         "MENSALMENTE": "Monthly",
-        "HORA": "Hour",
-        "DIA": "Day",
-        "SEMANA": "Week",
-        "MES": "Month",        
         "VEZES": "times",
-        "ANTES": "before",
         "NOTIFICACAO": "Notification",
+        "NOTIF_SELECT":{
+            "NOT1":"5 minutes before",
+            "NOT2":"10 minutes before",
+            "NOT3":"15 minutes before",
+            "NOT4":"30 minutes before",
+            "NOT5":"1 hour before",
+            "NOT6":"1 day before"
+        },
         "METODO": "Study Method",
         "ACOES": "Actions",
         "ERRO_RECORRENCIA": "Invalid recurrence"

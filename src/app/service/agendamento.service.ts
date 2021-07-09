@@ -24,7 +24,7 @@ export class AgendamentoService {
     }
     constructor(private http: HttpClient) { }
 
-    create(idMateria: number, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
+    create(idMateria: number, tempoNotificacao: string, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
         return this.http.post(this.LOGIN_SERVICE_URL + 'agendamento/cadastro', {
             idUsuario: this.idUsuario,
             idMateria,
@@ -33,11 +33,12 @@ export class AgendamentoService {
             recorrencia,
             horaInicio,
             horaFim,
+            tempoNotificacao,
             tipoEstudo
         }, this.httpOptions);
     }
 
-    update(idAgendamento: number, idMateria: number, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
+    update(idAgendamento: number, idMateria: number, tempoNotificacao: string, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'agendamento', {
             idUsuario: this.idUsuario,
             idAgendamento,
@@ -47,6 +48,7 @@ export class AgendamentoService {
             recorrencia,
             horaInicio,
             horaFim,
+            tempoNotificacao,
             tipoEstudo
         }, this.httpOptions);
     }

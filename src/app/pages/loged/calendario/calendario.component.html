@@ -132,42 +132,18 @@
                                     <div class="form-group">
                                         <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
                                         <div class="form-group">
-                                            <div class="form-check">
-                                                <input [(ngModel)]="this.notificacao.disable" class="form-check-input"
-                                                    type="checkbox" id="gridCheck">
-                                                <label class="form-check-label" for="gridCheck">
-                                                    {{'AGENDAMENTOS.NUNCA' | translate}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="!notificacao.disable" class="form-group">
                                             <div class="row justify-content-between">
-                                                <div class="col-3">
-                                                    <input [(ngModel)]="notificacao.tempo" min="1"
-                                                        [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
-                                                        class="form-control" type="number">
-                                                </div>
-                                                <div class="col-4">
-                                                    <select [(ngModel)]="notificacao.medida" class="form-control"
-                                                        id="repeat_form">
-                                                        <option value="hora">{{'AGENDAMENTOS.HORA' | translate}}<span
-                                                                *ngIf="notificacao.tempo>1">s</span></option>
-                                                        <option value="dia">{{'AGENDAMENTOS.DIA' | translate}}<span
-                                                                *ngIf="notificacao.tempo>1">s</span></option>
-                                                        <option value="semana">{{'AGENDAMENTOS.SEMANA' |
-                                                            translate}}<span *ngIf="notificacao.tempo>1">s</span>
-                                                        </option>
-                                                        <option value="mes">
-                                                            <span
-                                                                *ngIf="notificacao.tempo>1 && lang != 'en';else other_content">Meses</span>
-                                                            <ng-template #other_content>
-                                                                {{'AGENDAMENTOS.MES' | translate}}<span
-                                                                    *ngIf="notificacao.tempo>1">s</span>
-                                                            </ng-template>
-                                                        </option>
+                                                <div class="col-6">
+                                                    <select [(ngModel)]="newForm.notificacao" class="form-control">
+                                                        <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
+                                                        <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}</option>
+                                                        <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}</option>
+                                                        <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}</option>
+                                                        <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' | translate}}</option>
+                                                        <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' | translate}}</option>
+                                                        <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' | translate}}</option>
                                                     </select>
                                                 </div>
-                                                <div class="col mt-2">{{'AGENDAMENTOS.ANTES' | translate}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,18 +234,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="form-row">
-                                    <div class="col-md-12">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
                                         <div class="form-group">
-                                            <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
-                                            <select [(ngModel)]="editForm.recorrencia" class="form-control">
-                                                <option *ngFor="let recorrencia of recorrencias" value="{{recorrencia}}">
-                                                    {{recorrencia}}
-                                                </option>
-                                            </select>
+                                            <div class="row justify-content-between">
+                                                <div class="col-6">
+                                                    <select [(ngModel)]="this.editForm.notificacao" class="form-control">
+                                                        <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
+                                                        <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}</option>
+                                                        <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}</option>
+                                                        <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}</option>
+                                                        <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' | translate}}</option>
+                                                        <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' | translate}}</option>
+                                                        <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' | translate}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="col-md-12">
                                     <div class="form-group">

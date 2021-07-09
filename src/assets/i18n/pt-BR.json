@@ -175,13 +175,16 @@
         "DIARIAMENTE": "Diariamente",
         "SEMANALMENTE": "Semanalmente",
         "MENSALMENTE": "Mensalmente",
-        "HORA": "Hora",
-        "DIA": "Dia",
-        "SEMANA": "Semana",
-        "MES": "Mês",
         "VEZES": "vezes",
-        "ANTES": "antes",
         "NOTIFICACAO": "Notificação",
+        "NOTIF_SELECT":{
+            "NOT1":"5 minutos antes",
+            "NOT2":"10 minutos antes",
+            "NOT3":"15 minutos antes",
+            "NOT4":"30 minutos antes",
+            "NOT5":"1 hora antes",
+            "NOT6":"1 dia antes"
+        },
         "METODO": "Método de Estudo",
         "ACOES": "Ações",
         "ERRO_RECORRENCIA": "Recorrência inválida"
