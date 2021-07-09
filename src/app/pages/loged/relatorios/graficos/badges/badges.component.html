@@ -1,16 +1,17 @@
 <div style="color:#858796">
   <div *ngIf="buscaTutor">
-    <h4 class="text-black-500" *ngFor="let notaMenor of notaMenor">
+    <h4 class="text-black-500">
       <i style="color: red;" class="fa fa-exclamation-circle"></i>
       {{'BADGES.BUSQUETUTOR1' | translate}} {{this.notaMenor.nomeMateria}} {{'BADGES.BUSQUETUTOR2' | translate}} <a
-        href="../dashboard/tutor">tutor</a>?
+        href="../dashboard/tutoria">tutor</a>?
     </h4>
   </div>
   <div *ngIf="sejaTutor">
-    <h4 class="text-black-500" *ngFor="let notaMaior of notaMaior">
+    <h4 class="text-black-500">
       <i style="color: #31d0aa;" class="fas fa-award"></i>
       {{'BADGES.SEJATUTOR1' | translate}} {{this.notaMaior.nomeMateria}} {{'BADGES.SEJATUTOR2' | translate}} <a
-        href="../dashboard/tutor">tutor</a>?
+        href="../dashboard/tutoria">tutor</a>?
     </h4>
   </div>
+  <hr *ngIf="sejaTutor || buscaTutor">
 </div>
