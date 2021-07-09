@@ -70,26 +70,21 @@
         <select-lang></select-lang>
       </li>
       <li class="list-inline-item align-middle">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-light"><i class="fas fa-user"></i></button>
-          <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false" id="drop_user">
-              <i class="fas fa-cogs"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-              <span class="ml-4">{{'LOGED.OLA' | translate}}, {{nome}}</span>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" routerLink="./configuracoes">
-                <i class="fas fa-cog"></i>
-                {{'LOGED.CONFIGURACOES' | translate}}
-              </a>
-              <a class="dropdown-item" (click)="deslogar()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>{{'LOGED.SAIR' | translate}}</span>
-              </a>
-            </div>
-          </div>
+        <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" id="drop_user">
+          <i class="fas fa-user"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+          <span class="ml-4">{{'LOGED.OLA' | translate}}, {{nome}}</span>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="./configuracoes">
+            <i class="fas fa-cog"></i>
+            {{'LOGED.CONFIGURACOES' | translate}}
+          </a>
+          <a class="dropdown-item" (click)="deslogar()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>{{'LOGED.SAIR' | translate}}</span>
+          </a>
         </div>
         <!-- <div class="dropdown float-right">
           <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
