@@ -76,10 +76,11 @@ export class MateriaService {
     }
 
 
-    updateMaterial(idMateria, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
+    updateMaterial(idMaterial, idMateria, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
         return this.http.put(this.LOGIN_SERVICE_URL + 'material', {
             idUsuario: this.idUsuario,
             idMateria,
+            idMaterial,
             material,
             nomeMaterial,
             tipoMaterial,

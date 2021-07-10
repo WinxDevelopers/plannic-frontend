@@ -370,7 +370,7 @@ export class MateriasComponent implements AfterViewInit {
 
   editMaterial(material) {
     material.publico = !material.publico
-    this.materiaService.updateMaterial(material.idMateria, material.material, material.nomeMaterial, material.tipoMaterial, material.publico).subscribe(
+    this.materiaService.updateMaterial(material.idMaterial, material.idMateria, material.material, material.nomeMaterial, material.tipoMaterial, material.publico).subscribe(
       () => {
         console.log("material")
       },
