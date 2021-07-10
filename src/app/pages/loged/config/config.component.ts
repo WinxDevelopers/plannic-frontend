@@ -69,8 +69,19 @@ export class ConfigComponent implements OnInit {
       (objFinal: any) => {
         let chatId = objFinal.result[objFinal.result.length-1].message.chat.id;
         this.userService.addTelegramID(chatId.toString()).subscribe(
-          (data)=>{
-
+          ()=>{
+            this.telegramInicial = chatId;
+            if (localStorage.getItem("lang") === "pt-BR") {
+              this.Toast.fire({
+                icon: 'success',
+                title: "Conectado"
+              })
+            } else {
+              this.Toast.fire({
+                icon: 'success',
+                title: "Connected"
+              })
+            }
           }
         )
       }
