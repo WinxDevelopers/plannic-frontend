@@ -48,6 +48,17 @@ export class ConfigComponent implements OnInit {
     numero: null
   }
 
+  auth() {
+    var width = 550;
+    var height = 470;
+    var left = Math.max(0, (screen.width - width) / 2),
+        top = Math.max(0, (screen.height - height) / 2);
+    window.open('https://oauth.tg.dev/auth?bot_id=1837445567&origin=https%3A%2F%2Fcore.telegram.org&embed=1&request_access=write', 'telegram_oauth', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',status=0,location=0,menubar=0,toolbar=0');    
+  }
+  onTelegramAuth(user) {
+    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+  }
+
   ngOnInit() {
     this.userService.getAllInfosById().subscribe(
       (data: any) => {
