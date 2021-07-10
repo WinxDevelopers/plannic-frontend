@@ -43,20 +43,38 @@ export class ConfigComponent implements OnInit {
   senha: string = '';
   senhaConf: string = '';
   passMinOk = true;
+  telegramInicial;
   notificacao = {
     active: null,
     numero: null
   }
 
+
   auth() {
     var width = 550;
     var height = 470;
     var left = Math.max(0, (screen.width - width) / 2),
-        top = Math.max(0, (screen.height - height) / 2);
-    window.open('https://oauth.tg.dev/auth?bot_id=1837445567&origin=https%3A%2F%2Fcore.telegram.org&embed=1&request_access=write', 'telegram_oauth', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',status=0,location=0,menubar=0,toolbar=0');    
+      top = Math.max(0, (screen.height - height) / 2);
+    let telegramPage = window.open('https://oauth.tg.dev/auth?bot_id=1837445567&origin=https%3A%2F%2Fplannic.herokuapp.com&embed=1&request_access=write', 'telegram_oauth', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',status=0,location=0,menubar=0,toolbar=0');
+    let timer = setInterval(() => {
+      if (telegramPage.closed) {
+        this.verifyTelegramObg()
+        clearInterval(timer);
+      }
+    }, 500);
   }
-  onTelegramAuth(user) {
-    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+
+  verifyTelegramObg() {
+    this.userService.telegramObj().subscribe(
+      (objFinal: any) => {
+        let chatId = objFinal.result[objFinal.result.length-1].message.chat.id;
+        this.userService.addTelegramID(chatId.toString()).subscribe(
+          (data)=>{
+
+          }
+        )
+      }
+    )
   }
 
   ngOnInit() {
@@ -66,14 +84,11 @@ export class ConfigComponent implements OnInit {
         this.userInfos = data[0];
         this.email = this.userInfos.email;
         this.nome = this.userInfos.nome;
-        if (this.userInfos.notificacao) {
-          data = JSON.parse(data)
-        } else {
-          this.notificacao = {
-            active: false,
-            numero: null
-          };
-        }
+        this.userService.getTelegramID().subscribe(
+          (obj: any) => {
+            this.telegramInicial = obj === "" ? null : JSON.parse(obj).idTelegram;
+          }
+        )
       },
       err => {
         this.alertError(err);

@@ -106,6 +106,8 @@
         "EMAIL": "E-mail",
         "SALVAR": "Save",
         "SENHA": "Password",
+        "TELEGRAMCONNECT": "Connect with Telegram",
+        "TELEGRAMCONNECTED":"Connected with Telegram",
         "SENHA1": "Enter the new password",
         "SENHA2": "Enter the new password again",
         "NOTIFICACOES": "I want to receive notifications on Telegram",
