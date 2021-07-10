@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from "@angular/forms";
 import { LoginService } from 'src/app/service/login.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import addDays from 'date-fns/addDays'
-import formatISO from 'date-fns/formatISO'
 import Swal from 'sweetalert2'
 
 @Component({
@@ -80,7 +78,6 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('idUsuario', this.dadosLogin.idUsuario);
           localStorage.setItem('nome', this.dadosLogin.nome);
           localStorage.setItem('token', this.dadosLogin.token);
-          localStorage.setItem('time', formatISO(addDays(new Date(), 1)));
           this.router.navigate(['/dashboard/calendario']);
         },
         err => {
