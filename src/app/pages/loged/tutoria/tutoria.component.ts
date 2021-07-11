@@ -25,14 +25,17 @@ const ELEMENT_DATA = [
 })
 export class TutoriaComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['materia', 'tutor', 'weight', 'symbol'];
+  displayedColumns: string[] = ['tutor', 'materia', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dbTutoria: any;
+  dbAluno: any;
+  dbTutores: any;
+  dbAlunos: any;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
   public lang = localStorage.getItem("lang");
   public tutoriasUser = {
     aluno: [],
@@ -75,15 +78,46 @@ export class TutoriaComponent implements AfterViewInit, OnInit {
         console.log(JSON.parse(data))
       }
     ) */
+    
     //USUARIO
     //Aluno
     this.tutoriaService.getAllUserAluno().subscribe(
-      (dataAluno) => {
-        this.tutoriasUser.aluno = JSON.parse(dataAluno)
+      (dataA: string) => {
+        this.tutoriasUser.aluno = JSON.parse(dataA)
+            let dataAluno = JSON.parse(dataA)
+            this.dbAluno = dataAluno.map(aluno => { return { Tutor: aluno.usuarioTutor.nome, nomeMateria: aluno.materiaBase.materiaBase } });
+            this.dbAluno.sort((a, b) => { return a.Tutor.localeCompare(b.Tutor) })
         //Tutor
         this.tutoriaService.getAllUserTutor().subscribe(
-          (dataTutor) => {
-            this.tutoriasUser.tutor = JSON.parse(dataTutor);
+          (dataT: string) => {
+            this.tutoriasUser.tutor = JSON.parse(dataT)
+            let dataTutor = JSON.parse(dataT)
+            this.dbTutoria = dataTutor.map(tut => { return { Aluno: tut.usuarioAluno.nome, nomeMateria: tut.materiaBase.materiaBase } });
+            this.dbTutoria.sort((a, b) => { return a.Aluno.localeCompare(b.Aluno.nome) })
+          },
+          (err) => { console.log(err) }
+        )
+      },
+      (err) => { console.log(err) }
+    )
+
+    //COMUNIDADE
+    //Alunos
+    this.tutoriaService.getTutores().subscribe(
+      (dataTutores: string) => {
+        this.tutoriasUser.aluno = JSON.parse(dataTutores)
+            let dataTs = JSON.parse(dataTutores)
+            this.dbTutores = dataTs.map(tut => { return { Tutor: tut.usuarioTutor.nome, nomeMateria: tut.materiaBase.materiaBase } });
+            this.dbTutores.sort((a, b) => { return a.Tutor.localeCompare(b.Tutor.nome) })
+            console.log(this.dbTutores)
+        //Tutorer
+        this.tutoriaService.getAlunos().subscribe(
+          (dataAlunos: string) => {
+            this.tutoriasUser.tutor = JSON.parse(dataAlunos)
+            let dataAl = JSON.parse(dataAlunos)
+            this.dbAlunos = dataAl.map(tut => { return { Aluno: tut.usuarioAluno.nome, nomeMateria: tut.materiaBase.materiaBase } });
+            this.dbAlunos.sort((a, b) => { return a.Aluno.localeCompare(b.Aluno.nome) })
+            console.log(this.dbAlunos)
           },
           (err) => { console.log(err) }
         )

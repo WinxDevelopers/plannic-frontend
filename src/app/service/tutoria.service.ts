@@ -36,7 +36,13 @@ export class TutoriaService {
     // Busca todos os alunos buscando tutor na matéria escolhida (exceto o usuário que faz a requisição)
     getAlunosByMateria(idMateriaBase: number): Observable<any> {
         return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/aluno/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
+    };    
+    
+    // Busca todos os alunos buscando tutor (exceto o usuário que faz a requisição)
+    getAlunos(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/aluno/${this.idUsuario}`, this.httpOptions)
     };
+    
 
     // Deleta aluno
     deleteAluno(idAluno: number): Observable<any> {
@@ -60,6 +66,11 @@ export class TutoriaService {
     // Busca todos os tutores disponíveis na matéria escolhida (exceto o usuário que faz a requisição)
     getTutoresByMateria(idMateriaBase: number): Observable<any> {
         return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/tutor/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
+    };
+
+    // Busca todos os tutores disponíveis (exceto o usuário que faz a requisição)
+    getTutores(): Observable<any> {
+        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/tutor/${this.idUsuario}`, this.httpOptions)
     };
 
     // Deleta tutor
