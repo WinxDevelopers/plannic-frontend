@@ -11,9 +11,9 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "default-src": ["'self'",'https://plannic-back.herokuapp.com', 'https://plannic.herokuapp.com', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com', 'https://securepubads.g.doubleclick.net/', 'https://api.telegram.org/'],
-        "img-src": ["'self'", 'https://plannic.herokuapp.com', '*.googleapis.com', "data:" ],
-        "script-src": ["'self'", 'https://plannic.herokuapp.com', 'https://cdnjs.cloudflare.com'],
+        "default-src": ["'self'",'https://plannic-back.herokuapp.com', 'https://plannic.herokuapp.com', 'https://api.telegram.org', 'https://fonts.googleapis.com/', 'https://fonts.gstatic.com', 'https://securepubads.g.doubleclick.net/'],
+        "img-src": ["'self'", 'https://plannic.herokuapp.com', 'https://api.telegram.org', '*.googleapis.com', "data:" ],
+        "script-src": ["'self'", 'https://plannic.herokuapp.com', 'https://api.telegram.org', 'https://cdnjs.cloudflare.com'],
         "style-src": ["'unsafe-inline'", "'self'", "https://fonts.googleapis.com", 'https://cdnjs.cloudflare.com']
     }
 }));
