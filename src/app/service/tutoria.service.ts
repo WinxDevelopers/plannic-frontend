@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class TutoriaaService {
+export class TutoriaService {
     public LOGIN_SERVICE_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token');
     public idUsuario = localStorage.getItem('idUsuario');
@@ -39,8 +39,8 @@ export class TutoriaaService {
     };
 
     // Deleta aluno
-    deleteAluno(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/aluno/${id}`, this.httpOptions);
+    deleteAluno(idAluno: number): Observable<any> {
+        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/aluno/${idAluno}`, this.httpOptions);
     }
 
     // Busca todos os alunos buscando tutor
@@ -63,8 +63,8 @@ export class TutoriaaService {
     };
 
     // Deleta tutor
-    deleteTutor(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/tutor/${id}`, this.httpOptions);
+    deleteTutor(idTutor: number): Observable<any> {
+        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/tutor/${idTutor}`, this.httpOptions);
     }
 
     // Busca todos os tutores
@@ -91,12 +91,12 @@ export class TutoriaaService {
         }, this.httpOptions);
     }
 
-    // Deleta tutoria
-    deleteTutoria(id: number): Observable<any> {
+    // Encerrar tutoria
+    encerrarTutoria(id: number): Observable<any> {
         return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/cadastro/${this.idUsuario}/${id}`, this.httpOptions);
     }
 
-    // Busa todas as tutorias
+    // Busca todas as tutorias
     getAllTutoria(): Observable<any> {
         return this.http.get(this.LOGIN_SERVICE_URL + 'tutoria/cadastro', this.httpOptions)
     };

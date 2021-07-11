@@ -6,13 +6,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RatingModule } from 'ng-starrating';
 //Angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import {  MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MDBBootstrapModule, ChartsModule, WavesModule } from 'angular-bootstrap-md';
 //Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -85,7 +87,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatPaginatorModule,
     MatIconModule,
     MatSelectModule,
+    MatInputModule,
     MatFormFieldModule,
+    RatingModule,
     MatProgressBarModule,
     NgxMaskModule.forRoot(),
     BrowserModule,
