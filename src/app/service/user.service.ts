@@ -17,7 +17,7 @@ export class UserService {
       'Content-type': 'application/json',
       'Authorization': `Bearer ${this.token}`,
       'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-      'Content-Security-Policy': 'Content-Security-Policy: default-src https://plannic-back.herokuapp.com; default-src http://localhost:8080; default-src https://api.telegram.org/*',
+      'Content-Security-Policy': 'Content-Security-Policy: default-src https://plannic-back.herokuapp.com https://api.telegram.org; default-src http://localhost:8080',
       'X-Frame-Options': 'SAMEORIGIN',
       'X-Content-Type-Options': 'nosniff always',
       'Referrer-Policy': 'no-referrer',
