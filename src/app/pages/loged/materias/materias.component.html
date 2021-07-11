@@ -268,13 +268,44 @@
                 </div>
                 <div class="tab-pane fade" id="material{{materia.key}}" role="tabpanel" aria-labelledby="material-tab">
                   <div class=" my-3 custom-file">
-                    <input type="file" (change)="getFiles($event)" class="custom-file-input" id="customFile" multiple>
-                    <label class="custom-file-label" for="customFile" id="customFileLabel">{{'MATERIAS.ESCOLHER'
+                    <input type="file" (change)="getFiles($event, materia.key)" class="custom-file-input"
+                      id="customFile" multiple>
+                    <label class="custom-file-label" for="customFile"
+                      id="customFileLabel_{{materia.key}}">{{'MATERIAS.ESCOLHER'
                       |
                       translate}}</label>
                   </div>
                   <button type="button" (click)="uploadFiles()" class=" btn btn-info"
                     [disabled]="!arquivos">{{'CRUD-GERAL.SALVAR' | translate}}</button>
+                  <table mat-table [dataSource]="materia.value['materiais']">
+                    <!-- Nome -->
+                    <ng-container matColumnDef="nome">
+                      <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.NOME' | translate}} </th>
+                      <td mat-cell *matCellDef="let element"> {{element.nomeMaterial}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" ">
+                      <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.ACOES' | translate}} </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="row">
+                          <!-- Publico ou Privado -->
+                          <div class="col-6 border-right">
+                            <i style="cursor: pointer;" *ngIf="element.publico; else privado" (click)="editMaterial(element)" class="fas fa-lock-open" [mdbTooltip]="lang==='pt-BR'? 'Público': 'Public'"></i>
+                            <ng-template #privado>
+                              <i style="cursor: pointer;" (click)="editMaterial(element)" class="fas fa-lock" [mdbTooltip]="lang==='pt-BR'? 'Privado': 'Private'"></i>
+                            </ng-template>
+                          </div>
+                          <!-- Download -->
+                          <div class="col-6">
+                            <i style="cursor: pointer;" (click)="downloadFile(element)" class="fas fa-download"></i>
+                          </div>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsMateriais"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsMateriais;"></tr>
+                  </table>
+
+
                 </div>
               </div>
             </div>

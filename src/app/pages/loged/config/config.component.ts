@@ -67,9 +67,9 @@ export class ConfigComponent implements OnInit {
   verifyTelegramObg() {
     this.userService.telegramObj().subscribe(
       (objFinal: any) => {
-        let chatId = objFinal.result[objFinal.result.length-1].message.chat.id;
-        this.userService.addTelegramID(chatId.toString()).subscribe(
-          ()=>{
+        let chatId = objFinal.result[objFinal.result.length - 1].message.chat.id;
+        this.userService.addTelegramID(chatId).subscribe(
+          () => {
             this.telegramInicial = chatId;
             if (localStorage.getItem("lang") === "pt-BR") {
               this.Toast.fire({
@@ -82,7 +82,8 @@ export class ConfigComponent implements OnInit {
                 title: "Connected"
               })
             }
-          }
+          },
+          err => { console.log(err) }
         )
       }
     )

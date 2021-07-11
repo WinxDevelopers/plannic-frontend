@@ -52,8 +52,10 @@ export class MateriasComponent implements AfterViewInit {
     private notaMateriaService: NotaMateriaService) {
   }
 
+  lang = localStorage.getItem("lang")
   loaded: boolean = false;
   materias: Materia[] = [];
+  materiais: any[] = [];
   notas: NotaMateria[] = [];
   tipos = ["Trabalho em Grupo", "Trabalho Individual", "Prova", "Atividade"];
   idUsuario = parseInt(localStorage.getItem('idUsuario'));
@@ -75,7 +77,6 @@ export class MateriasComponent implements AfterViewInit {
       }
     );
   }
-
 
   /* CRUD Matéria */
   newMateria: any = {
@@ -199,7 +200,7 @@ export class MateriasComponent implements AfterViewInit {
   dataValida = true;
   camposValidos = true;
 
-  idMateria:string;
+  idMateria: string;
   //Definir materia que vai ser associada a nota nova
   setIdMateria(idMateria) {
     console.log(idMateria)
@@ -272,7 +273,7 @@ export class MateriasComponent implements AfterViewInit {
         (new Date(this.notaToEdit.dataNota) <= new Date())
       ) {
         this.notaMateriaService.update(this.notaToEdit.idNotaMateria, this.notaToEdit.idMateria, this.notaToEdit.notaMateria, this.notaToEdit.tipoNota, this.notaToEdit.dataNota + "T00:00:00").subscribe(
-          (data) => {
+          () => {
             this.alertSucess("nota", "update");
             this.refresh();
             this.notaToEdit = {};
@@ -316,80 +317,82 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   /* MATERIAIS */
-  arquivos: Set<File>;
-  getFiles(event) {
-    console.log(event);
+  currentMateria: any;
+  arquivos: File[] = [];
+  displayedColumnsMateriais: string[] = ["nome", " "]
+  getFiles(event, idMateria) {
+    this.currentMateria = idMateria;
 
     const selecionados = <FileList>event.srcElement.files;
 
     let label = []
-    this.arquivos = new Set();
+    this.arquivos;
     for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
-      this.arquivos.add(selecionados[s])
+      this.arquivos.push(selecionados[s])
     }
-    document.getElementById("customFileLabel").innerHTML = label.join("; ");
+    document.getElementById(`customFileLabel_${idMateria}`).innerHTML = label.join("; ");
   }
 
   uploadFiles() {
-    const [file] = this.arquivos;
-    var name = file.name;
-    var type = file.type;
-    var publico = false;
-    console.log(name)
-    console.log(type)
+    this.arquivos.forEach(file => {
+      var name = file.name;
+      var type = file.type;
+      var publico = false;
+      console.log(name)
+      console.log(type)
 
-    this.readFile(file).then((result) => {
-      var material = result;
-      let mat;
-      this.materias.forEach((materia) => {
-        if (this.newNota.idMateria === materia.idMateria) {
-          mat = materia.idMateria;
-          return;
+      this.readFile(file).then((result) => {
+        var material = result;
+        let idMat;
+
+        Object.keys(this.userMaterias).forEach((id) => {
+          if (this.currentMateria === id) {
+            idMat = parseInt(id);
+            return;
+          }
+        })
+        if (this.arquivos && this.arquivos.length > 0) {
+          this.materiaService.newMaterial(idMat, material, name, type, publico).subscribe(
+            () => {
+              this.alertSucess("material", "create");
+              this.userMaterias = [];
+              this.refresh()
+            },
+            err => {
+              this.alertError(err)
+            }
+          );
         }
       })
-      if (this.arquivos && this.arquivos.size > 0) {
-        console.log(mat)
-        console.log(material)
-        console.log(name)
-        console.log(type)
-        console.log(publico)
-        this.materiaService.newMaterial(33, material, name, type, publico).subscribe(
-          () => {
-            this.alertSucess("material", "create");
-            this.userMaterias = [];
-            this.refresh()
-          },
-          err => {
-            this.alertError(err)
-          }
-        );
-      }
     })
   }
 
-  downloadFiles() {
+  editMaterial(material) {
+    material.publico = !material.publico
+    this.materiaService.updateMaterial(material.idMaterial, material.idMateria, material.material, material.nomeMaterial, material.tipoMaterial, material.publico).subscribe(
+      () => {
+        console.log("material")
+      },
+      err => { this.alertError(err) })
+  }
+
+  downloadFile(material) {
     //PASSAR ID DO MATERIAL - idMaterial
-    this.materiaService.getMaterialById(13).subscribe(
-      (stringData: string) => {
-        let data = JSON.parse(stringData)
-        this.dataURL = data.material;
-        this.filename = data.nomeMaterial;
-        var file = this.dataURLtoFile(this.dataURL, this.filename)
+    console.log(material)
+    var file = this.dataURLtoFile(material.material, material.nomeMaterial)
 
-        const blob = window.URL.createObjectURL(file);
+    const blob = window.URL.createObjectURL(file);
 
-        const link = document.createElement('a');
-        link.href = blob;
+    const link = document.createElement('a');
+    link.href = blob;
 
-        link.download = this.filename;
+    link.download = material.nomeMaterial;
 
-        link.click();
+    link.click();
 
-        window.URL.revokeObjectURL(blob);
-        link.remove();
-      }
-    )
+    window.URL.revokeObjectURL(blob);
+    link.remove();
   }
 
   /* FUNÇÕES AUXILIARES */
@@ -409,28 +412,34 @@ export class MateriasComponent implements AfterViewInit {
           nota.dataNota = this.dateToString(new Date(nota.dataNota))
         });
         this.notas = data.notasMateria;
-        console.log(this.notas)
         this.notas.sort((a, b) => (a.notaMateria > b.notaMateria) ? 1 : -1)
 
-        //Matérias do Usuario
-        this.materias = data.materias;
-        this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
-        this.materias.forEach((m) => {
-          let idMateria = m.idMateria;
-          this.userMaterias[m.idMateria] = {
-            nome: m.nomeMateria,
-            notas: data.notasMateria.filter(nota => idMateria === nota.idMateria),
-            materiais: []
-          }
-        })
-        //Materias do BD
-        this.materiaService.getAllBase().subscribe(
-          (stringData: string) => {
-            let data = JSON.parse(stringData)
-            this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
-            this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
-            this.loaded = true;
-          }
+        //Materiais do Usuário
+        this.materiaService.getAllMaterial().subscribe(
+          (materiaisData) => {
+            this.materiais = JSON.parse(materiaisData)
+            console.log(this.materiais)
+            //Matérias do Usuario
+            this.materias = data.materias;
+            this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+            this.materias.forEach((m) => {
+              this.userMaterias[m.idMateria] = {
+                nome: m.nomeMateria,
+                notas: data.notasMateria.filter(nota => m.idMateria === nota.idMateria),
+                materiais: this.materiais.filter(material => m.idMateria === material.idMateria)
+              }
+            })
+            //Materias do BD
+            this.materiaService.getAllBase().subscribe(
+              (stringData: string) => {
+                let data = JSON.parse(stringData)
+                this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
+                this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+                this.loaded = true;
+              }
+            )
+          },
+          err => console.log(err)
         )
       }
     )
@@ -561,8 +570,4 @@ export class MateriasComponent implements AfterViewInit {
 
     return new File([u8arr], filename, { type: mime });
   }
-}
-
-function callback(file: File, callback: any) {
-  throw new Error('Function not implemented.');
 }
