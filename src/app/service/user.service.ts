@@ -80,9 +80,10 @@ export class UserService {
   getTelegramID(): Observable<any> {
     return this.http.get(API_URL + `usuariotelegram/${this.idUsuario}`, this.httpOptions);
   }
-  addTelegramID(idTelegram: string): Observable<any> {
+  addTelegramID(idTelegram: string, username: string): Observable<any> {
     return this.http.post(API_URL + `usuariotelegram/cadastro`, {
       idTelegram,
+      username,
       idUsuario: this.idUsuario,
     }, this.httpOptions);
   }

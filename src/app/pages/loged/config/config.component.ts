@@ -68,7 +68,8 @@ export class ConfigComponent implements OnInit {
     this.userService.telegramObj().subscribe(
       (objFinal: any) => {
         let chatId = objFinal.result[objFinal.result.length - 1].message.chat.id;
-        this.userService.addTelegramID(chatId).subscribe(
+        let username = objFinal.result[objFinal.result.length - 1].message.chat.username;
+        this.userService.addTelegramID(chatId, username).subscribe(
           () => {
             this.telegramInicial = chatId;
             if (localStorage.getItem("lang") === "pt-BR") {
