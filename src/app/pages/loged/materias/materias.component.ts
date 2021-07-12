@@ -90,6 +90,7 @@ export class MateriasComponent implements AfterViewInit {
         this.newMateria.nome = event.nomeMateria;
       } else {
         this.materiaToEdit.nome = event.nomeMateria;
+        this.materiaToEdit.idMateriaBase = event.idMateriaBase;
       }
     }
   }
@@ -124,9 +125,7 @@ export class MateriasComponent implements AfterViewInit {
     idMateria: null
   };
   setEditMateria(idMateria) {
-    console.log(idMateria)
     this.materias.forEach((materia) => {
-      console.log(materia)
       if (materia.idMateria == idMateria) {
         this.materiaToEdit = materia;
         this.materiaToEdit.camposVal = true;
@@ -138,7 +137,7 @@ export class MateriasComponent implements AfterViewInit {
   editMateria() {
     this.materiaToEdit.camposVal = true;
     if (this.materiaToEdit.nomeMateria) {
-      this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.nomeMateria, this.materiaToEdit.nomeMateria).subscribe(
+      this.materiaService.update(this.materiaToEdit.idMateria, this.materiaToEdit.idMateriaBase, this.materiaToEdit.nomeMateria, this.materiaToEdit.nomeMateria).subscribe(
         () => {
           this.alertSucess("materia", "update");
           document.getElementById('closeModal_editMat').click();
@@ -159,6 +158,11 @@ export class MateriasComponent implements AfterViewInit {
         this.notas.forEach((nota) => {
           if (nota.idMateria === idMateria) {
             this.delNota(nota.idNotaMateria, true)
+          }
+        })
+        this.materiais.forEach((material) => {
+          if (material.idMateria = idMateria) {
+            this.deleteMaterial(material.idMaterial, true);
           }
         })
         this.agendamentoService.getAll().subscribe(
@@ -303,7 +307,6 @@ export class MateriasComponent implements AfterViewInit {
         if (result.isConfirmed) {
           this.notaMateriaService.delete(idNotaMateria).subscribe(
             () => {
-              let idMat
               this.alertSucess("nota", "delete");
               this.refresh()
             },
@@ -369,16 +372,35 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   editMaterial(material) {
-    material.publico = !material.publico
-    this.materiaService.updateMaterial(material.idMaterial, material.idMateria, material.material, material.nomeMaterial, material.tipoMaterial, material.publico).subscribe(
-      () => {
-        console.log("material")
-      },
+    this.materiaService.updateMaterial(material.idMaterial, material.idMateria, material.material, material.nomeMaterial, material.tipoMaterial, !material.publico).subscribe(
+      () => { material.publico = !material.publico },
       err => { this.alertError(err) })
   }
 
+  deleteMaterial(idMaterial, fromDeleteMateria) {
+    if (fromDeleteMateria) {
+      this.materiaService.deleteMaterial(idMaterial).subscribe()
+    } else {
+      this.confDel().then((result) => {
+        if (result.isConfirmed) {
+          this.materiaService.deleteMaterial(idMaterial).subscribe(
+            () => { this.alertSucess("material", "delete") },
+            err => { this.alertError(err) })
+        }
+      })
+    }
+  }
+
+  materiaisPorMateria(idMateriaBase) {
+    this.materiaService.getAllMaterialPublico(idMateriaBase).subscribe(
+      (materiais) => {
+        console.log(materiais)
+      },
+      err => { this.alertError(err) }
+    )
+  }
+
   downloadFile(material) {
-    //PASSAR ID DO MATERIAL - idMaterial
     console.log(material)
     var file = this.dataURLtoFile(material.material, material.nomeMaterial)
 
@@ -395,9 +417,26 @@ export class MateriasComponent implements AfterViewInit {
     link.remove();
   }
 
+  materiaisPublicos: any[] = [];
+  searchinPublicos = false;
+  setPesquisa(idMateria) {
+    this.materiaisPublicos = []
+    this.searchinPublicos = true;
+    this.materiaService.getAllMaterialPublico(idMateria).subscribe(
+      (data) => {
+        if (data.length > 0) {
+          this.materiaisPublicos = JSON.parse(data);
+          this.materiaisPublicos.sort((a, b) => { return a.nomeMaterial.localeCompare(b.nomeMaterial) })
+        }
+        this.searchinPublicos = false;
+      },
+      err => this.alertError(err)
+    )
+  }
+
   /* FUNÇÕES AUXILIARES */
   dbMaterias: any[];
-  userMaterias: any = {};
+  userMaterias: any[] = [];
   dataURL: any;
   filename: any;
   refresh() {
@@ -417,17 +456,18 @@ export class MateriasComponent implements AfterViewInit {
         //Materiais do Usuário
         this.materiaService.getAllMaterial().subscribe(
           (materiaisData) => {
+            this.userMaterias = [];
             this.materiais = JSON.parse(materiaisData)
-            console.log(this.materiais)
             //Matérias do Usuario
-            this.materias = data.materias;
-            this.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+            this.materias = data.materias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
             this.materias.forEach((m) => {
-              this.userMaterias[m.idMateria] = {
+              this.userMaterias.push({
+                id: m.idMateria,
                 nome: m.nomeMateria,
                 notas: data.notasMateria.filter(nota => m.idMateria === nota.idMateria),
-                materiais: this.materiais.filter(material => m.idMateria === material.idMateria)
-              }
+                materiais: this.materiais.filter(material => m.idMateria === material.idMateria),
+                idMateriaBase: m.idMateriaBase
+              })
             })
             //Materias do BD
             this.materiaService.getAllBase().subscribe(

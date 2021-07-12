@@ -50,6 +50,50 @@
         </div>
       </div>
     </div>
+    <!-- Modal visualização Materiais Públicos -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{'MATERIAS.MATERIAIS' | translate}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="materiaisPublicos.length===0" class="d-flex justify-content-center">
+              <div *ngIf="searchinPublicos;else sem_materiais" class="spinner-border my-3"
+                style="width: 6rem; height: 6rem;" role="status">
+              </div>
+              <ng-template #sem_materiais>
+                <h4 class="my-3">{{'MATERIAS.SEM_MATERIAIS' | translate}}</h4> 
+              </ng-template>
+            </div>
+            <table *ngIf="materiaisPublicos.length>0" mat-table [dataSource]="materiaisPublicos">
+              <!-- Nome -->
+              <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.NOME' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.nomeMaterial}} </td>
+              </ng-container>
+              <!-- Download -->
+              <ng-container matColumnDef=" ">
+                <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.ACOES' | translate}} </th>
+                <td mat-cell *matCellDef="let element">
+                  <i style="cursor: pointer;" (click)="downloadFile(element)" class="fas fa-download"></i>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['nome', ' ']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['nome', ' '];"></tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"> {{'MATERIAS.FECHAR' |
+              translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card shadow" style="min-height: 20rem;">
     <div class="d-flex justify-content-center">
@@ -65,11 +109,11 @@
       <div class="row row-cols-1 row-cols-md-3">
         <div class="col mb-4" *ngFor="let materia of this.userMaterias | keyvalue">
           <div class="card h-100">
-            <div class="card-header" id="heading{{materia.key}}">
+            <div class="card-header" id="heading{{materia.value['id']}}">
               {{materia.value['nome']}}
               <div class="float-right">
                 <!-- EDIÇÃO DE MATÉRIAS -->
-                <i (click)="setEditMateria(materia.key)" id="btn_EditMateria" data-toggle="modal"
+                <i (click)="setEditMateria(materia.value['id'])" id="btn_EditMateria" data-toggle="modal"
                   data-target="#EditarMateriaModal" style="color: #19647e; cursor: pointer;"
                   class="far fa-edit fa-lg mr-3"></i>
                 <div class="modal fade" id="EditarMateriaModal" tabindex="-1" aria-labelledby="EditarMateriaModalLabel"
@@ -96,7 +140,9 @@
                                   {{item.nomeMateria}} <br />
                                 </ng-template>
                                 <ng-template ng-tag-tmp let-search="searchTerm">
-                                  {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                  <div (click)="createSugestao(search)">
+                                    {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                  </div>
                                 </ng-template>
                               </ng-select>
                             </div>
@@ -119,29 +165,29 @@
                   </div>
                 </div>
                 <!-- EXCLUSÃO DE MATÉRIAS -->
-                <i (click)="delMateria(materia.key)" style="color: #dc3545; cursor: pointer;"
+                <i (click)="delMateria(materia.value['id'])" style="color: #dc3545; cursor: pointer;"
                   class="far fa-minus-square fa-lg"></i>
               </div>
             </div>
             <div class="card-body">
-              <ul class="nav nav-tabs" id="myTab{{materia.key}}" role="tablist">
+              <ul class="nav nav-tabs" id="myTab{{materia.value['id']}}" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="notas-tab" data-toggle="tab" href="#notas{{materia.key}}" role="tab"
-                    aria-controls="notas" aria-selected="true">{{'LOGED.NOTAS' | translate}}</a>
+                  <a class="nav-link active" id="notas-tab" data-toggle="tab" href="#notas{{materia.value['id']}}"
+                    role="tab" aria-controls="notas" aria-selected="true">{{'LOGED.NOTAS' | translate}}</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="material-tab" data-toggle="tab" href="#material{{materia.key}}" role="tab"
-                    aria-controls="material" aria-selected="false">{{'MATERIAS.MATERIAIS' |
+                  <a class="nav-link" id="material-tab" data-toggle="tab" href="#material{{materia.value['id']}}"
+                    role="tab" aria-controls="material" aria-selected="false">{{'MATERIAS.MATERIAIS' |
                     translate}}</a>
                 </li>
               </ul>
-              <div class="tab-content" id="myTabContent{{materia.key}}">
-                <div class="tab-pane fade show active" id="notas{{materia.key}}" role="tabpanel"
+              <div class="tab-content" id="myTabContent{{materia.value['id']}}">
+                <div class="tab-pane fade show active" id="notas{{materia.value['id']}}" role="tabpanel"
                   aria-labelledby="notas-tab">
                   <div *ngIf="materia.value['notas'].length>0;else sem_notas">
                     <!-- Criação de Nota -->
                     <button type="button" class="btn btn-primary btn-block mt-4 mb-3"
-                      (click)="setIdMateria(materia.key)"
+                      (click)="setIdMateria(materia.value['id'])"
                       style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
                       data-target="#CriarNotaModal">
                       <i class="fas fa-plus-circle mr-1"></i>
@@ -257,7 +303,7 @@
                       <br>
                       <!-- Criação de Nota -->
                       <button id="btn_createNota" type="button" class="btn btn-primary btn-lg mt-4"
-                        (click)="setIdMateria(materia.key)"
+                        (click)="setIdMateria(materia.value['id'])"
                         style="border: none; background-color: #31d0aa; color: #505050" data-toggle="modal"
                         data-target="#CriarNotaModal">
                         <i class="fas fa-plus-circle mr-1"></i>
@@ -266,18 +312,35 @@
                     </h5>
                   </ng-template>
                 </div>
-                <div class="tab-pane fade" id="material{{materia.key}}" role="tabpanel" aria-labelledby="material-tab">
-                  <div class=" my-3 custom-file">
-                    <input type="file" (change)="getFiles($event, materia.key)" class="custom-file-input"
-                      id="customFile" multiple>
-                    <label class="custom-file-label" for="customFile"
-                      id="customFileLabel_{{materia.key}}">{{'MATERIAS.ESCOLHER'
-                      |
-                      translate}}</label>
+                <div class="tab-pane fade" id="material{{materia.value['id']}}" role="tabpanel"
+                  aria-labelledby="material-tab">
+                  <!-- Add Material -->
+                  <div class="my-3 input-group">
+                    <div class="custom-file">
+                      <input type="file" (change)="getFiles($event, materia.value['id'])" class="custom-file-input"
+                        id="customFile" multiple>
+                      <label *ngIf="lang =='pt-BR'" class="custom-file-label" for="customFile"
+                        id="customFileLabel_{{materia.value['id']}}" data-browse="Procurar">{{'MATERIAS.ESCOLHER' |
+                        translate}}</label>
+                      <label *ngIf="lang !='pt-BR'" class="custom-file-label" for="customFile"
+                        id="customFileLabel_{{materia.value['id']}}" data-browse="Search">{{'MATERIAS.ESCOLHER' |
+                        translate}}</label>
+                    </div>
+                    <div class="input-group-append">
+                      <button type="button" (click)="uploadFiles()" class=" btn btn-outline-info">{{'CRUD-GERAL.SALVAR'
+                        | translate}}</button>
+                    </div>
                   </div>
-                  <button type="button" (click)="uploadFiles()" class=" btn btn-info"
-                    [disabled]="!arquivos">{{'CRUD-GERAL.SALVAR' | translate}}</button>
-                  <table mat-table [dataSource]="materia.value['materiais']">
+                  <!-- Pesquisa de Materiais -->
+                  <button type="button" class="btn btn-light btn-sm btn-block"
+                    (click)="setPesquisa(materia.value['idMateriaBase'])" data-toggle="modal"
+                    data-target="#exampleModal">
+                    <i class="fas fa-search"></i>
+                    {{'MATERIAS.PESQUISAR' | translate}}
+                  </button>
+                  <!-- Listagem de Materiais -->
+                  <table *ngIf="materia.value['materiais'].length>0" mat-table
+                    [dataSource]="materia.value['materiais']">
                     <!-- Nome -->
                     <ng-container matColumnDef="nome">
                       <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.NOME' | translate}} </th>
@@ -286,17 +349,21 @@
                     <ng-container matColumnDef=" ">
                       <th mat-header-cell *matHeaderCellDef> {{'MATERIAS.ACOES' | translate}} </th>
                       <td mat-cell *matCellDef="let element">
-                        <div class="row">
-                          <!-- Publico ou Privado -->
-                          <div class="col-6 border-right">
-                            <i style="cursor: pointer;" *ngIf="element.publico; else privado" (click)="editMaterial(element)" class="fas fa-lock-open" [mdbTooltip]="lang==='pt-BR'? 'Público': 'Public'"></i>
-                            <ng-template #privado>
-                              <i style="cursor: pointer;" (click)="editMaterial(element)" class="fas fa-lock" [mdbTooltip]="lang==='pt-BR'? 'Privado': 'Private'"></i>
-                            </ng-template>
-                          </div>
+                        <div class="row text-center">
                           <!-- Download -->
-                          <div class="col-6">
+                          <div class="col-4">
                             <i style="cursor: pointer;" (click)="downloadFile(element)" class="fas fa-download"></i>
+                          </div>
+                          <!-- Publico ou Privado -->
+                          <div class="col-4 border-right border-left">
+                            <i style="cursor: pointer;" *ngIf="element.publico" (click)="editMaterial(element)"
+                              class="fas fa-lock-open" [mdbTooltip]="lang==='pt-BR'? 'Público': 'Public'"></i>
+                            <i style="cursor: pointer;" *ngIf="!element.publico" (click)="editMaterial(element)"
+                              class="fas fa-lock" [mdbTooltip]="lang==='pt-BR'? 'Privado': 'Private'"></i>
+                          </div>
+                          <div class="col-4">
+                            <i (click)="deleteMaterial(element.idMaterial, false)"
+                              style="color: #dc3545; cursor: pointer;" class="far fa-minus-square"></i>
                           </div>
                         </div>
                       </td>
@@ -304,8 +371,6 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsMateriais"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsMateriais;"></tr>
                   </table>
-
-
                 </div>
               </div>
             </div>

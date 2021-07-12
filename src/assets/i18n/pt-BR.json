@@ -66,8 +66,8 @@
     },
     "CRUD-GERAL": {
         "SALVAR": "Salvar",
-        "CRIAR": "Criar",
         "VER": "Ver",
+        "CRIAR": "Criar",
         "EDITAR": "Editar",
         "EXCLUIR": "Excluir"
     },
@@ -93,10 +93,12 @@
         "ACOES": "Ações",
         "SOBRE": "Sobre",
         "DESCRICAO": "Descrição",
-        "MATERIAIS": "Materiais",
-        "ESCOLHER": "Escolher arquivos",
         "SEM_MATERIAS": "Não há nenhuma matéria cadastrada",
         "SEM_NOTAS": "Não há nenhuma nota cadastrada",
+        "SEM_MATERIAIS": "Não há nenhum material público",
+        "MATERIAIS": "Materiais",
+        "PESQUISAR": "Públicos",
+        "ESCOLHER": "Escolher arquivos",
         "FECHAR": "Fechar",
         "SALVAR": "Salvar"
     },
@@ -111,10 +113,9 @@
         "SENHA2": "Digite a nova senha novamente",
         "NOTIFICACOES": "Desejo receber notificações pelo Telegram",
         "EDIT_SENHA": "Alterar Senha",
-        "DEL_USER": "Excluir conta",
+        "EXCLUIR": "Excluir conta",
         "DEL_INFO1": "Tem certeza?",
-        "DEL_INFO2": "Você não poderá recuperar as informações da sua conta",
-        "EXCLUIR": "Excluir conta"
+        "DEL_INFO2": "Você não poderá recuperar as informações da sua conta"
     },
     "METODOS": {
         "AUTO": "Autoexplicação",

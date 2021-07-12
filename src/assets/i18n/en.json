@@ -95,7 +95,9 @@
         "DESCRICAO": "Description",
         "SEM_MATERIAS": "There is no subject registered",
         "SEM_NOTAS": "There is no grade registered",
+        "SEM_MATERIAIS": "There is no public material",
         "MATERIAIS": "Files",
+        "PESQUISAR": "Public",
         "ESCOLHER": "Choose files",
         "FECHAR": "Close",
         "SALVAR": "Save"
@@ -104,7 +106,6 @@
         "DADOS": "Data",
         "NOME": "Name",
         "EMAIL": "E-mail",
-        "SALVAR": "Save",
         "SENHA": "Password",
         "TELEGRAMCONNECT": "Connect with Telegram",
         "TELEGRAMCONNECTED":"Connected with Telegram",
