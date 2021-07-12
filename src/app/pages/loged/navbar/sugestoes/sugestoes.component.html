@@ -1,0 +1,25 @@
+<div class="dropdown">
+  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    {{lang ==="pt-BR" ? "Sugestões" : "Sugestions"}}
+    <span class="badge badge-pill badge-info">{{sugestoes.length}}</span>
+  </button>
+  <div class="p-0 dropdown-menu dropdown-menu-right" style="width: max-content" aria-labelledby="dropdownMenuButton">
+    <div class="p-0 m-2 dropdown-item-text" style="cursor: default;">
+      <h6 class="m-0">
+        <table class="table table-striped table-hover table-borderless">
+          <tbody>
+            <tr *ngFor="let sugestao of sugestoes">
+              <td>{{sugestao.nomeMateria}}</td>
+              <td class="text-right">
+                <i style="color: red; cursor: pointer;" class="fas fa-angle-down" (click)="updateSugestao(sugestao.idSugestoesMateria, 0)"></i>
+                <span class="border-right border-left px-1 mx-1">{{sugestao.votos}}</span>
+                <i style="color: green; cursor: pointer;" class="fas fa-angle-up" (click)="updateSugestao(sugestao.idSugestoesMateria, 1)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>        
+      </h6>
+    </div>
+  </div>
+</div>

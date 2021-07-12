@@ -129,7 +129,8 @@ export class MateriaService {
             idUsuario: this.idUsuario,
             nomeMateria: sugestao.nomeMateria,
             votos: sugestao.votos,
-            totalVotos: sugestao.totalVotos
+            totalVotos: sugestao.totalVotos,
+            faltaVotar: sugestao.faltaVotar
         }, this.httpOptions);
     }
 

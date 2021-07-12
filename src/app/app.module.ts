@@ -1,3 +1,4 @@
+import { SugestoesComponent } from './pages/loged/navbar/sugestoes/sugestoes.component';
 import { TutoriaComponent } from './pages/loged/tutoria/tutoria.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -75,6 +76,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SelectLangComponent,
     Resend_emailComponent,
     NotasEstudoComponent,
+    SugestoesComponent,
     HorasEstudoComponent,
     BadgesComponent,
     CalendarioComponent,
