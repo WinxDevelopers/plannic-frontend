@@ -26,7 +26,7 @@ export class CalendarioComponent implements OnInit {
     idMateria: null,
     dataInicio: null,
     horaInicio: null,
-    notificacao: "",
+    notificacao: "N",
     dataFim: null,
     horaFim: null,
   };
@@ -50,11 +50,15 @@ export class CalendarioComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
-      left: 'prev,next today',
+      left: window.innerWidth <= 773 ? 'prev,next' :'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: window.innerWidth <= 773
+        ? window.innerWidth <= 820
+          ? 'timeGridWeek,timeGridDay,listWeek' 
+          : 'timeGridDay,listWeek'
+        : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    initialView: 'dayGridMonth',
+    initialView: window.innerWidth <= 773 ? 'timeGridWeek' : 'dayGridMonth',
     weekends: true,
     selectAllow: function (e) {
       if (e.end.getTime() / 1000 - e.start.getTime() / 1000 <= 86400) {
@@ -126,12 +130,13 @@ export class CalendarioComponent implements OnInit {
   /* CRUD AGENDAMENTO */
   camposVal: boolean = true;
   dateVal: boolean = true;
-  recorVal: boolean = true;
 
   save(form) {
+    //Setando o id da sugestão criada
     if (this.newSugestaoID && !form.idMateria) {
       form.idMateria = this.newSugestaoID
     }
+
     if (
       form.recorrencia &&
       form.tipoEstudo &&
@@ -204,7 +209,7 @@ export class CalendarioComponent implements OnInit {
     ).subscribe(
       () => {
         document.getElementById("close").click(),
-        this.refresh()
+          this.refresh()
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
             icon: 'success',
@@ -217,7 +222,8 @@ export class CalendarioComponent implements OnInit {
           })
         }
       },
-      error => {
+      err => {
+        console.log(err)
         if (localStorage.getItem("lang") != "en") {
           this.Toast.fire({
             icon: 'error',
@@ -336,16 +342,15 @@ export class CalendarioComponent implements OnInit {
   countAgendamento() {
     this.camposVal = true;
     this.dateVal = true;
-    this.recorVal = true;
 
-    //Caso a hora inicial seja maior q a final
+    //Caso a hora inicial seja maior q a final são dias diferentes
     if (parseInt(this.newForm.horaInicio.slice(0, 2)) > parseInt(this.newForm.horaFim.slice(0, 2))) {
       this.newForm.dataFim = this.newForm.dataInicio.slice(0, 8) + (parseInt(this.newForm.dataInicio.slice(8, 10)) + 1).toString();
     } else {
       this.newForm.dataFim = this.newForm.dataInicio;
     }
 
-
+    //Não permite agendamento em datas anteriores a atual
     if (
       new Date(
         parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
@@ -359,18 +364,11 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-    if (!this.newForm.idMateria) {
-      document.getElementsByTagName("ng-select")[0].classList.add("ng-invalid");
-    }
-
+    //Verificação da recorrencia
     if (this.recorrencia.disable) {
       this.newForm.recorrencia = "N";
       this.save(this.newForm);
     } else {
-      if (this.recorrencia.vezes < 0) {
-        this.recorVal = false
-        return;
-      }
       let form = this.newForm;
       let dataInicio = new Date(
         parseInt(this.newForm.dataInicio.slice(0, 4)), //Ano
@@ -387,25 +385,31 @@ export class CalendarioComponent implements OnInit {
         parseInt(this.newForm.horaFim.slice(3, 6)), //Minuto
       );
       let loop = this.recorrencia.vezes > 0 ? this.recorrencia.vezes : 0
-      for (let i = 0; i <= loop; i++) {
-        if (this.recorrencia.repeticao === "dia") {
+      switch (this.recorrencia.repeticao) {
+        case "dia":
           form.recorrencia = "dia";
-          form.dataInicio = this.DateToString(add(dataInicio, { days: i }), "data");
-          form.dataFim = this.DateToString(add(dataFim, { days: i }), "data");
-          this.save(form);
-        }
-        if (this.recorrencia.repeticao === "semana") {
+          for (let i = 0; i < loop; i++) {
+            form.dataInicio = this.DateToString(add(dataInicio, { days: i }), "data");
+            form.dataFim = this.DateToString(add(dataFim, { days: i }), "data");
+            this.save(form);
+          }
+          break;
+        case 'semana':
           form.recorrencia = "semana";
-          form.dataInicio = this.DateToString(add(dataInicio, { weeks: i }), "data");
-          form.dataFim = this.DateToString(add(dataFim, { weeks: i }), "data");
-          this.save(form);
-        }
-        if (this.recorrencia.repeticao === "mes") {
+          for (let i = 0; i < loop; i++) {
+            form.dataInicio = this.DateToString(add(dataInicio, { weeks: i }), "data");
+            form.dataFim = this.DateToString(add(dataFim, { weeks: i }), "data");
+            this.save(form);
+          }
+          break;
+        case 'mes':
           form.recorrencia = "mes";
-          form.dataInicio = this.DateToString(add(dataInicio, { months: i }), "data");
-          form.dataFim = this.DateToString(add(dataFim, { months: i }), "data");
-          this.save(form);
-        }
+          for (let i = 0; i < loop; i++) {
+            form.dataInicio = this.DateToString(add(dataInicio, { months: i }), "data");
+            form.dataFim = this.DateToString(add(dataFim, { months: i }), "data");
+            this.save(form);
+          }
+          break;
       }
     }
   }
@@ -431,7 +435,6 @@ export class CalendarioComponent implements OnInit {
         this.materias = data.materias;
         this.calendarOptions.events = data.agendamentos.map((ag) => {
           ag = ag as Agendamento;
-          console.log(ag)
           return {
             start: ag.recorrenciaInicio.slice(0, 11) + ag.horaInicio,
             end: ag.recorrenciaFim.slice(0, 11) + ag.horaFim,
@@ -468,14 +471,13 @@ export class CalendarioComponent implements OnInit {
   closeModal() {
     this.camposVal = true;
     this.dateVal = true;
-    this.recorVal = true;
     this.newForm = {
       recorrencia: null,
       tipoEstudo: null,
       idMateria: null,
       dataInicio: null,
       horaInicio: null,
-      notificacao: "",
+      notificacao: "N",
       dataFim: null,
       horaFim: null,
     };

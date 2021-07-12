@@ -6,389 +6,495 @@
         <button type="button" class="col-1 btn btn-sm btn-outline-success float-right"
             (click)="changeModal('create', null)" id="botaocriar" type="button" data-toggle="modal"
             data-target="#modal">{{'CRUD-GERAL.CRIAR' | translate}}</button>
-        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div id="modal-dialog" class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">
-                            <span *ngIf="modal.seguinte === 'metodos'">
-                                <div id="from_metodos" (click)="changeModal(modal.anterior, 'metodos')">
-                                    <i style="cursor: pointer;" class="fas fa-chevron-left"></i>
-                                    {{'LOGED.METODOS' | translate}}
-                                </div>
-                            </span>
-                            <span *ngIf="modal.seguinte === 'create'">
-                                {{'CRUD-GERAL.CRIAR' | translate}}
-                            </span>
-                            <span *ngIf="modal.seguinte === 'edit'">
-                                {{'CRUD-GERAL.EDITAR' | translate}}
-                            </span>
-                        </h5>
-                        <button type="button" (click)="closeModal()" class="close" data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div *ngIf="modal.seguinte === 'create'">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
-                                            translate}}</label>
-                                        <ng-select [(ngModel)]="this.newForm.idMateria" [items]="this.materias"
-                                            [selectOnTab]="true" bindLabel="nomeMateria" bindValue="idMateria"                                        
-                                            [addTag]="true">
-                                            <ng-template ng-option-tmp let-item="item">
-                                                {{item.nomeMateria}}
-                                            </ng-template>
-                                            <ng-template ng-tag-tmp let-search="searchTerm">
-                                                <div (click)="createSugestao(search)">
-                                                    {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
-                                                </div>
-                                            </ng-template>
-                                        </ng-select>
-                                    </div>
-                                </div>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        <span *ngIf="modal.seguinte === 'metodos'">
+                            <div id="from_metodos" (click)="changeModal(modal.anterior, 'metodos')">
+                                <i style="cursor: pointer;" class="fas fa-chevron-left"></i>
+                                {{'LOGED.METODOS' | translate}}
                             </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
-                                                    translate}}</label>
-                                                <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                                    [(ngModel)]="newForm.dataInicio"
-                                                    [ngStyle]="{'border-color': !camposVal || !dateVal ? 'red' : null}"
-                                                    placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                        </span>
+                        <span *ngIf="modal.seguinte === 'create'">
+                            {{'CRUD-GERAL.CRIAR' | translate}}
+                        </span>
+                        <span *ngIf="modal.seguinte === 'edit'">
+                            {{'CRUD-GERAL.EDITAR' | translate}}
+                        </span>
+                    </h5>
+                    <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CRIAÇÂO DE AGENDAMENTO -->
+                    <div *ngIf="modal.seguinte === 'create'">
+                        <!-- Matéria -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
+                                        translate}}</label>
+                                    <ng-select id="select_create" [(ngModel)]="this.newForm.idMateria"
+                                        [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
+                                        bindValue="idMateria" [addTag]="true">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nomeMateria}}
+                                        </ng-template>
+                                        <ng-template ng-tag-tmp let-search="searchTerm">
+                                            <div (click)="createSugestao(search)">
+                                                {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
-                                                    translate}}</label>
-                                                <input type="time" class="form-control" id="inicio" name="inicio"
-                                                    [(ngModel)]="newForm.horaInicio"
-                                                    [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                                    placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
-                                                    translate}}</label>
-                                                <input class="form-control" id="fim" name="fim" type="time"
-                                                    [(ngModel)]="newForm.horaFim"
-                                                    [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                                    placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </ng-template>
+                                    </ng-select>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
-                                        <div class="form-group">
-                                            <div class="form-check">
-                                                <input [(ngModel)]="this.recorrencia.disable" class="form-check-input"
-                                                    type="checkbox" id="gridCheck">
-                                                <label class="form-check-label" for="gridCheck">
-                                                    {{'AGENDAMENTOS.NUNCA' | translate}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="!recorrencia.disable" class="form-group">
-                                            <div class="row justify-content-between">
-                                                <label class="col-2 mt-2 form-label" for="repeat_form">
-                                                    {{'AGENDAMENTOS.REPETIR' | translate}}:
-                                                </label>
-                                                <div class="col-5">
-                                                    <select [(ngModel)]="recorrencia.repeticao" class="form-control"
-                                                        id="repeat_form">
-                                                        <option value="dia">{{'AGENDAMENTOS.DIARIAMENTE' | translate}}
-                                                        </option>
-                                                        <option value="semana">{{'AGENDAMENTOS.SEMANALMENTE' |
-                                                            translate}}
-                                                        </option>
-                                                        <option value="mes">{{'AGENDAMENTOS.MENSALMENTE' | translate}}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <input [(ngModel)]="recorrencia.vezes" min="1"
-                                                        [ngStyle]="{'border-color': !recorVal ? 'red' : null}"
-                                                        class="form-control" type="number">
-                                                </div>
-                                                <div class="col mt-2">{{'AGENDAMENTOS.VEZES' | translate}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
-                                        <div class="form-group">
-                                            <div class="row justify-content-between">
-                                                <div class="col-6">
-                                                    <select [(ngModel)]="newForm.notificacao" class="form-control">
-                                                        <option value="">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
-                                                        <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}</option>
-                                                        <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}</option>
-                                                        <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}</option>
-                                                        <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' | translate}}</option>
-                                                        <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' | translate}}</option>
-                                                        <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' | translate}}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1">
-                                            {{'AGENDAMENTOS.METODO' | translate}}
-                                            <i style="cursor: pointer;" (click)="changeModal('metodos', 'create')"
-                                                class="fas fa-question-circle"></i>
-                                        </label>
-                                        <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
-                                            [(ngModel)]="newForm.tipoEstudo" class="form-control">
-                                            <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
-                                            <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
-                                            <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
-                                            <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
-                                            <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
-                                            <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <p class=" ml-2 p-0" [hidden]="camposVal" style="color: red; ">
-                                    {{'NOTAS.ERROS.CAMPOS' | translate}}
-                                </p>
-                                <p class="ml-2 p-0" [hidden]="dateVal" style="color: red; ">
-                                    {{'NOTAS.ERROS.DATA' | translate}}
-                                </p>
-                                <p class="ml-2 p-0" [hidden]="recorVal" style="color: red; ">
-                                    {{'AGENDAMENTOS.ERRO_RECORRENCIA' | translate}}
-                                </p>
                             </div>
                         </div>
-                        <div *ngIf="modal.seguinte === 'edit'">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
-                                            translate}}</label>
-                                        <ng-select id="select_materia" [(ngModel)]="this.editForm.idMateria"
-                                            [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
-                                            bindValue="idMateria" [addTag]="true" (change)="onChange($event, 'create')">
-                                            <ng-template ng-option-tmp let-item="item">
-                                                {{item.nomeMateria}}
-                                            </ng-template>
-                                            <ng-template ng-tag-tmp let-search="searchTerm">
-                                                <div (click)="createSugestao(search)">
-                                                    {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
-                                                </div>
-                                            </ng-template>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
-                                                    translate}}</label>
-                                                <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                                    [(ngModel)]="editForm.dataInicio"
-                                                    placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
-                                                    translate}}</label>
-                                                <input type="time" class="form-control" id="inicio" name="inicio"
-                                                    [(ngModel)]="editForm.horaInicio"
-                                                    placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' |
-                                                    translate}}</label>
-                                                <input type="date" class="form-control mb-1" id="inicio" name="inicio"
-                                                    [(ngModel)]="editForm.dataFim"
-                                                    placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
-                                                <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
-                                                    translate}}</label>
-                                                <input class="form-control" id="fim" name="fim" type="time"
-                                                    [(ngModel)]="editForm.horaFim"
-                                                    placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
-                                            </div>
+                        <!-- DATA -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
+                                                translate}}</label>
+                                            <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                                [(ngModel)]="newForm.dataInicio"
+                                                [ngStyle]="{'border-color': !camposVal || !dateVal ? 'red' : null}"
+                                                placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
-                                        <div class="form-group">
-                                            <div class="row justify-content-between">
-                                                <div class="col-6">
-                                                    <select [(ngModel)]="this.editForm.notificacao" class="form-control">
-                                                        <option value="">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
-                                                        <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}</option>
-                                                        <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}</option>
-                                                        <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}</option>
-                                                        <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' | translate}}</option>
-                                                        <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' | translate}}</option>
-                                                        <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' | translate}}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
+                                                translate}}</label>
+                                            <input type="time" class="form-control" id="inicio" name="inicio"
+                                                [(ngModel)]="newForm.horaInicio"
+                                                [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                                placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="small mb-1">
-                                            {{'AGENDAMENTOS.METODO' | translate}}
-                                            <i style="cursor: pointer;" (click)="changeModal('metodos', 'edit')"
-                                                class="fas fa-question-circle"></i>
-                                        </label>
-                                        <select [(ngModel)]="editForm.tipoEstudo" class="form-control">
-                                            <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
-                                            <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
-                                            <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
-                                            <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
-                                            <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
-                                            <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
-                                        </select>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
+                                                translate}}</label>
+                                            <input class="form-control" id="fim" name="fim" type="time"
+                                                [(ngModel)]="newForm.horaFim"
+                                                [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                                placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- MÉTODOS DE ESTUDO -->
-                        <div *ngIf="modal.seguinte === 'metodos'">
-                            <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' |
-                                translate}}</span>
-                            <nav>
-                                <div class="nav nav-tabs" id="nav_metodos" role="tablist">
-                                    <a (dblclick)="setMetodo($event)" class="item_metodos nav-link active"
-                                        id="Autoexplicação" data-toggle="tab" href="#autoExp" role="tab"
-                                        aria-controls="autoExp" aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
-                                    <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo"
-                                        data-toggle="tab" href="#resumo" role="tab" aria-controls="resumo"
-                                        aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
-                                    <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Teste Prático"
-                                        data-toggle="tab" href="#teste" role="tab" aria-controls="teste"
-                                        aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
-                                    <a (dblclick)="setMetodo($event)" class="item_metodos nav-link"
-                                        id="Técnica Pomodoro" data-toggle="tab" href="#pom" role="tab"
-                                        aria-controls="pom" aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
-                                    <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Mapa Mental"
-                                        data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
-                                        aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
-                                </div>
-                            </nav>
-                            <div class="tab-content" id="nav-tabContent">
-                                <!-- Auto-Explicação - TEXTO -->
-                                <div class="tab-pane fade show active" id="autoExp" role="tabpanel"
-                                    aria-labelledby="Autoexplicação">
-                                    <div class="texto-metodos">
-                                        <p>{{'METODOS.AUTO1' | translate}}</p>
-                                        <p>{{'METODOS.AUTO2' | translate}}</p>
-                                        <p>{{'METODOS.AUTO3' | translate}}</p>
+                        <!-- RECORRENCIA -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1">{{'AGENDAMENTOS.RECORRENCIA' | translate}}</label>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input [(ngModel)]="this.recorrencia.disable" class="form-check-input"
+                                                type="checkbox" id="gridCheck">
+                                            <label class="form-check-label" for="gridCheck">
+                                                {{'AGENDAMENTOS.NUNCA' | translate}}
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Resumo - TEXTO -->
-                                <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="Resumo">
-                                    <div class="texto-metodos">
-                                        <p>{{'METODOS.RESUMO1' | translate}}</p>
-                                        <p>{{'METODOS.RESUMO2' | translate}}</p>
-                                        <p>{{'METODOS.RESUMO3' | translate}}</p>
-                                        <p>{{'METODOS.RESUMO4' | translate}}</p>
-                                        <ul>
-                                            <li>{{'METODOS.RESUMO5' | translate}}</li>
-                                            <li>{{'METODOS.RESUMO6' | translate}}</li>
-                                            <li>{{'METODOS.RESUMO7' | translate}}</li>
-                                            <li>{{'METODOS.RESUMO8' | translate}}</li>
-                                            <li>{{'METODOS.RESUMO9' | translate}}</li>
-                                            <li>{{'METODOS.RESUMO10' | translate}}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- Teste - TEXTO -->
-                                <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="Teste Prático">
-                                    <div class="texto-metodos">
-                                        <p>{{'METODOS.TESTE1' | translate}}</p>
-                                        <p>{{'METODOS.TESTE2' | translate}}</p>
-                                        <p>{{'METODOS.TESTE3' | translate}}</p>
-                                    </div>
-                                </div>
-                                <!-- Pomodoro - TEXTO -->
-                                <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="Técnica Pomodoro">
-                                    <div class="texto-metodos">
-                                        <p>{{'METODOS.POMODORO1' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO2' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO3' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO4' | translate}}</p>
-                                        <ul>
-                                            <li>{{'METODOS.POMODORO5' | translate}}</li>
-                                            <li>{{'METODOS.POMODORO6' | translate}}</li>
-                                        </ul>
-                                        <p>{{'METODOS.POMODORO7' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO8' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO9' | translate}}</p>
-                                        <p>{{'METODOS.POMODORO10' | translate}}</p>
-                                    </div>
-                                </div>
-                                <!-- Mapa - TEXTO -->
-                                <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="Mapa Mental">
-                                    <div class="texto-metodos">
-                                        <p>{{'METODOS.MAPA1' | translate}}</p>
-                                        <p>{{'METODOS.MAPA2' | translate}}</p>
-                                        <p>{{'METODOS.MAPA3' | translate}}</p>
-                                        <p>{{'METODOS.MAPA4' | translate}}</p>
-                                        <p>{{'METODOS.MAPA5' | translate}}</p>
+                                    <div *ngIf="!recorrencia.disable" class="form-group">
+                                        <div class="row justify-content-between">
+                                            <label class="col-2 mt-2 form-label" for="repeat_form">
+                                                {{'AGENDAMENTOS.REPETIR' | translate}}:
+                                            </label>
+                                            <div class="col-5">
+                                                <select [(ngModel)]="recorrencia.repeticao" class="form-control"
+                                                    id="repeat_form">
+                                                    <option value="dia">{{'AGENDAMENTOS.DIARIAMENTE' | translate}}
+                                                    </option>
+                                                    <option value="semana">{{'AGENDAMENTOS.SEMANALMENTE' |
+                                                        translate}}
+                                                    </option>
+                                                    <option value="mes">{{'AGENDAMENTOS.MENSALMENTE' | translate}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-3">
+                                                <input [(ngModel)]="recorrencia.vezes" min="1" class="form-control"
+                                                    type="number">
+                                            </div>
+                                            <div class="col mt-2">{{'AGENDAMENTOS.VEZES' | translate}}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- NOTIFICAÇÃO -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
+                                    <div class="form-group">
+                                        <div class="row justify-content-between">
+                                            <div class="col-6">
+                                                <select [(ngModel)]="newForm.notificacao" class="form-control">
+                                                    <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
+                                                    <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}
+                                                    </option>
+                                                    <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}
+                                                    </option>
+                                                    <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}
+                                                    </option>
+                                                    <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' |
+                                                        translate}}</option>
+                                                    <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' |
+                                                        translate}}</option>
+                                                    <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' |
+                                                        translate}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Métodos de Estudo -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1">
+                                        {{'AGENDAMENTOS.METODO' | translate}}
+                                        <i style="cursor: pointer;" (click)="changeModal('metodos', 'create')"
+                                            class="fas fa-question-circle"></i>
+                                    </label>
+                                    <select [ngStyle]="{'border-color': !camposVal ? 'red' : null}"
+                                        [(ngModel)]="newForm.tipoEstudo" class="form-control">
+                                        <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
+                                        <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
+                                        <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
+                                        <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
+                                        <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
+                                        <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Erros -->
+                        <div class="form-row">
+                            <p class=" ml-2 p-0" [hidden]="camposVal" style="color: red; ">
+                                {{'NOTAS.ERROS.CAMPOS' | translate}}
+                            </p>
+                            <p class="ml-2 p-0" [hidden]="dateVal" style="color: red; ">
+                                {{'NOTAS.ERROS.DATA' | translate}}
+                            </p>
+                        </div>
                     </div>
-                    <div class="modal-footer" *ngIf="modal.seguinte === 'create' || modal.seguinte === 'edit'">
-                        <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'"
-                            style="position:relative; right:215px;" type="button"
-                            class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
-                            translate}}</button>
-                        <button *ngIf="modal.seguinte === 'create'" (click)="countAgendamento()" type="button"
-                            class="btn btn-primary">{{'MATERIAS.SALVAR'
-                            |
-                            translate}}</button>
-                        <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button"
-                            class="btn btn-primary">{{'MATERIAS.SALVAR'
-                            |
-                            translate}}</button>
-                        <button id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
-                            data-dismiss="modal">{{'MATERIAS.FECHAR' |
-                            translate}}</button>
+                    <!-- EDIÇÃO DE AGENDAMENTO -->
+                    <div *ngIf="modal.seguinte === 'edit'">
+                        <!-- Matéria -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="materia">{{'AGENDAMENTOS.MATERIA' |
+                                        translate}}</label>
+                                    <ng-select id="select_materia" [(ngModel)]="this.editForm.idMateria"
+                                        [items]="this.materias" [selectOnTab]="true" bindLabel="nomeMateria"
+                                        bindValue="idMateria" [addTag]="true" (change)="onChange($event, 'create')">
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{item.nomeMateria}}
+                                        </ng-template>
+                                        <ng-template ng-tag-tmp let-search="searchTerm">
+                                            <div (click)="createSugestao(search)">
+                                                {{'CRUD-GERAL.CRIAR' | translate}} "{{search}}"
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- DATA -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAINICIO' |
+                                                translate}}</label>
+                                            <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                                [(ngModel)]="editForm.dataInicio"
+                                                placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAINICIO' |
+                                                translate}}</label>
+                                            <input type="time" class="form-control" id="inicio" name="inicio"
+                                                [(ngModel)]="editForm.horaInicio"
+                                                placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.DATAFIM' |
+                                                translate}}</label>
+                                            <input type="date" class="form-control mb-1" id="inicio" name="inicio"
+                                                [(ngModel)]="editForm.dataFim"
+                                                placeholder="{{'AGENDAMENTOS.INICIO' | translate}}" />
+                                            <label class="small mb-1" for="intervalo">{{'AGENDAMENTOS.HORAFIM' |
+                                                translate}}</label>
+                                            <input class="form-control" id="fim" name="fim" type="time"
+                                                [(ngModel)]="editForm.horaFim"
+                                                placeholder="{{'AGENDAMENTOS.FIM' | translate}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NOTIFICAÇÃO -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">                                    
+                                    <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <select [(ngModel)]="this.editForm.notificacao" class="form-control">
+                                                <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
+                                                <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}
+                                                </option>
+                                                <option value="600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT2' | translate}}
+                                                </option>
+                                                <option value="750">{{'AGENDAMENTOS.NOTIF_SELECT.NOT3' | translate}}
+                                                </option>
+                                                <option value="1800">{{'AGENDAMENTOS.NOTIF_SELECT.NOT4' | translate}}
+                                                </option>
+                                                <option value="3600">{{'AGENDAMENTOS.NOTIF_SELECT.NOT5' | translate}}
+                                                </option>
+                                                <option value="86400">{{'AGENDAMENTOS.NOTIF_SELECT.NOT6' | translate}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Métodos de Estudo -->
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1">
+                                        {{'AGENDAMENTOS.METODO' | translate}}
+                                        <i style="cursor: pointer;" (click)="changeModal('metodos', 'edit')"
+                                            class="fas fa-question-circle"></i>
+                                    </label>
+                                    <select [(ngModel)]="editForm.tipoEstudo" class="form-control">
+                                        <option value="Autoexplicação">{{'METODOS.AUTO' | translate}}</option>
+                                        <option value="Resumo">{{'METODOS.RESUMO' | translate}}</option>
+                                        <option value="Teste Prático">{{'METODOS.TESTE' | translate}}</option>
+                                        <option value="Técnica Pomodoro">{{'METODOS.POMODORO' | translate}}</option>
+                                        <option value="Mapa Mental">{{'METODOS.MAPA' | translate}}</option>
+                                        <option value="Outro">{{'METODOS.OUTRO' | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- MÉTODOS DE ESTUDO -->
+                    <div *ngIf="modal.seguinte === 'metodos'">
+                        <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' |
+                            translate}}</span>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav_metodos" role="tablist">
+                                <a (dblclick)="setMetodo($event)" class="item_metodos nav-link active"
+                                    id="Autoexplicação" data-toggle="tab" href="#autoExp" role="tab"
+                                    aria-controls="autoExp" aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
+                                <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo"
+                                    data-toggle="tab" href="#resumo" role="tab" aria-controls="resumo"
+                                    aria-selected="false">{{'METODOS.RESUMO' | translate}}</a>
+                                <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Teste Prático"
+                                    data-toggle="tab" href="#teste" role="tab" aria-controls="teste"
+                                    aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
+                                <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Técnica Pomodoro"
+                                    data-toggle="tab" href="#pom" role="tab" aria-controls="pom"
+                                    aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
+                                <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Mapa Mental"
+                                    data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
+                                    aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <!-- Auto-Explicação - TEXTO -->
+                            <div class="tab-pane fade show active" id="autoExp" role="tabpanel"
+                                aria-labelledby="Autoexplicação">
+                                <div class="texto-metodos">
+                                    <p>{{'METODOS.AUTO1' | translate}}</p>
+                                    <p>{{'METODOS.AUTO2' | translate}}</p>
+                                    <p>{{'METODOS.AUTO3' | translate}}</p>
+                                </div>
+                            </div>
+                            <!-- Resumo - TEXTO -->
+                            <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="Resumo">
+                                <div class="texto-metodos">
+                                    <p>{{'METODOS.RESUMO1' | translate}}</p>
+                                    <p>{{'METODOS.RESUMO2' | translate}}</p>
+                                    <p>{{'METODOS.RESUMO3' | translate}}</p>
+                                    <p>{{'METODOS.RESUMO4' | translate}}</p>
+                                    <ul>
+                                        <li>{{'METODOS.RESUMO5' | translate}}</li>
+                                        <li>{{'METODOS.RESUMO6' | translate}}</li>
+                                        <li>{{'METODOS.RESUMO7' | translate}}</li>
+                                        <li>{{'METODOS.RESUMO8' | translate}}</li>
+                                        <li>{{'METODOS.RESUMO9' | translate}}</li>
+                                        <li>{{'METODOS.RESUMO10' | translate}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Teste - TEXTO -->
+                            <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="Teste Prático">
+                                <div class="texto-metodos">
+                                    <p>{{'METODOS.TESTE1' | translate}}</p>
+                                    <p>{{'METODOS.TESTE2' | translate}}</p>
+                                    <p>{{'METODOS.TESTE3' | translate}}</p>
+                                </div>
+                            </div>
+                            <!-- Pomodoro - TEXTO -->
+                            <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="Técnica Pomodoro">
+                                <div class="texto-metodos">
+                                    <p>{{'METODOS.POMODORO1' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO2' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO3' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO4' | translate}}</p>
+                                    <ul>
+                                        <li>{{'METODOS.POMODORO5' | translate}}</li>
+                                        <li>{{'METODOS.POMODORO6' | translate}}</li>
+                                    </ul>
+                                    <p>{{'METODOS.POMODORO7' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO8' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO9' | translate}}</p>
+                                    <p>{{'METODOS.POMODORO10' | translate}}</p>
+                                </div>
+                            </div>
+                            <!-- Mapa - TEXTO -->
+                            <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="Mapa Mental">
+                                <div class="texto-metodos">
+                                    <p>{{'METODOS.MAPA1' | translate}}</p>
+                                    <p>{{'METODOS.MAPA2' | translate}}</p>
+                                    <p>{{'METODOS.MAPA3' | translate}}</p>
+                                    <p>{{'METODOS.MAPA4' | translate}}</p>
+                                    <p>{{'METODOS.MAPA5' | translate}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MÉTODOS DE ESTUDO -->
+                <div *ngIf="modal.seguinte === 'metodos'">
+                    <span class="small align-top" style="color: #505050">***{{'METODOS.CLIQUE_DUPLO' |
+                        translate}}</span>
+                    <nav>
+                        <div class="nav nav-tabs" id="nav_metodos" role="tablist">
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link active" id="Autoexplicação"
+                                data-toggle="tab" href="#autoExp" role="tab" aria-controls="autoExp"
+                                aria-selected="true">{{'METODOS.AUTO' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Resumo"
+                                data-toggle="tab" href="#resumo" role="tab" aria-controls="resumo"
+                                aria-selected="false">{{'METODOS.RESUMO' |
+                                translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Teste Prático"
+                                data-toggle="tab" href="#teste" role="tab" aria-controls="teste"
+                                aria-selected="false">{{'METODOS.TESTE' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Técnica Pomodoro"
+                                data-toggle="tab" href="#pom" role="tab" aria-controls="pom"
+                                aria-selected="false">{{'METODOS.POMODORO' | translate}}</a>
+                            <a (dblclick)="setMetodo($event)" class="item_metodos nav-link" id="Mapa Mental"
+                                data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa"
+                                aria-selected="false">{{'METODOS.MAPA' | translate}}</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-- Auto-Explicação - TEXTO -->
+                        <div class="tab-pane fade show active" id="autoExp" role="tabpanel"
+                            aria-labelledby="Autoexplicação">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.AUTO1' | translate}}</p>
+                                <p>{{'METODOS.AUTO2' | translate}}</p>
+                                <p>{{'METODOS.AUTO3' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Resumo - TEXTO -->
+                        <div class="tab-pane fade" id="resumo" role="tabpanel" aria-labelledby="Resumo">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.RESUMO1' | translate}}</p>
+                                <p>{{'METODOS.RESUMO2' | translate}}</p>
+                                <p>{{'METODOS.RESUMO3' | translate}}</p>
+                                <p>{{'METODOS.RESUMO4' | translate}}</p>
+                                <ul>
+                                    <li>{{'METODOS.RESUMO5' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO6' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO7' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO8' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO9' | translate}}</li>
+                                    <li>{{'METODOS.RESUMO10' | translate}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Teste - TEXTO -->
+                        <div class="tab-pane fade" id="teste" role="tabpanel" aria-labelledby="Teste Prático">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.TESTE1' | translate}}</p>
+                                <p>{{'METODOS.TESTE2' | translate}}</p>
+                                <p>{{'METODOS.TESTE3' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Pomodoro - TEXTO -->
+                        <div class="tab-pane fade" id="pom" role="tabpanel" aria-labelledby="Técnica Pomodoro">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.POMODORO1' | translate}}</p>
+                                <p>{{'METODOS.POMODORO2' | translate}}</p>
+                                <p>{{'METODOS.POMODORO3' | translate}}</p>
+                                <p>{{'METODOS.POMODORO4' | translate}}</p>
+                                <ul>
+                                    <li>{{'METODOS.POMODORO5' | translate}}</li>
+                                    <li>{{'METODOS.POMODORO6' | translate}}</li>
+                                </ul>
+                                <p>{{'METODOS.POMODORO7' | translate}}</p>
+                                <p>{{'METODOS.POMODORO8' | translate}}</p>
+                                <p>{{'METODOS.POMODORO9' | translate}}</p>
+                                <p>{{'METODOS.POMODORO10' | translate}}</p>
+                            </div>
+                        </div>
+                        <!-- Mapa - TEXTO -->
+                        <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="Mapa Mental">
+                            <div class="texto-metodos">
+                                <p>{{'METODOS.MAPA1' | translate}}</p>
+                                <p>{{'METODOS.MAPA2' | translate}}</p>
+                                <p>{{'METODOS.MAPA3' | translate}}</p>
+                                <p>{{'METODOS.MAPA4' | translate}}</p>
+                                <p>{{'METODOS.MAPA5' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" *ngIf="modal.seguinte === 'create' || modal.seguinte === 'edit'">
+                    <button (click)="del(editForm.idAgendamento)" *ngIf="modal.seguinte === 'edit'"
+                        style="position:relative; right:215px;" type="button"
+                        class="btn btn-outline-danger">{{'CRUD-GERAL.EXCLUIR' |
+                        translate}}</button>
+                    <button *ngIf="modal.seguinte === 'create'" (click)="countAgendamento()" type="button"
+                        class="btn btn-primary">{{'MATERIAS.SALVAR'
+                        |
+                        translate}}</button>
+                    <button *ngIf="modal.seguinte === 'edit'" (click)="edit()" type="button"
+                        class="btn btn-primary">{{'MATERIAS.SALVAR'
+                        |
+                        translate}}</button>
+                    <button id="close" (click)="closeModal()" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">{{'MATERIAS.FECHAR' |
+                        translate}}</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card shadow" style="min-height: 20rem;">
-        <div class="card-body">
-            <div class='demo-app-main'>
-                <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
-            </div>
+</div>
+<div class="card shadow" style="min-height: 20rem;">
+    <div class="card-body">
+        <div class='demo-app-main'>
+            <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
         </div>
     </div>
+</div>

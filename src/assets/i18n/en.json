@@ -189,7 +189,6 @@
             "NOT6":"1 day before"
         },
         "METODO": "Study Method",
-        "ACOES": "Actions",
-        "ERRO_RECORRENCIA": "Invalid recurrence"
+        "ACOES": "Actions"
     }
 }
