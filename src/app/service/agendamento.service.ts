@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AgendamentoService {
-    public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+    public REQUEST_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
     public idUsuario = localStorage.getItem('idUsuario')
     
@@ -25,7 +25,7 @@ export class AgendamentoService {
     constructor(private http: HttpClient) { }
 
     create(idMateria: number, tempoNotificacao: string, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'agendamento/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'agendamento/cadastro', {
             idUsuario: this.idUsuario,
             idMateria,
             recorrenciaInicio,
@@ -39,7 +39,7 @@ export class AgendamentoService {
     }
 
     update(idAgendamento: number, idMateria: number, tempoNotificacao: string, recorrenciaInicio: string, recorrenciaFim: string, recorrencia: string, horaInicio: string, horaFim: string, tipoEstudo: string): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'agendamento', {
+        return this.http.put(this.REQUEST_URL + 'agendamento', {
             idUsuario: this.idUsuario,
             idAgendamento,
             idMateria,
@@ -54,11 +54,11 @@ export class AgendamentoService {
     }
 
     delete(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `agendamento/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `agendamento/${id}`, this.httpOptions);
     }
 
     getAll(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'agendamento', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'agendamento', this.httpOptions)
     };
 
 }

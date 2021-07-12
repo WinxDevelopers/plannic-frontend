@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class TutoriaaService {
-    public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+    public REQUEST_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token');
     public idUsuario = localStorage.getItem('idUsuario');
     
@@ -27,7 +27,7 @@ export class TutoriaaService {
     // Aluno
     // Cria um aluno em busca de um tutor
     createAluno(idMateriaBase: number): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'tutoria/aluno', {
+        return this.http.post(this.REQUEST_URL + 'tutoria/aluno', {
             idUsuarioAluno: this.idUsuario,
             idMateriaBase
         }, this.httpOptions);
@@ -35,23 +35,23 @@ export class TutoriaaService {
 
     // Busca todos os alunos buscando tutor na matéria escolhida (exceto o usuário que faz a requisição)
     getAlunosByMateria(idMateriaBase: number): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/aluno/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `tutoria/aluno/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
     };
 
     // Deleta aluno
     deleteAluno(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/aluno/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `tutoria/aluno/${id}`, this.httpOptions);
     }
 
     // Busca todos os alunos buscando tutor
     getAllAlunos(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'tutoria/aluno', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'tutoria/aluno', this.httpOptions)
     };
 
     //Tutor
     // Cria um tutor disponível para um aluno
     createTutor(idMateriaBase: number): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'tutoria/tutor', {
+        return this.http.post(this.REQUEST_URL + 'tutoria/tutor', {
             idUsuarioTutor: this.idUsuario,
             idMateriaBase
         }, this.httpOptions);
@@ -59,23 +59,23 @@ export class TutoriaaService {
 
     // Busca todos os tutores disponíveis na matéria escolhida (exceto o usuário que faz a requisição)
     getTutoresByMateria(idMateriaBase: number): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/tutor/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `tutoria/tutor/${this.idUsuario}/materia/${idMateriaBase}`, this.httpOptions)
     };
 
     // Deleta tutor
     deleteTutor(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/tutor/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `tutoria/tutor/${id}`, this.httpOptions);
     }
 
     // Busca todos os tutores
     getAllTutores(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'tutoria/tutor', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'tutoria/tutor', this.httpOptions)
     };
 
     // Tutoria
     // Aluno encontrando tutor e iniciando tutoria
     createTutoriaByAluno(idMateriaBase: number, idUsuarioTutor: number): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'tutoria/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'tutoria/cadastro', {
             idUsuarioAluno: this.idUsuario,
             idUsuarioTutor,
             idMateriaBase
@@ -84,7 +84,7 @@ export class TutoriaaService {
 
     // Tutor encontrando aluno e iniciando tutoria
     createTutoriaByTutor(idMateriaBase: number, idUsuarioAluno: number): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'tutoria/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'tutoria/cadastro', {
             idUsuarioAluno,
             idUsuarioTutor: this.idUsuario,
             idMateriaBase
@@ -93,21 +93,21 @@ export class TutoriaaService {
 
     // Deleta tutoria
     deleteTutoria(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `tutoria/cadastro/${this.idUsuario}/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `tutoria/cadastro/${this.idUsuario}/${id}`, this.httpOptions);
     }
 
     // Busa todas as tutorias
     getAllTutoria(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'tutoria/cadastro', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'tutoria/cadastro', this.httpOptions)
     };
 
     // Busca todas as tutorias em que o usuário é aluno
     getAllUserAluno(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/cadastro/aluno/${this.idUsuario}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `tutoria/cadastro/aluno/${this.idUsuario}`, this.httpOptions)
     };
 
     // Busca todas as tutorias em que o usuário é tutor
     getAllUserTutor(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `tutoria/cadastro/tutor/${this.idUsuario}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `tutoria/cadastro/tutor/${this.idUsuario}`, this.httpOptions)
     };
 }

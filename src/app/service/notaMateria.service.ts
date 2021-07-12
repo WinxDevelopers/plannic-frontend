@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class NotaMateriaService {
-    public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+    public REQUEST_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token')
     public IdUsuario = localStorage.getItem('idUsuario')
 
@@ -25,7 +25,7 @@ export class NotaMateriaService {
     constructor(private http: HttpClient) { }
 
     create(idMateria: number, notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'notasMateria/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'notasMateria/cadastro', {
             idUsuario: this.IdUsuario,
             idMateria,
             notaMateria,
@@ -35,7 +35,7 @@ export class NotaMateriaService {
     }
 
     update(idNotaMateria: number, idMateria: number ,notaMateria: number, tipoNota: string, dataNota: string): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'notasMateria', {
+        return this.http.put(this.REQUEST_URL + 'notasMateria', {
             idUsuario: this.IdUsuario,
             idMateria,
             idNotaMateria,
@@ -46,12 +46,12 @@ export class NotaMateriaService {
     }
 
     delete(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `notasMateria/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `notasMateria/${id}`, this.httpOptions);
     }
 
     getAll(): Observable<any> {
         let id = this.IdUsuario;
-        return this.http.get(this.LOGIN_SERVICE_URL + `notasMateria/${id}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `notasMateria/${id}`, this.httpOptions)
     };
 
 }

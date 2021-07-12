@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class MateriaService {
-    public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+    public REQUEST_URL = `${environment.API_URL}`;
     public token = localStorage.getItem('token');
     public idUsuario = localStorage.getItem('idUsuario');
 
@@ -27,7 +27,7 @@ export class MateriaService {
     constructor(private http: HttpClient) { }
 
     create(idMateriaBase: number, nomeMateria: string, descricao: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'materia/cadastro', {
             idUsuario: this.idUsuario,
             nomeMateria,
             descricao,
@@ -36,7 +36,7 @@ export class MateriaService {
     }
 
     update(idMateria: number, idMateriaBase: number, nomeMateria: string, descricao: string): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'materia', {
+        return this.http.put(this.REQUEST_URL + 'materia', {
             idMateria,
             idMateriaBase,
             idUsuario: this.idUsuario,
@@ -46,29 +46,29 @@ export class MateriaService {
     }
 
     delete(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `materia/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `materia/${id}`, this.httpOptions);
     }
 
     getAll(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'materia', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'materia', this.httpOptions)
     };
 
     // Buscar Matérias Base
     createBase(materiaBase: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/base', {
+        return this.http.post(this.REQUEST_URL + 'materia/cadastro/base', {
             idUsuario: this.idUsuario,
             materiaBase
         }, this.httpOptions);
     }
 
     getAllBase(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'materia/base', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'materia/base', this.httpOptions)
     };
 
     //CRUD Materiais
 
     newMaterial(idMateria, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'material/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'material/cadastro', {
             idUsuario: this.idUsuario,
             idMateria,
             material,
@@ -80,7 +80,7 @@ export class MateriaService {
 
 
     updateMaterial(idMaterial, idMateria, material, nomeMaterial, tipoMaterial, publico): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'material', {
+        return this.http.put(this.REQUEST_URL + 'material', {
             idUsuario: this.idUsuario,
             idMateria,
             idMaterial,
@@ -92,39 +92,39 @@ export class MateriaService {
     }
 
     deleteMaterial(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `material/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `material/${id}`, this.httpOptions);
     }
 
     //Busca todos os materiais compartilhados com o publico por matéria
     getAllMaterialPublico(idMateriaBase): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `material/publico/${this.idUsuario}/${idMateriaBase}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `material/publico/${this.idUsuario}/${idMateriaBase}`, this.httpOptions)
     };
 
     //Busca todos os materiais do usuário por matéria
     getAllMaterialByMateria(idMateriaBase): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `material/${this.idUsuario}${idMateriaBase}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `material/${this.idUsuario}${idMateriaBase}`, this.httpOptions)
     };
 
     //Busca todos os materiais do usuário
     getAllMaterial(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `material/${this.idUsuario}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `material/${this.idUsuario}`, this.httpOptions)
     };
 
     //Busca o material por ID
     getMaterialById(idMaterial): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + `material/download/${idMaterial}`, this.httpOptions)
+        return this.http.get(this.REQUEST_URL + `material/download/${idMaterial}`, this.httpOptions)
     };
 
     // Sugestão de Matérias
     createSugestao(nomeMateria: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'materia/cadastro/sugestoes', {
+        return this.http.post(this.REQUEST_URL + 'materia/cadastro/sugestoes', {
             idUsuario: this.idUsuario,
             nomeMateria
         }, this.httpOptions);
     }
 
     updateSugestao(sugestao: any): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'materia/sugestoes', {
+        return this.http.put(this.REQUEST_URL + 'materia/sugestoes', {
             idSugestoesMateria: sugestao.idSugestoesMateria,
             idUsuario: this.idUsuario,
             nomeMateria: sugestao.nomeMateria,
@@ -134,6 +134,6 @@ export class MateriaService {
     }
 
     getAllSugestao(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'materia/sugestoes', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'materia/sugestoes', this.httpOptions)
     };
 }

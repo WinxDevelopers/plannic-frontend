@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class NotaService {
-    public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+    public REQUEST_URL = `${environment.API_URL}`;
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-type': 'application/json',
@@ -22,7 +22,7 @@ export class NotaService {
     constructor(private http: HttpClient) { }
 
     create(materia: string, descricao: string): Observable<any> {
-        return this.http.post(this.LOGIN_SERVICE_URL + 'nota/cadastro', {
+        return this.http.post(this.REQUEST_URL + 'nota/cadastro', {
             'idUsuario':7,
             materia,
             descricao
@@ -30,7 +30,7 @@ export class NotaService {
     }
 
     update(id: number, nome: string, descricao: string): Observable<any> {
-        return this.http.put(this.LOGIN_SERVICE_URL + 'nota', {
+        return this.http.put(this.REQUEST_URL + 'nota', {
             id,
             nome,
             descricao,
@@ -38,11 +38,11 @@ export class NotaService {
     }
 
     delete(id: number): Observable<any> {
-        return this.http.delete(this.LOGIN_SERVICE_URL + `nota/${id}`, this.httpOptions);
+        return this.http.delete(this.REQUEST_URL + `nota/${id}`, this.httpOptions);
     }
 
     getAll(): Observable<any> {
-        return this.http.get(this.LOGIN_SERVICE_URL + 'nota', this.httpOptions)
+        return this.http.get(this.REQUEST_URL + 'nota', this.httpOptions)
     };
 
 }

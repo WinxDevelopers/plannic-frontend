@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  public LOGIN_SERVICE_URL = `${environment.API_URL}`;
+  public REQUEST_URL = `${environment.API_URL}`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-type': 'application/json',
@@ -23,14 +23,14 @@ export class LoginService {
 
  
   login(email: string, password: string): Observable<any> {
-    return this.http.post(this.LOGIN_SERVICE_URL + 'authenticate', {
+    return this.http.post(this.REQUEST_URL + 'authenticate', {
       email,
       password
     }, this.httpOptions);
   }
 
   register(email: string, password: string, nome: string): Observable<any> {
-    return this.http.post(this.LOGIN_SERVICE_URL + 'usuario/cadastro', {
+    return this.http.post(this.REQUEST_URL + 'usuario/cadastro', {
       email,
       password,
       nome
@@ -38,7 +38,7 @@ export class LoginService {
   }
 
   sendNewEmail(email: string){
-    return this.http.post(this.LOGIN_SERVICE_URL + 'usuario/atualizaverificaemail', {
+    return this.http.post(this.REQUEST_URL + 'usuario/atualizaverificaemail', {
       email
     }, this.httpOptions);
   }
