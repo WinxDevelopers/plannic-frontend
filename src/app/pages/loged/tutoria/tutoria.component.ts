@@ -1,52 +1,54 @@
 import { UserService } from 'src/app/service/user.service';
 import { TutoriaService } from './../../../service/tutoria.service';
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { StarRatingComponent } from 'ng-starrating';
-import { MatTableDataSource } from '@angular/material/table';
-
-const ELEMENT_DATA = [
-  { materia: 1, tutor: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { materia: 2, tutor: 'Helium', weight: 4.0026, symbol: 'He' },
-  { materia: 3, tutor: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { materia: 4, tutor: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { materia: 5, tutor: 'Boron', weight: 10.811, symbol: 'B' },
-  { materia: 6, tutor: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { materia: 7, tutor: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { materia: 8, tutor: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { materia: 9, tutor: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { materia: 10, tutor: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
-
+import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-tutoria',
   templateUrl: './tutoria.component.html',
   styleUrls: ['./tutoria.component.scss']
 })
-export class TutoriaComponent implements AfterViewInit, OnInit {
+export class TutoriaComponent implements OnInit {
 
-  displayedColumns: string[] = ['tutor', 'materia', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  dbTutoria: any;
-  dbAluno: any;
-  dbTutores: any;
-  dbAlunos: any;
+  /* Alert */
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  lang = localStorage.getItem("lang");
+  user = {
+    aluno: {
+      completas: [],
+      incompletas: []
+    },
+    tutor: {
+      completas: [],
+      incompletas: []
+    },
+    faltaAvaliar: [],
+    nota: 0,
+    materias: []
   }
-  public lang = localStorage.getItem("lang");
-  public tutoriasUser = {
-    aluno: [],
-    tutor: []
+  comunidade: any = {
+    alunos: [],
+    tutores: []
   }
-  public tutoriasAll = {
-    aluno: [],
-    tutor: []
+  setTables = {
+    minhas: false,
+    comunidade: true,
   }
-
-  public notaUser;
+  newTutoria = {
+    user: "aluno",
+    materia: 0
+  }
+  loading = false;
 
 
   constructor(
@@ -54,93 +56,304 @@ export class TutoriaComponent implements AfterViewInit, OnInit {
     private userService: UserService
   ) { }
 
+  notaImg: string;
   ngOnInit(): void {
-    //Notas pendentes
-    this.userService.getAvaliacoes().subscribe(
-      (data) => {
-        console.log(data)
-      },
-      (err) => { console.log(err) }
-    )
+    this.refresh();
   }
 
-  ngAfterViewInit(): void {
-    //Nota do Usuário
-    this.userService.getNota().subscribe(
-      (data: string) => {
-        this.notaUser = parseFloat(data)
+  conectAlunoTutor(idMateriaBase, idOtherUser, createdBy) {
+    console.log(idMateriaBase)
+    console.log(idOtherUser)
+    console.log(createdBy)
+    if (createdBy === "aluno") {
+      this.tutoriaService.createTutoriaByAluno(idMateriaBase, idOtherUser).subscribe(
+        () => {
+          this.user.materias.forEach(({ nomeMateria, idMateriaBase }) => {
+            // Tutores por Materia
+            this.tutoriaService.getAllTutoresByMateria(idMateriaBase).subscribe(
+              (tutoresPorMateria: any) => {
+                if (JSON.parse(tutoresPorMateria).length > 0) {
+                  this.comunidade.tutores = JSON.parse(tutoresPorMateria).map((tutoria) => {
+                    return {
+                      materia: {
+                        idMateriaBase,
+                        nomeMateria
+                      },
+                      tutor: {
+                        id: tutoria.idTutor,
+                        nome: tutoria.idUsuarioTutor.nome,
+                        nota: tutoria.nota
+                      }
+                    }
+                  });
+                }
+              },
+              err => { console.log(err) }
+            )
+          })
+        },
+        err => console.log(err))
+    } else {
+      this.tutoriaService.createTutoriaByTutor(idMateriaBase, idOtherUser).subscribe(
+        () => {
+          this.user.materias.forEach(({ nomeMateria, idMateriaBase }) => {
+            // Alunos por Materia
+            this.tutoriaService.getAllAlunosByMateria(idMateriaBase).subscribe(
+              (alunosPorMateria: any) => {
+                if (JSON.parse(alunosPorMateria).length > 0) {
+                  this.comunidade.alunos = JSON.parse(alunosPorMateria).map((tutoria) => {
+                    return {
+                      materia: {
+                        idMateriaBase,
+                        nomeMateria
+                      },
+                      aluno: {
+                        id: tutoria.idAluno,
+                        nome: tutoria.idUsuarioAluno.nome,
+                        nota: tutoria.nota
+                      }
+                    }
+                  });
+                }
+              },
+              err => { console.log(err) }
+            )
+          })
+        })
+    }
+  }
+
+  criarTutoria() {
+    this.tutoriaService[this.newTutoria.user === "aluno" ? 'createAluno' : 'createTutor'](this.newTutoria.materia).subscribe(
+      () => {
+        document.getElementById("closeModalTutoria").click();
+        this.alertSucess('create');
       },
-      (err) => { console.log(err) }
-    )
-    //
-    /* this.userService.getAllInfosById().subscribe(
-      (data: string) => {
-        console.log(JSON.parse(data))
+      err => {
+        this.alertError(err);
+      })
+  }
+
+  deletarTutoria(tutoria, type) {
+    this.confDel().then((result) => {
+      if (result.isConfirmed) {
+        if (type === "completa") { // Tutoria com tutor e aluno
+          this.tutoriaService.cancelaTutoria(tutoria.idTutoria).subscribe(
+            () => {
+              document.getElementById("closeModalTutoria").click();
+              this.alertSucess('delete');
+            },
+            err => {
+              this.alertError(err);
+            })
+        } else { // Tutoria com tutor ou aluno
+          this.tutoriaService[!this.setTables.minhas ? 'deleteAluno' : 'deleteTutor'](!this.setTables.minhas ? tutoria.idAluno : tutoria.idTutor).subscribe(
+            () => {
+              document.getElementById("closeModalTutoria").click();
+              this.alertSucess('delete');
+            },
+            err => {
+              this.alertError(err);
+            })
+        }
       }
-    ) */
-    
-    //USUARIO
-    //Aluno
-    this.tutoriaService.getAllUserAluno().subscribe(
-      (dataA: string) => {
-        this.tutoriasUser.aluno = JSON.parse(dataA)
-            let dataAluno = JSON.parse(dataA)
-            this.dbAluno = dataAluno.map(aluno => { return { Tutor: aluno.usuarioTutor.nome, nomeMateria: aluno.materiaBase.materiaBase } });
-            this.dbAluno.sort((a, b) => { return a.Tutor.localeCompare(b.Tutor) })
-        //Tutor
-        this.tutoriaService.getAllUserTutor().subscribe(
-          (dataT: string) => {
-            this.tutoriasUser.tutor = JSON.parse(dataT)
-            let dataTutor = JSON.parse(dataT)
-            this.dbTutoria = dataTutor.map(tut => { return { Aluno: tut.usuarioAluno.nome, nomeMateria: tut.materiaBase.materiaBase } });
-            this.dbTutoria.sort((a, b) => { return a.Aluno.localeCompare(b.Aluno.nome) })
-          },
-          (err) => { console.log(err) }
-        )
-      },
-      (err) => { console.log(err) }
-    )
+    })
 
-    //COMUNIDADE
-    //Alunos
-    this.tutoriaService.getTutores().subscribe(
-      (dataTutores: string) => {
-        this.tutoriasUser.aluno = JSON.parse(dataTutores)
-            let dataTs = JSON.parse(dataTutores)
-            this.dbTutores = dataTs.map(tut => { return { Tutor: tut.usuarioTutor.nome, nomeMateria: tut.materiaBase.materiaBase } });
-            this.dbTutores.sort((a, b) => { return a.Tutor.localeCompare(b.Tutor.nome) })
-            console.log(this.dbTutores)
-        //Tutorer
-        this.tutoriaService.getAlunos().subscribe(
-          (dataAlunos: string) => {
-            this.tutoriasUser.tutor = JSON.parse(dataAlunos)
-            let dataAl = JSON.parse(dataAlunos)
-            this.dbAlunos = dataAl.map(tut => { return { Aluno: tut.usuarioAluno.nome, nomeMateria: tut.materiaBase.materiaBase } });
-            this.dbAlunos.sort((a, b) => { return a.Aluno.localeCompare(b.Aluno.nome) })
-            console.log(this.dbAlunos)
-          },
-          (err) => { console.log(err) }
-        )
-      },
-      (err) => { console.log(err) }
-    )
-
-    //TOTAL
-    this.tutoriaService.getAllTutoria().subscribe(
-      (data) => {
-        console.log(data)
-      },
-      (err) => { console.log(err) }
-    )
-    //Aluno
-    //Tutor
   }
 
-  onRate($event: { oldValue: number, newValue: number, starRating: StarRatingComponent }) {
+  concluirTutoria(idTutoria) {
+    console.log(idTutoria)
+    this.tutoriaService.encerrarTutoria(idTutoria).subscribe(
+      () => {
+        this.alertSucess("conclude")
+      },
+      (err) => { this.alertError(err) })
+  }
+
+  refresh() {
+    this.loading = true;
+    /* USUARIO */
+    this.userService.getAllInfosById().subscribe(
+      (allInfoUser: any) => {
+        //Materias do usuários
+        this.user.materias = JSON.parse(allInfoUser)[0].materias
+          .map((materia) => { return { nomeMateria: materia.nomeMateria, idMateriaBase: materia.idMateriaBase } })
+          .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
+        this.newTutoria.materia = this.user.materias[0]?.idMateriaBase;
+        //Nota do Usuário
+        this.userService.getNota().subscribe(
+          (notaUser: string) => {
+            this.user.nota = parseFloat(notaUser);
+            //Notas pendentes
+            this.userService.getAvaliacoes().subscribe(
+              (notasParaAvaliar: any[]) => {
+                this.user.faltaAvaliar = notasParaAvaliar;
+                //User como Aluno
+                //Tutorias Completas
+                this.tutoriaService.getAllUserAluno().subscribe(
+                  (tutoriasComoAluno_Completa: string) => {
+                    this.user.aluno.completas = (JSON.parse(tutoriasComoAluno_Completa))
+                      .map(aluno => { return { idTutoria: aluno.idTutoria, nomeTutor: aluno.usuarioTutor.nome, nomeMateria: aluno.materiaBase.materiaBase } })
+                      .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
+                    console.log(this.user.aluno)
+                    //Tutorias Incompletas
+                    this.tutoriaService.getSemTutorById().subscribe(
+                      (tutoriasComoAluno_Incompleta) => {
+                        console.log(JSON.parse(tutoriasComoAluno_Incompleta))
+                        this.user.aluno.incompletas = (JSON.parse(tutoriasComoAluno_Incompleta))
+                          .map(aluno => { return { idAluno: aluno.idAluno, nomeMateria: aluno.materiaBase.materiaBase } })
+                          .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
+                        //User como Tutor
+                        //Tutoras Completas
+                        this.tutoriaService.getAllUserTutor().subscribe(
+                          (tutoriasComoTutor_Completa: string) => {
+                            this.user.tutor.completas = (JSON.parse(tutoriasComoTutor_Completa))
+                              .map(tutor => { return { idTutoria: tutor.idTutoria, nomeAluno: tutor.usuarioAluno.nome, nomeMateria: tutor.materiaBase.materiaBase } })
+                              .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria.nome) });
+                            //Tutorias Incompletas
+                            this.tutoriaService.getSemAlunoById().subscribe(
+                              (tutoriasComoTutor_Incompleta) => {
+                                this.user.tutor.incompletas = (JSON.parse(tutoriasComoTutor_Incompleta))
+                                  .map(tutor => { return { idTutor: tutor.idTutor, nomeMateria: tutor.materiaBase.materiaBase } })
+                                  .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
+                                /* COMUNIDADE */
+                                this.user.materias.forEach(({ nomeMateria, idMateriaBase }) => {
+                                  // Alunos por Materia
+                                  this.tutoriaService.getAllAlunosByMateria(idMateriaBase).subscribe(
+                                    (alunosPorMateria: any) => {
+                                      if (JSON.parse(alunosPorMateria).length > 0) {
+                                        this.comunidade.alunos = this.comunidade.alunos.concat(...JSON.parse(alunosPorMateria).map((tutoria) => {
+                                          return {
+                                            materia: {
+                                              idMateriaBase,
+                                              nomeMateria
+                                            },
+                                            aluno: {
+                                              id: tutoria.idUsuarioAluno.idUsuario,
+                                              nome: tutoria.idUsuarioAluno.nome,
+                                              nota: tutoria.nota
+                                            }
+                                          }
+                                        }))
+                                      }
+                                      // Tutores por Materia
+                                      this.tutoriaService.getAllTutoresByMateria(idMateriaBase).subscribe(
+                                        (tutoresPorMateria: any) => {
+                                          if (JSON.parse(tutoresPorMateria).length > 0) {
+                                            this.comunidade.tutores = this.comunidade.tutores.concat(...JSON.parse(tutoresPorMateria).map((tutoria) => {
+                                              return {
+                                                materia: {
+                                                  idMateriaBase,
+                                                  nomeMateria
+                                                },
+                                                tutor: {
+                                                  id: tutoria.idUsuarioTutor.idUsuario,
+                                                  nome: tutoria.idUsuarioTutor.nome,
+                                                  nota: tutoria.nota
+                                                }
+                                              }
+                                            }));
+                                          }
+                                        },
+                                        err => { console.log(err) })
+                                    },
+                                    err => { console.log(err) })
+                                })
+                                this.loading = false;
+                              },
+                              (err) => { console.log(err) })
+                          },
+                          (err) => { console.log(err) })
+                      },
+                      (err) => { console.log(err) })
+                  },
+                  (err) => { console.log(err) })
+              },
+              (err) => { console.log(err) })
+          },
+          (err) => { console.log(err) })
+      }
+    )
+  }
+
+  /* onRate($event: { oldValue: number, newValue: number, starRating: StarRatingComponent }) {
     alert(`Old Value:${$event.oldValue}, 
       New Value: ${$event.newValue}, 
       Checked Color: ${$event.starRating.checkedcolor}, 
       Unchecked Color: ${$event.starRating.uncheckedcolor}`);
+  } */
+
+  alertSucess(crud) {
+    let portTitle = "Tutoria";
+    let engTitle = "Tutoring";
+
+    switch (crud) {
+      case "create":
+        portTitle += " criada"
+        engTitle += " created"
+        break;
+      case "conclude":
+        portTitle += "concluída"
+        engTitle += " concluded"
+        break;
+      case "delete":
+        portTitle += " deletada"
+        engTitle += " deleted"
+        break;
+    }
+
+    if (localStorage.getItem("lang") === "pt-BR") {
+      this.Toast.fire({
+        icon: 'success',
+        title: portTitle
+      })
+    } else {
+      this.Toast.fire({
+        icon: 'success',
+        title: engTitle
+      })
+    }
+  }
+
+  alertError(err) {
+    console.log(err);
+    if (localStorage.getItem("lang") === "pt-BR") {
+      this.Toast.fire({
+        icon: 'error',
+        title: 'Ocorreu um erro'
+      })
+    } else {
+      this.Toast.fire({
+        icon: 'error',
+        title: 'An error has occurred'
+      })
+    }
+  }
+
+  async confDel() {
+    if (localStorage.getItem('lang') === "pt-BR") {
+      return Swal.fire({
+        title: 'Tem certeza?',
+        text: `A operação não pode ser desfeita`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+      })
+    } else {
+      return Swal.fire({
+        title: 'Are you sure?',
+        text: `The operation cannot be undone`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      })
+    }
   }
 
 }
