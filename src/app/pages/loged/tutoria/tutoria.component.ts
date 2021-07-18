@@ -15,7 +15,7 @@ export class TutoriaComponent implements OnInit {
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 4000,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -87,6 +87,7 @@ export class TutoriaComponent implements OnInit {
                     }
                   });
                 }
+                this.refresh()
               },
               err => { console.log(err) }
             )
@@ -115,6 +116,7 @@ export class TutoriaComponent implements OnInit {
                     }
                   });
                 }
+                this.refresh()
               },
               err => { console.log(err) }
             )
@@ -128,6 +130,7 @@ export class TutoriaComponent implements OnInit {
       () => {
         document.getElementById("closeModalTutoria").click();
         this.alertSucess('create');
+        this.refresh()
       },
       err => {
         this.alertError(err);
@@ -151,6 +154,7 @@ export class TutoriaComponent implements OnInit {
             () => {
               document.getElementById("closeModalTutoria").click();
               this.alertSucess('delete');
+              this.refresh()
             },
             err => {
               this.alertError(err);
@@ -165,7 +169,8 @@ export class TutoriaComponent implements OnInit {
     console.log(idTutoria)
     this.tutoriaService.encerrarTutoria(idTutoria).subscribe(
       () => {
-        this.alertSucess("conclude")
+        this.alertSucess("conclude");
+        this.refresh()
       },
       (err) => { this.alertError(err) })
   }

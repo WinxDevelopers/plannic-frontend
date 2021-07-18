@@ -38,7 +38,7 @@ export class MateriasComponent implements AfterViewInit {
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 4000,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -325,6 +325,7 @@ export class MateriasComponent implements AfterViewInit {
   displayedColumnsMateriais: string[] = ["nome", " "]
   getFiles(event, idMateria) {
     this.currentMateria = idMateria;
+    console.log(idMateria)
 
     const selecionados = <FileList>event.srcElement.files;
 
@@ -341,22 +342,19 @@ export class MateriasComponent implements AfterViewInit {
     this.arquivos.forEach(file => {
       var name = file.name;
       var type = file.type;
-      var publico = false;
-      console.log(name)
-      console.log(type)
 
       this.readFile(file).then((result) => {
         var material = result;
         let idMat;
 
-        Object.keys(this.userMaterias).forEach((id) => {
+        Object.values(this.userMaterias).forEach(({id}) => {
           if (this.currentMateria === id) {
             idMat = parseInt(id);
             return;
           }
         })
         if (this.arquivos && this.arquivos.length > 0) {
-          this.materiaService.newMaterial(idMat, material, name, type, publico).subscribe(
+          this.materiaService.newMaterial(idMat, material, name, type, false).subscribe(
             () => {
               this.alertSucess("material", "create");
               this.userMaterias = [];
