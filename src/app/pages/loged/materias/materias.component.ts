@@ -473,8 +473,18 @@ export class MateriasComponent implements AfterViewInit {
             this.materiaService.getAllBase().subscribe(
               (stringData: string) => {
                 let data = JSON.parse(stringData)
-                this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
-                this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+                for (let matUser of this.materias) {
+                  if (matUser.idMateriaBase != 0) {
+                    for (let i=0;i<data.length; i++) {
+                      if(data[i].idMateriaBase === matUser.idMateriaBase){
+                        data.splice(i, 1);
+                      }
+                    }
+                  }
+                }
+                this.dbMaterias = data
+                  .map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } })
+                  .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
                 this.loaded = true;
               }
             )

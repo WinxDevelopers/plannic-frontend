@@ -75,7 +75,7 @@ export class UserService {
 
   //Telegram
   telegramObj(): Observable<any> {
-    return this.http.get("https://api.telegram.org/bot1837445567:AAG38Q2uaVs2ExP9Tj4bXCbr6jA1QjKKgCM/getUpdates")
+    return this.http.get("https://api.telegram.org/bot1837445567:AAEcp__9KjdGBCXlZijPu34JqWgJazjm-Wo/getUpdates")
   }
   getTelegramID(): Observable<any> {
     return this.http.get(API_URL + `usuariotelegram/${this.idUsuario}`, this.httpOptions);
