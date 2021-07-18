@@ -69,9 +69,9 @@ export class TutoriaService {
     // Tutor encontrando aluno
     createTutoriaByTutor(idMateriaBase: number, idUsuarioAluno: number): Observable<any> {
         return this.http.post(this.REQUEST_URL + 'tutoria/cadastro', {
+            idMateriaBase,
             idUsuarioAluno,
             idUsuarioTutor: this.idUsuario,
-            idMateriaBase
         }, this.httpOptions);
     }
 

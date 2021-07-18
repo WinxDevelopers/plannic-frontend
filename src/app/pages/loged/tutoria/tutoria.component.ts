@@ -1,7 +1,7 @@
 import { UserService } from 'src/app/service/user.service';
 import { TutoriaService } from './../../../service/tutoria.service';
 import { Component, OnInit } from '@angular/core';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tutoria',
@@ -177,6 +177,7 @@ export class TutoriaComponent implements OnInit {
       (allInfoUser: any) => {
         //Materias do usuários
         this.user.materias = JSON.parse(allInfoUser)[0].materias
+          .filter((materia) => materia.idMateriaBase != 0)
           .map((materia) => { return { nomeMateria: materia.nomeMateria, idMateriaBase: materia.idMateriaBase } })
           .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
         this.newTutoria.materia = this.user.materias[0]?.idMateriaBase;
@@ -185,9 +186,9 @@ export class TutoriaComponent implements OnInit {
           (notaUser: string) => {
             this.user.nota = parseFloat(notaUser);
             //Notas pendentes
-            this.userService.getAvaliacoes().subscribe(
-              (notasParaAvaliar: any[]) => {
-                this.user.faltaAvaliar = notasParaAvaliar;
+            this.userService.getAvaliacoesPendentes().subscribe(
+              (notasParaAvaliar: any) => {
+                this.user.faltaAvaliar = JSON.parse(notasParaAvaliar);
                 //User como Aluno
                 //Tutorias Completas
                 this.tutoriaService.getAllUserAluno().subscribe(
@@ -195,11 +196,9 @@ export class TutoriaComponent implements OnInit {
                     this.user.aluno.completas = (JSON.parse(tutoriasComoAluno_Completa))
                       .map(aluno => { return { idTutoria: aluno.idTutoria, nomeTutor: aluno.usuarioTutor.nome, nomeMateria: aluno.materiaBase.materiaBase } })
                       .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
-                    console.log(this.user.aluno)
                     //Tutorias Incompletas
                     this.tutoriaService.getSemTutorById().subscribe(
                       (tutoriasComoAluno_Incompleta) => {
-                        console.log(JSON.parse(tutoriasComoAluno_Incompleta))
                         this.user.aluno.incompletas = (JSON.parse(tutoriasComoAluno_Incompleta))
                           .map(aluno => { return { idAluno: aluno.idAluno, nomeMateria: aluno.materiaBase.materiaBase } })
                           .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
@@ -217,7 +216,7 @@ export class TutoriaComponent implements OnInit {
                                   .map(tutor => { return { idTutor: tutor.idTutor, nomeMateria: tutor.materiaBase.materiaBase } })
                                   .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
                                 /* COMUNIDADE */
-                                this.user.materias.forEach(({ nomeMateria, idMateriaBase }) => {
+                                this.user.materias.forEach(({ nomeMateria, idMateriaBase }, idx) => {
                                   // Alunos por Materia
                                   this.tutoriaService.getAllAlunosByMateria(idMateriaBase).subscribe(
                                     (alunosPorMateria: any) => {
@@ -258,8 +257,14 @@ export class TutoriaComponent implements OnInit {
                                         err => { console.log(err) })
                                     },
                                     err => { console.log(err) })
+                                  if (idx === this.user.materias.length - 1) {
+                                    this.loading = false;
+                                    if (this.user.faltaAvaliar.length > 0) {
+                                      document.getElementById("btn_modalNotas").click();
+                                      this.darNotas()
+                                    }
+                                  }
                                 })
-                                this.loading = false;
                               },
                               (err) => { console.log(err) })
                           },
@@ -276,12 +281,26 @@ export class TutoriaComponent implements OnInit {
     )
   }
 
-  /* onRate($event: { oldValue: number, newValue: number, starRating: StarRatingComponent }) {
-    alert(`Old Value:${$event.oldValue}, 
-      New Value: ${$event.newValue}, 
-      Checked Color: ${$event.starRating.checkedcolor}, 
-      Unchecked Color: ${$event.starRating.uncheckedcolor}`);
-  } */
+  notaAtual;
+  idxNota = 0;
+  darNotas() {
+    if (this.idxNota < this.user.faltaAvaliar.length) {
+      this.notaAtual = this.user.faltaAvaliar[this.idxNota];
+      this.notaAtual.anterior=0;
+    } else {
+      document.getElementById("btn_modalNotas").click();
+    }
+  }
+  onRate({ newValue }) {
+    this.notaAtual.nota = newValue;
+    console.log(this.notaAtual)
+    this.userService.newAvaliacao(this.notaAtual).subscribe(
+      ()=>{
+        this.idxNota++;
+        this.darNotas();
+      },
+      (err)=>{this.alertError(err)})
+  }
 
   alertSucess(crud) {
     let portTitle = "Tutoria";
