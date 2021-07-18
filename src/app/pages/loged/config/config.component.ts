@@ -84,7 +84,7 @@ export class ConfigComponent implements OnInit {
               })
             }
           },
-          err => { console.log(err) }
+          (err) => { console.log(err) }
         )
       }
     )

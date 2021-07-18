@@ -175,7 +175,7 @@ export class MateriasComponent implements AfterViewInit {
               }
             });
           },
-          err => { console.log(err) }
+          (err) => { console.log(err) }
         )
         this.materiaService.delete(idMateria).subscribe(
           () => {
@@ -207,7 +207,6 @@ export class MateriasComponent implements AfterViewInit {
   idMateria: string;
   //Definir materia que vai ser associada a nota nova
   setIdMateria(idMateria) {
-    console.log(idMateria)
     this.idMateria = idMateria
   }
   saveNota() {
@@ -325,7 +324,6 @@ export class MateriasComponent implements AfterViewInit {
   displayedColumnsMateriais: string[] = ["nome", " "]
   getFiles(event, idMateria) {
     this.currentMateria = idMateria;
-    console.log(idMateria)
 
     const selecionados = <FileList>event.srcElement.files;
 
@@ -389,17 +387,7 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
-  materiaisPorMateria(idMateriaBase) {
-    this.materiaService.getAllMaterialPublico(idMateriaBase).subscribe(
-      (materiais) => {
-        console.log(materiais)
-      },
-      err => { this.alertError(err) }
-    )
-  }
-
   downloadFile(material) {
-    console.log(material)
     var file = this.dataURLtoFile(material.material, material.nomeMaterial)
 
     const blob = window.URL.createObjectURL(file);

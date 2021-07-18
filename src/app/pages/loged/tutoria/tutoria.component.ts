@@ -62,9 +62,6 @@ export class TutoriaComponent implements OnInit {
   }
 
   conectAlunoTutor(idMateriaBase, idOtherUser, createdBy) {
-    console.log(idMateriaBase)
-    console.log(idOtherUser)
-    console.log(createdBy)
     if (createdBy === "aluno") {
       this.tutoriaService.createTutoriaByAluno(idMateriaBase, idOtherUser).subscribe(
         () => {
@@ -89,7 +86,7 @@ export class TutoriaComponent implements OnInit {
                 }
                 this.refresh()
               },
-              err => { console.log(err) }
+              (err) => { console.log(err) }
             )
           })
         },
@@ -118,7 +115,7 @@ export class TutoriaComponent implements OnInit {
                 }
                 this.refresh()
               },
-              err => { console.log(err) }
+              (err) => { console.log(err) }
             )
           })
         })
@@ -166,7 +163,6 @@ export class TutoriaComponent implements OnInit {
   }
 
   concluirTutoria(idTutoria) {
-    console.log(idTutoria)
     this.tutoriaService.encerrarTutoria(idTutoria).subscribe(
       () => {
         this.alertSucess("conclude");
@@ -259,9 +255,9 @@ export class TutoriaComponent implements OnInit {
                                             }));
                                           }
                                         },
-                                        err => { console.log(err) })
+                                        (err) => { console.log(err) })
                                     },
-                                    err => { console.log(err) })
+                                    (err) => { console.log(err) })
                                   if (idx === this.user.materias.length - 1) {
                                     this.loading = false;
                                     if (this.user.faltaAvaliar.length > 0) {
@@ -298,7 +294,6 @@ export class TutoriaComponent implements OnInit {
   }
   onRate({ newValue }) {
     this.notaAtual.nota = newValue;
-    console.log(this.notaAtual)
     this.userService.newAvaliacao(this.notaAtual).subscribe(
       ()=>{
         this.idxNota++;
