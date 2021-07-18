@@ -185,7 +185,7 @@ export class TutoriaComponent implements OnInit {
         //Nota do Usuário
         this.userService.getNota().subscribe(
           (notaUser: string) => {
-            this.user.nota = parseFloat(notaUser);
+            this.user.nota = parseFloat(parseFloat(notaUser).toFixed(1));
             //Notas pendentes
             this.userService.getAvaliacoesPendentes().subscribe(
               (notasParaAvaliar: any) => {
