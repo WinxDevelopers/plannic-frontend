@@ -12,10 +12,10 @@
         <div class="modal-body" style="font-size: 18px;">
           <div style="text-align:center">
             <h3>
-              Avaliação de Tutoria
+              {{'TUTORIA.MODAL_AVALIAÇÃO.TITULO' | translate}}
             </h3>
             <span class="text-muted">
-              Como você avalia {{notaAtual?.nomeAvaliado}} durante a tutoria de {{notaAtual?.nomeMateria}}
+              {{'TUTORIA.MODAL_AVALIAÇÃO.TEXTO1' | translate}} {{notaAtual?.nomeAvaliado}} {{'AGENDAMENTOS.MODAL_AVALIAÇÃO.TEXTO2' | translate}} {{notaAtual?.nomeMateria}}
             </span>
             <star-rating value={{notaAtual?.anterior}} totalstars={{5}} checkedcolor="#31d0aa" uncheckedcolor="#19647e"
               size="40px" readonly="false" (rate)="onRate($event)"></star-rating>
@@ -29,9 +29,9 @@
     <div style="text-align:center" class="row px-5 my-4 justify-content-center align-items-center">
       <div class="col-3 text-muted">
         <h6 class="m-0">
-          Tutorado <br>
+          {{'TUTORIA.CABECALHO.TUTORADO' | translate}} <br>
           {{this.user.aluno.completas.length}} <br>
-          vez<span *ngIf="this.user.aluno.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
+          {{'TUTORIA.CABECALHO.VEZ' | translate}}<span *ngIf="this.user.aluno.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
         </h6>
       </div>
       <div class="col-3 border-right border-left">
@@ -41,9 +41,9 @@
       </div>
       <div class="col-3 text-muted">
         <h6 class="m-0">
-          Ensinou <br>
+          {{'TUTORIA.CABECALHO.ENSINOU' | translate}} <br>
           {{this.user.tutor.completas.length}} <br>
-          vez<span *ngIf="this.user.tutor.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
+          {{'TUTORIA.CABECALHO.VEZ' | translate}}<span *ngIf="this.user.tutor.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
         </h6>
       </div>
     </div>
@@ -53,11 +53,11 @@
         <div class="card">
           <div class="card-header">
             <div class=" row align-items-center">
-              <div class="col">Minhas</div>
+              <div class="col">{{'TUTORIA.MINHAS' | translate}}</div>
               <div class="col">
                 <button type="button" class="btn btn-outline-info float-right" data-toggle="modal"
                   data-target="#exampleModal">
-                  Criar tutoria
+                  {{'TUTORIA.CRIAR_TUTORIA.BOTAO' | translate}}
                 </button>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -66,16 +66,16 @@
                     <div class="modal-content">
                       <div class="modal-body" style="font-size: 18px;">
                         <div class="form-group row">
-                          <label for="staticEmail" class="col-sm-2 col-form-label">Sou</label>
+                          <label for="staticEmail" class="col-sm-2 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.SOU' | translate}}</label>
                           <div class="col-sm-10">
                             <select class="custom-select" [(ngModel)]="newTutoria.user">
-                              <option value="aluno">Aluno</option>
-                              <option value="tutor">Tutor</option>
+                              <option value="aluno">{{'TUTORIA.ALUNO' | translate}}</option>
+                              <option value="tutor">{{'TUTORIA.TUTOR' | translate}}</option>
                             </select>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-5 col-form-label">Buscando ajuda em</label>
+                          <label for="inputPassword" class="col-sm-5 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.AJUDA' | translate}}</label>
                           <div class="col-sm-7">
                             <select class="custom-select" [(ngModel)]="newTutoria.materia">
                               <option *ngFor="let mat of this.user.materias" value="{{mat.idMateriaBase}}">
@@ -85,9 +85,8 @@
                         </div>
                         <div class="float-right">
                           <button id="closeModalTutoria" type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary ml-2" (click)="criarTutoria()">Save
-                            changes</button>
+                            data-dismiss="modal">{{'TUTORIA.CRIAR_TUTORIA.FECHAR' | translate}}</button>
+                          <button type="button" class="btn btn-primary ml-2" (click)="criarTutoria()">{{'CRUD-GERAL.CRIAR' | translate}}</button>
                         </div>
                       </div>
                     </div>
@@ -100,34 +99,34 @@
             <div class="row align-items-center">
               <!-- SLIDE TOGGLE -->
               <span class="col">
-                <mat-label>Aluno</mat-label>
+                <mat-label>{{'TUTORIA.ALUNO' | translate}}</mat-label>
                 <span class="mx-2">
                   <label class="switch">
                     <input [(ngModel)]="setTables.minhas" type="checkbox">
                     <span class="slider round"></span>
                   </label>
                 </span>
-                <mat-label>Tutor</mat-label>
+                <mat-label>{{'TUTORIA.TUTOR' | translate}}</mat-label>
               </span>
             </div>
             <div class="mt-3">
               <h5>
-                {{!setTables.minhas ? "Tutor" : "Aluno"}} encontrado
+                {{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO")+"_ENCONTRADO" | translate}}
               </h5>
               <h6 *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.completas.length===0"
                 class="text-center text-muted mt-3">
-                Sem tutorias cadastradas
+                {{'TUTORIA.SEM_TUTORIA' | translate}}
               </h6>
               <table *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.completas.length>0" mat-table
                 [dataSource]="this.user[!setTables.minhas?'aluno': 'tutor']?.completas">
                 <!-- Matéria Column -->
                 <ng-container matColumnDef="materia">
-                  <th mat-header-cell *matHeaderCellDef> Materia </th>
+                  <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.nomeMateria}} </td>
                 </ng-container>
                 <!-- OtherUser Column -->
                 <ng-container matColumnDef="OtherUser">
-                  <th mat-header-cell *matHeaderCellDef>{{!setTables.minhas ? "Tutor" : "Aluno"}}</th>
+                  <th mat-header-cell *matHeaderCellDef>{{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO") | translate}}</th>
                   <td mat-cell *matCellDef="let element">
                     <span *ngIf="!setTables.minhas">
                       {{element.nomeTutor}}
@@ -137,9 +136,9 @@
                     </span>
                   </td>
                 </ng-container>
-                <!-- 'Ações' Column -->
+                <!-- Ações Column -->
                 <ng-container matColumnDef=" ">
-                  <th mat-header-cell *matHeaderCellDef> Ações </th>
+                  <th mat-header-cell *matHeaderCellDef> {{'TUTORIA.ACOES' | translate}} </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="row bjustify-content-center" style="font-size: 16px;">
                       <div class="col-1">
@@ -160,22 +159,22 @@
             <br>
             <div class="mt-2">
               <h5>
-                À procura de {{!setTables.minhas ? "Tutor" : "Aluno"}}
+                {{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO")+"_PROCURANDO" | translate}}
               </h5>
               <h6 *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas.length===0"
                 class="text-center text-muted mt-3">
-                Sem tutorias cadastradas
+                {{'TUTORIA.SEM_TUTORIA' | translate}}
               </h6>
               <table *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas.length>0" mat-table
                 [dataSource]="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas">
                 <!-- Matéria Column -->
                 <ng-container matColumnDef="materia">
-                  <th mat-header-cell *matHeaderCellDef> Materia </th>
+                  <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.nomeMateria}} </td>
                 </ng-container>
                 <!-- 'Excluir' Column -->
                 <ng-container matColumnDef=" ">
-                  <th mat-header-cell *matHeaderCellDef> Ações </th>
+                  <th mat-header-cell *matHeaderCellDef> {{'TUTORIA.ACOES' | translate}} </th>
                   <td mat-cell *matCellDef="let element"> <i (click)="deletarTutoria(element, 'incompleta')"
                       style="color: #dc3545; cursor: pointer;font-size: 16px;" class="far fa-minus-square"></i> </td>
                 </ng-container>
@@ -191,23 +190,24 @@
         <div class="card">
           <div class="card-header">
             <div class=" row align-items-center">
-              <div class="col my-2">Comunidade</div><!-- SLIDE TOGGLE -->
+              <div class="col my-2">{{'TUTORIA.COMUNIDADE' | translate}}</div>
+              <!-- SLIDE TOGGLE -->
               <span class="col col-auto">
-                <mat-label>Alunos</mat-label>
+                <mat-label>{{'TUTORIA.ALUNOS' | translate}}</mat-label>
                 <span class="mx-2">
                   <label class="switch">
                     <input type="checkbox" [(ngModel)]="setTables.comunidade">
                     <span class="slider round"></span>
                   </label>
                 </span>
-                <mat-label>Tutores</mat-label>
+                <mat-label>{{'TUTORIA.TUTORES' | translate}}</mat-label>
               </span>
             </div>
           </div>
           <div class="card-body">
             <h6 *ngIf="this.comunidade[setTables.comunidade?'tutores': 'alunos']?.length===0"
               class="text-center text-muted mt-3">
-              Sem tutorias cadastradas
+              {{'TUTORIA.SEM_TUTORIA' | translate}}
             </h6>
             <table *ngIf="this.comunidade[setTables.comunidade?'tutores': 'alunos']?.length>0" mat-table
               [dataSource]="setTables.comunidade ? this.comunidade.tutores : this.comunidade.alunos">
@@ -229,12 +229,12 @@
               </ng-container>
               <!-- Matéria Column -->
               <ng-container matColumnDef="materia">
-                <th mat-header-cell *matHeaderCellDef> Materia </th>
+                <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.materia.nomeMateria}} </td>
               </ng-container>
-              <!-- Tutor Column -->
+              <!-- Tutor/Aluno Column -->
               <ng-container matColumnDef="otherUser">
-                <th mat-header-cell *matHeaderCellDef> {{setTables.comunidade ? "Tutor" : "Aluno"}} </th>
+                <th mat-header-cell *matHeaderCellDef>{{'TUTORIA.'+(setTables.comunidade ? "TUTOR" : "ALUNO") | translate}}</th>
                 <td mat-cell *matCellDef="let element">
                   <span *ngIf="setTables.comunidade">
                     {{element.tutor?.nome}}
@@ -246,7 +246,7 @@
               </ng-container>
               <!-- Nota Column -->
               <ng-container matColumnDef="notaOtherUser">
-                <th mat-header-cell *matHeaderCellDef> Nota do {{setTables.comunidade ? "Tutor" : "Aluno"}} </th>
+                <th mat-header-cell *matHeaderCellDef>{{(setTables.comunidade ? "TUTOR" : "ALUNO")+"_NOTA" | translate}}</th>
                 <td mat-cell *matCellDef="let element">
                   <span *ngIf="setTables.comunidade">
                     <star-rating id="nota_user" value="{{element.tutor.nota}}" totalstars="5" checkedcolor="#31d0aa"

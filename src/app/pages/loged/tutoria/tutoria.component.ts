@@ -217,6 +217,9 @@ export class TutoriaComponent implements OnInit {
                                   .map(tutor => { return { idTutor: tutor.idTutor, nomeMateria: tutor.materiaBase.materiaBase } })
                                   .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) });
                                 /* COMUNIDADE */
+                                if(this.user.materias.length===0){
+                                  this.loading = false;
+                                }
                                 this.user.materias.forEach(({ nomeMateria, idMateriaBase }, idx) => {
                                   // Alunos por Materia
                                   this.tutoriaService.getAllAlunosByMateria(idMateriaBase).subscribe(

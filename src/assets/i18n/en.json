@@ -190,5 +190,37 @@
         },
         "METODO": "Study Method",
         "ACOES": "Actions"
+    },
+    "TUTORIA": {
+        "MODAL_AVALIAÇÃO": {
+            "TITULO": "Tutoring Assessment",
+            "TEXTO1": "How do you rate",
+            "TEXTO2": "during the tutoring of"
+        },
+        "CABECALHO": {
+            "TUTORADO": "Tutored",
+            "ENSINOU": "Teach",
+            "VEZ": "time"
+        },
+        "MINHAS": "Mine",
+        "COMUNIDADE":"Community",
+        "CRIAR_TUTORIA": {
+            "BOTAO": "Create tutoring",
+            "SOU": "I'm",
+            "AJUDA": "Looking for help at",
+            "FECHAR": "Close"
+        },
+        "ALUNO": "Student",
+        "ALUNOS": "Students",
+        "TUTOR": "Tutor",
+        "TUTORES": "Tutors",
+        "ALUNO_ENCONTRADO": "Student found",
+        "TUTOR_ENCONTRADO": "Tutor found",
+        "ALUNO_PROCURANDO": "Looking for student",
+        "TUTOR_PROCURANDO": "Looking for tutor",
+        "ALUNO_NOTA": "Student's assessment",
+        "TUTOR_NOTA": "Tutor's assessment",
+        "SEM_TUTORIA": "No tutors registered",
+        "ACOES": "Actions"
     }
 }
