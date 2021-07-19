@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GraficosService } from 'src/app/service/graficos.service';
 import { NotasTipoComponent } from './notas-tipo.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { ArrayType } from '@angular/compiler';
 
 describe('NotasTipoComponent', () => {
   let component: NotasTipoComponent;
@@ -9,9 +11,10 @@ describe('NotasTipoComponent', () => {
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaTipo: idUsuario => ({ subscribe: f => f({}) })
+      notaTipo: () => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
+      imports:[TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NotasTipoComponent],
       providers: [{ provide: GraficosService, useFactory: graficosServiceStub }]
@@ -30,7 +33,7 @@ describe('NotasTipoComponent', () => {
   });
 
   it(`chartColors has default value`, () => {
-    expect(component.chartColors).toEqual([]);
+    expect(component.chartColors).not.toEqual([]);
   });
 
   it(`loaded has default value`, () => {

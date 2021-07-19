@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrarComponent } from './registrar.component';
@@ -18,7 +18,7 @@ describe('RegistrarComponent', () => {
     const routerStub = () => ({ navigate: array => ({}) });
     const translateServiceStub = () => ({});
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule],
+      imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [RegistrarComponent],
       providers: [

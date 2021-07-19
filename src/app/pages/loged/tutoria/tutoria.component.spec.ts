@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TutoriaComponent } from './tutoria.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('TutoriaComponent', () => {
   let component: TutoriaComponent;
@@ -8,6 +9,7 @@ describe('TutoriaComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [TutoriaComponent]
     });

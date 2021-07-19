@@ -7,6 +7,7 @@ import { NotaMateriaService } from 'src/app/service/notaMateria.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ConfigComponent } from './config.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ConfigComponent', () => {
   let component: ConfigComponent;
@@ -17,9 +18,12 @@ describe('ConfigComponent', () => {
       delete: idAgendamento => ({ toPromise: () => ({}) })
     });
     const userServiceStub = () => ({
+      telegramObj: () => ({ subscribe: f => f({}) }),
+      addTelegramID: (chatId, username) => ({ subscribe: f => f({}) }),
       getAllInfosById: () => ({ subscribe: f => f({}) }),
+      getTelegramID: () => ({ subscribe: f => f({}) }),
       changePass: senha => ({ subscribe: f => f({}) }),
-      edit: (nome, email) => ({ subscribe: f => f({}) }),
+      edit: (nome, email, arg2) => ({ subscribe: f => f({}) }),
       delete: () => ({ subscribe: f => f({}) })
     });
     const materiaServiceStub = () => ({
@@ -30,7 +34,7 @@ describe('ConfigComponent', () => {
     });
     const routerStub = () => ({ navigate: array => ({}) });
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [ConfigComponent],
       providers: [
@@ -53,6 +57,27 @@ describe('ConfigComponent', () => {
     expect(component.passMinOk).toEqual(true);
   });
 
+  describe('auth', () => {
+    it('makes expected calls', () => {
+      spyOn(component, 'verifyTelegramObg').and.callThrough();
+      component.auth();
+      expect(component.verifyTelegramObg).toHaveBeenCalled();
+    });
+  });
+
+  describe('verifyTelegramObg', () => {
+    it('makes expected calls', () => {
+      const userServiceStub: UserService = fixture.debugElement.injector.get(
+        UserService
+      );
+      spyOn(userServiceStub, 'telegramObj').and.callThrough();
+      spyOn(userServiceStub, 'addTelegramID').and.callThrough();
+      component.verifyTelegramObg();
+      expect(userServiceStub.telegramObj).toHaveBeenCalled();
+      expect(userServiceStub.addTelegramID).toHaveBeenCalled();
+    });
+  });
+
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
       const userServiceStub: UserService = fixture.debugElement.injector.get(
@@ -60,9 +85,11 @@ describe('ConfigComponent', () => {
       );
       spyOn(component, 'alertError').and.callThrough();
       spyOn(userServiceStub, 'getAllInfosById').and.callThrough();
+      spyOn(userServiceStub, 'getTelegramID').and.callThrough();
       component.ngOnInit();
       expect(component.alertError).toHaveBeenCalled();
       expect(userServiceStub.getAllInfosById).toHaveBeenCalled();
+      expect(userServiceStub.getTelegramID).toHaveBeenCalled();
     });
   });
 

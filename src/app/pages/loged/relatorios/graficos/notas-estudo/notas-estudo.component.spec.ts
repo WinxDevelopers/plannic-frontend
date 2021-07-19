@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GraficosService } from 'src/app/service/graficos.service';
 import { NotasEstudoComponent } from './notas-estudo.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NotasEstudoComponent', () => {
   let component: NotasEstudoComponent;
@@ -9,9 +10,10 @@ describe('NotasEstudoComponent', () => {
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaEstudo: idUsuario => ({ subscribe: f => f({}) })
+      notaEstudo: () => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
+      imports:[TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NotasEstudoComponent],
       providers: [{ provide: GraficosService, useFactory: graficosServiceStub }]

@@ -4,6 +4,7 @@ import { GraficosService } from 'src/app/service/graficos.service';
 import { UserService } from 'src/app/service/user.service';
 import { FormsModule } from '@angular/forms';
 import { NotasEvolucaoComponent } from './notas-evolucao.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NotasEvolucaoComponent', () => {
   let component: NotasEvolucaoComponent;
@@ -11,13 +12,13 @@ describe('NotasEvolucaoComponent', () => {
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaEvolucao: (idUsuario, idMateria) => ({ subscribe: f => f({}) })
+      notaEvolucao: idMateria => ({ subscribe: f => f({}) })
     });
     const userServiceStub = () => ({
       getAllInfosById: () => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NotasEvolucaoComponent],
       providers: [

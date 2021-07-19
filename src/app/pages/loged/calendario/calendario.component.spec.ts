@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { DateSelectArg } from '@fullcalendar/angular';
 import { EventClickArg } from '@fullcalendar/angular';
 import { UserService } from 'src/app/service/user.service';
@@ -7,6 +7,9 @@ import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { MateriaService } from 'src/app/service/materia.service';
 import { FormsModule } from '@angular/forms';
 import { CalendarioComponent } from './calendario.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { off } from 'process';
+import { of } from 'rxjs';
 
 describe('CalendarioComponent', () => {
   let component: CalendarioComponent;
@@ -19,6 +22,7 @@ describe('CalendarioComponent', () => {
     const agendamentoServiceStub = () => ({
       create: (
         idMateria,
+        notificacao,
         arg,
         arg1,
         recorrencia,
@@ -29,6 +33,7 @@ describe('CalendarioComponent', () => {
       update: (
         idAgendamento,
         idMateria,
+        notificacao,
         recorrenciaInicio,
         recorrenciaFim,
         recorrencia,
@@ -39,10 +44,10 @@ describe('CalendarioComponent', () => {
       delete: idAgendamento => ({ subscribe: f => f({}) })
     });
     const materiaServiceStub = () => ({
-      create: (nomeMateria, string) => ({ subscribe: f => f({}) })
+      createSugestao: sugestao => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [CalendarioComponent],
       providers: [
@@ -53,6 +58,17 @@ describe('CalendarioComponent', () => {
     });
     fixture = TestBed.createComponent(CalendarioComponent);
     component = fixture.componentInstance;
+    
+    component.newForm={
+      recorrencia: '',
+      tipoEstudo: '',
+      idMateria: '',
+      dataInicio: '202008121834',
+      horaInicio: '202008121834',
+      notificacao: "N",
+      dataFim: '202008121834',
+      horaFim: '202008121834',
+    };
   });
 
   it('can load instance', () => {
@@ -71,16 +87,16 @@ describe('CalendarioComponent', () => {
     expect(component.currentEvents).toEqual([]);
   });
 
+  it(`newSugestaoID has default value`, () => {
+    expect(component.newSugestaoID).toEqual(undefined);
+  });
+
   it(`camposVal has default value`, () => {
     expect(component.camposVal).toEqual(true);
   });
 
   it(`dateVal has default value`, () => {
     expect(component.dateVal).toEqual(true);
-  });
-
-  it(`recorVal has default value`, () => {
-    expect(component.recorVal).toEqual(true);
   });
 
   describe('handleDateSelect', () => {
@@ -137,7 +153,7 @@ describe('CalendarioComponent', () => {
       const userServiceStub: UserService = fixture.debugElement.injector.get(
         UserService
       );
-      spyOn(userServiceStub, 'getAllInfosById').and.callThrough();
+      spyOn(userServiceStub, 'getAllInfosById').and.returnValue(of(JSON.stringify({agendamentos: [{idMateria: '123'}]})));
       component.refresh();
       expect(userServiceStub.getAllInfosById).toHaveBeenCalled();
     });

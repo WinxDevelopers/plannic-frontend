@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { UserService } from 'src/app/service/user.service';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavbarComponent } from './navbar.component';
 
@@ -10,13 +11,17 @@ describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
 
   beforeEach(() => {
+    const userServiceStub = () => ({
+      userType: () => ({ subscribe: f => f({}) })
+    });
     const routerStub = () => ({ navigate: array => ({}) });
     const translateServiceStub = () => ({});
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NavbarComponent],
       providers: [
+        { provide: UserService, useFactory: userServiceStub },
         { provide: Router, useFactory: routerStub },
         { provide: TranslateService, useFactory: translateServiceStub }
       ]
@@ -29,8 +34,19 @@ describe('NavbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`nome has default value`, () => {
-    expect(component.nome).toEqual(`sdibds`);
+  it(`isAdm has default value`, () => {
+    expect(component.isAdm).toEqual(false);
+  });
+
+  describe('ngOnInit', () => {
+    it('makes expected calls', () => {
+      const userServiceStub: UserService = fixture.debugElement.injector.get(
+        UserService
+      );
+      spyOn(userServiceStub, 'userType').and.callThrough();
+      component.ngOnInit();
+      expect(userServiceStub.userType).toHaveBeenCalled();
+    });
   });
 
   describe('deslogar', () => {

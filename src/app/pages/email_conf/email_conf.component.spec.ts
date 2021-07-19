@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Email_confComponent } from './email_conf.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('Email_confComponent', () => {
   let component: Email_confComponent;
@@ -9,7 +10,7 @@ describe('Email_confComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [Email_confComponent]
     });

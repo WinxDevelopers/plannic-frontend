@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IndexComponent } from './index.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -11,7 +12,7 @@ describe('IndexComponent', () => {
   beforeEach(() => {
     const routerStub = () => ({ navigate: array => ({}) });
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [IndexComponent],
       providers: [{ provide: Router, useFactory: routerStub }]

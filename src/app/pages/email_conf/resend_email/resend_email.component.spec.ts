@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoginService } from 'src/app/service/login.service';
 import { Resend_emailComponent } from './resend_email.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('Resend_emailComponent', () => {
   let component: Resend_emailComponent;
@@ -12,6 +13,7 @@ describe('Resend_emailComponent', () => {
       sendNewEmail: email => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
+      imports:[TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [Resend_emailComponent],
       providers: [{ provide: LoginService, useFactory: loginServiceStub }]

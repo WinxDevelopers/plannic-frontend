@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoginComponent } from './login.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -20,7 +21,7 @@ describe('LoginComponent', () => {
     });
     const routerStub = () => ({ navigate: array => ({}) });
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule],
+      imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [LoginComponent],
       providers: [

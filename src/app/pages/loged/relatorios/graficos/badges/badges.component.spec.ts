@@ -35,32 +35,32 @@ describe('BadgesComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      spyOn(component, 'menorNota').and.callThrough();
-      spyOn(component, 'maiorNota').and.callThrough();
+      spyOn(component, 'notaMenor').and.callThrough();
+      spyOn(component, 'notaMaior').and.callThrough();
       component.ngOnInit();
-      expect(component.menorNota).toHaveBeenCalled();
-      expect(component.maiorNota).toHaveBeenCalled();
+      expect(component.notaMenor).toHaveBeenCalled();
+      expect(component.notaMaior).toHaveBeenCalled();
     });
   });
 
-  describe('menorNota', () => {
+  describe('notaMenor', () => {
     it('makes expected calls', () => {
       const graficosServiceStub: GraficosService = fixture.debugElement.injector.get(
         GraficosService
       );
       spyOn(graficosServiceStub, 'notaMenor').and.callThrough();
-      component.menorNota();
+      component.notaMenor();
       expect(graficosServiceStub.notaMenor).toHaveBeenCalled();
     });
   });
 
-  describe('maiorNota', () => {
+  describe('notaMaior', () => {
     it('makes expected calls', () => {
       const graficosServiceStub: GraficosService = fixture.debugElement.injector.get(
         GraficosService
       );
       spyOn(graficosServiceStub, 'notaMaior').and.callThrough();
-      component.maiorNota();
+      component.notaMaior();
       expect(graficosServiceStub.notaMaior).toHaveBeenCalled();
     });
   });
