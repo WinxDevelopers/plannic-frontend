@@ -1,4 +1,4 @@
-<div class="dropdown">
+<div class="dropdown" *ngOf="sugestoes.length>0">
   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
     aria-haspopup="true" aria-expanded="false">
     {{lang ==="pt-BR" ? "Sugestões" : "Sugestions"}}

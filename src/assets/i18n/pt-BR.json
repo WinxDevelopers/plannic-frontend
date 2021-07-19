@@ -97,6 +97,8 @@
         "SEM_NOTAS": "Não há nenhuma nota cadastrada",
         "SEM_MATERIAIS": "Não há nenhum material público",
         "MATERIAIS": "Materiais",
+        "MATERIAIS_TAMANHO": "Os arquivos podem ter no máximo 10mb",
+        "MATERIAIS-ERR": "Limite de tamanho ultrapassado",
         "PESQUISAR": "Públicos",
         "ESCOLHER": "Escolher arquivos",
         "FECHAR": "Fechar",
@@ -108,7 +110,7 @@
         "EMAIL": "E-mail",
         "SENHA": "Senha",
         "TELEGRAMCONNECT": "Entrar com Telegram",
-        "TELEGRAMCONNECTED":"Conectado com o Telegram",
+        "TELEGRAMCONNECTED": "Conectado com o Telegram",
         "SENHA1": "Digite a nova senha",
         "SENHA2": "Digite a nova senha novamente",
         "NOTIFICACOES": "Desejo receber notificações pelo Telegram",
@@ -180,15 +182,47 @@
         "MENSALMENTE": "Mensalmente",
         "VEZES": "vezes",
         "NOTIFICACAO": "Notificação",
-        "NOTIF_SELECT":{
-            "NOT1":"5 minutos antes",
-            "NOT2":"10 minutos antes",
-            "NOT3":"15 minutos antes",
-            "NOT4":"30 minutos antes",
-            "NOT5":"1 hora antes",
-            "NOT6":"1 dia antes"
+        "NOTIF_SELECT": {
+            "NOT1": "5 minutos antes",
+            "NOT2": "10 minutos antes",
+            "NOT3": "15 minutos antes",
+            "NOT4": "30 minutos antes",
+            "NOT5": "1 hora antes",
+            "NOT6": "1 dia antes"
         },
         "METODO": "Método de Estudo",
+        "ACOES": "Ações"
+    },
+    "TUTORIA": {
+        "MODAL_AVALIAÇÃO": {
+            "TITULO": "Avaliação de Tutoria",
+            "TEXTO1": "Como você avalia",
+            "TEXTO2": "durante a tutoria de"
+        },
+        "CABECALHO": {
+            "TUTORADO": "Tutorado",
+            "ENSINOU": "Ensinou",
+            "VEZ": "vez"
+        },
+        "MINHAS": "Minhas",
+        "COMUNIDADE":"Comunidade",
+        "CRIAR_TUTORIA": {
+            "BOTAO": "Criar tutoria",
+            "SOU": "Sou",
+            "AJUDA": "Buscando ajuda em",
+            "FECHAR": "Fechar"
+        },
+        "ALUNO": "Aluno",
+        "ALUNOS": "Alunos",
+        "TUTOR": "Tutor",
+        "TUTORES": "Tutores",
+        "ALUNO_ENCONTRADO": "Aluno encontrado",
+        "TUTOR_ENCONTRADO": "Tutor encontrado",
+        "ALUNO_PROCURANDO": "A procura de aluno",
+        "TUTOR_PROCURANDO": "A procura de tutor",
+        "ALUNO_NOTA": "Nota do aluno",
+        "TUTOR_NOTA": "Nota do tutor",
+        "SEM_TUTORIA": "Sem tutorias cadastradas",
         "ACOES": "Ações"
     }
 }

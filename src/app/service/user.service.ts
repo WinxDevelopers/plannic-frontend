@@ -75,7 +75,7 @@ export class UserService {
 
   //Telegram
   telegramObj(): Observable<any> {
-    return this.http.get("https://api.telegram.org/bot1837445567:AAG38Q2uaVs2ExP9Tj4bXCbr6jA1QjKKgCM/getUpdates")
+    return this.http.get("https://api.telegram.org/bot1837445567:AAEcp__9KjdGBCXlZijPu34JqWgJazjm-Wo/getUpdates")
   }
   getTelegramID(): Observable<any> {
     return this.http.get(API_URL + `usuariotelegram/${this.idUsuario}`, this.httpOptions);
@@ -90,19 +90,20 @@ export class UserService {
 
   //NotasUsuario
   //Busca avaliações pendentes em que o usuário precisa dar nota
-  getAvaliacoes() {
+  getAvaliacoesPendentes() {
     return this.http.get(API_URL + `notasusuario/${this.idUsuario}`, this.httpOptions)
   };
 
   //Nota que o usuário deu
-  notaUsuario(idNotaUsuario, idAvaliado, idTutoria, nota, ativo) {
-    return this.http.put(API_URL + `usuario`, {
+  newAvaliacao({idNotaUsuario, idAvaliado, idTutoria, nota, idMateriaBase}) {
+    return this.http.put(API_URL + `notasusuario`,  {
       idNotaUsuario,
       idAvalia: this.idUsuario, //Usuário que avalia
       idAvaliado, //Usuário avaliado
       idTutoria,
+      idMateriaBase,
       nota,
-      ativo //Sempre falso
+      ativo: false //Sempre falso
     }, this.httpOptions)
   }
 

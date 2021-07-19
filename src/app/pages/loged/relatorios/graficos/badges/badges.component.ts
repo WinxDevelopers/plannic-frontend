@@ -23,7 +23,6 @@ export class BadgesComponent implements OnInit {
     this.graficoService.notaMenor().subscribe(
       (notaMenor) => {
         notaMenor = JSON.parse(notaMenor);
-        console.log(notaMenor)
         if (!notaMenor || notaMenor.length === 0) {
           this.buscaTutor = false;
         } else {
@@ -34,7 +33,6 @@ export class BadgesComponent implements OnInit {
         this.graficoService.notaMaior().subscribe(
           (notaMaior) => {
             notaMaior = JSON.parse(notaMaior);
-            console.log(notaMaior)
             if (!notaMaior || notaMaior.length === 0) {
               this.sejaTutor = false;
             } else {

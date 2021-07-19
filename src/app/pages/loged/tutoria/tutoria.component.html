@@ -1,7 +1,268 @@
-<div class="container-fluid">
-  <div class="row pr-3 pb-2">
-    <h3 class="col text-dark ">{{'LOGED.TUTORIA' | translate}}</h3>
+<div class="container-fluid" style="min-height: 370px;">
+  <div *ngIf="this.loading" class="d-flex justify-content-center">
+    <div class="spinner-border" style="position: relative; top: 100px;width: 6rem; height: 6rem;" role="status">
+    </div>
   </div>
-  <div class="card shadow" style="min-height: 20rem;">
+  <button hidden id="btn_modalNotas" type="button" data-toggle="modal" data-target="#modalNotas"></button>
+  <!-- Modal -->
+  <div class="modal fade" id="modalNotas" tabindex="-1" data-backdrop="static" aria-labelledby="modalNotasLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body" style="font-size: 18px;">
+          <div style="text-align:center">
+            <h3>
+              {{'TUTORIA.MODAL_AVALIAÇÃO.TITULO' | translate}}
+            </h3>
+            <span class="text-muted">
+              {{'TUTORIA.MODAL_AVALIAÇÃO.TEXTO1' | translate}} {{notaAtual?.nomeAvaliado}} {{'AGENDAMENTOS.MODAL_AVALIAÇÃO.TEXTO2' | translate}} {{notaAtual?.nomeMateria}}
+            </span>
+            <star-rating value={{notaAtual?.anterior}} totalstars={{5}} checkedcolor="#31d0aa" uncheckedcolor="#19647e"
+              size="40px" readonly="false" (rate)="onRate($event)"></star-rating>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+  <div *ngIf="!this.loading">
+    <!-- CABEÇALHO -->
+    <div style="text-align:center" class="row px-5 my-4 justify-content-center align-items-center">
+      <div class="col-3 text-muted">
+        <h6 class="m-0">
+          {{'TUTORIA.CABECALHO.TUTORADO' | translate}} <br>
+          {{this.user.aluno.completas.length}} <br>
+          {{'TUTORIA.CABECALHO.VEZ' | translate}}<span *ngIf="this.user.aluno.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
+        </h6>
+      </div>
+      <div class="col-3 border-right border-left">
+        <h2>{{user.nota}}</h2>
+        <star-rating id="nota_user" value="{{user.nota}}" totalstars="5" checkedcolor="#31d0aa" uncheckedcolor="#19647e"
+          size="24px" disabled readOnly="true"></star-rating>
+      </div>
+      <div class="col-3 text-muted">
+        <h6 class="m-0">
+          {{'TUTORIA.CABECALHO.ENSINOU' | translate}} <br>
+          {{this.user.tutor.completas.length}} <br>
+          {{'TUTORIA.CABECALHO.VEZ' | translate}}<span *ngIf="this.user.tutor.completas.length>1"><span *ngIf="lang==='pt-BR'">e</span>s</span>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <!-- USUÁRIO -->
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+            <div class=" row align-items-center">
+              <div class="col">{{'TUTORIA.MINHAS' | translate}}</div>
+              <div class="col">
+                <button type="button" class="btn btn-outline-info float-right" data-toggle="modal"
+                  data-target="#exampleModal">
+                  {{'TUTORIA.CRIAR_TUTORIA.BOTAO' | translate}}
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body" style="font-size: 18px;">
+                        <div class="form-group row">
+                          <label for="staticEmail" class="col-sm-2 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.SOU' | translate}}</label>
+                          <div class="col-sm-10">
+                            <select class="custom-select" [(ngModel)]="newTutoria.user">
+                              <option value="aluno">{{'TUTORIA.ALUNO' | translate}}</option>
+                              <option value="tutor">{{'TUTORIA.TUTOR' | translate}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputPassword" class="col-sm-5 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.AJUDA' | translate}}</label>
+                          <div class="col-sm-7">
+                            <select class="custom-select" [(ngModel)]="newTutoria.materia">
+                              <option *ngFor="let mat of this.user.materias" value="{{mat.idMateriaBase}}">
+                                {{mat.nomeMateria}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="float-right">
+                          <button id="closeModalTutoria" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">{{'TUTORIA.CRIAR_TUTORIA.FECHAR' | translate}}</button>
+                          <button type="button" class="btn btn-primary ml-2" (click)="criarTutoria()">{{'CRUD-GERAL.CRIAR' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-center">
+              <!-- SLIDE TOGGLE -->
+              <span class="col">
+                <mat-label>{{'TUTORIA.ALUNO' | translate}}</mat-label>
+                <span class="mx-2">
+                  <label class="switch">
+                    <input [(ngModel)]="setTables.minhas" type="checkbox">
+                    <span class="slider round"></span>
+                  </label>
+                </span>
+                <mat-label>{{'TUTORIA.TUTOR' | translate}}</mat-label>
+              </span>
+            </div>
+            <div class="mt-3">
+              <h5>
+                {{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO")+"_ENCONTRADO" | translate}}
+              </h5>
+              <h6 *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.completas.length===0"
+                class="text-center text-muted mt-3">
+                {{'TUTORIA.SEM_TUTORIA' | translate}}
+              </h6>
+              <table *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.completas.length>0" mat-table
+                [dataSource]="this.user[!setTables.minhas?'aluno': 'tutor']?.completas">
+                <!-- Matéria Column -->
+                <ng-container matColumnDef="materia">
+                  <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nomeMateria}} </td>
+                </ng-container>
+                <!-- OtherUser Column -->
+                <ng-container matColumnDef="OtherUser">
+                  <th mat-header-cell *matHeaderCellDef>{{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO") | translate}}</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span *ngIf="!setTables.minhas">
+                      {{element.nomeTutor}}
+                    </span>
+                    <span *ngIf="setTables.minhas">
+                      {{element.nomeAluno}}
+                    </span>
+                  </td>
+                </ng-container>
+                <!-- Ações Column -->
+                <ng-container matColumnDef=" ">
+                  <th mat-header-cell *matHeaderCellDef> {{'TUTORIA.ACOES' | translate}} </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row bjustify-content-center" style="font-size: 16px;">
+                      <div class="col-1">
+                        <i (click)="concluirTutoria(element.idTutoria)" style="color: rgb(40, 167, 69); cursor: pointer"
+                          class="far fa-check-square" [mdbTooltip]="lang=='pt-BR'? 'Concluir' : 'Conclude'"></i>
+                      </div>
+                      <div class="col-1">
+                        <i (click)="deletarTutoria(element, 'completa')" style="color: #dc3545; cursor: pointer"
+                          class="far fa-minus-square" [mdbTooltip]="lang=='pt-BR'? 'Excluir' : 'Delete'"></i>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['materia', 'OtherUser', ' ']"></tr>
+                <tr mat-row *matRowDef="let row; columns: [ 'materia', 'OtherUser', ' '];"></tr>
+              </table>
+            </div>
+            <br>
+            <div class="mt-2">
+              <h5>
+                {{'TUTORIA.'+(!setTables.minhas ? "TUTOR" : "ALUNO")+"_PROCURANDO" | translate}}
+              </h5>
+              <h6 *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas.length===0"
+                class="text-center text-muted mt-3">
+                {{'TUTORIA.SEM_TUTORIA' | translate}}
+              </h6>
+              <table *ngIf="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas.length>0" mat-table
+                [dataSource]="this.user[!setTables.minhas?'aluno': 'tutor']?.incompletas">
+                <!-- Matéria Column -->
+                <ng-container matColumnDef="materia">
+                  <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nomeMateria}} </td>
+                </ng-container>
+                <!-- 'Excluir' Column -->
+                <ng-container matColumnDef=" ">
+                  <th mat-header-cell *matHeaderCellDef> {{'TUTORIA.ACOES' | translate}} </th>
+                  <td mat-cell *matCellDef="let element"> <i (click)="deletarTutoria(element, 'incompleta')"
+                      style="color: #dc3545; cursor: pointer;font-size: 16px;" class="far fa-minus-square"></i> </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['materia', ' ']"></tr>
+                <tr mat-row *matRowDef="let row; columns: [ 'materia', ' '];"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- COMUNIDADE -->
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+            <div class=" row align-items-center">
+              <div class="col my-2">{{'TUTORIA.COMUNIDADE' | translate}}</div>
+              <!-- SLIDE TOGGLE -->
+              <span class="col col-auto">
+                <mat-label>{{'TUTORIA.ALUNOS' | translate}}</mat-label>
+                <span class="mx-2">
+                  <label class="switch">
+                    <input type="checkbox" [(ngModel)]="setTables.comunidade">
+                    <span class="slider round"></span>
+                  </label>
+                </span>
+                <mat-label>{{'TUTORIA.TUTORES' | translate}}</mat-label>
+              </span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h6 *ngIf="this.comunidade[setTables.comunidade?'tutores': 'alunos']?.length===0"
+              class="text-center text-muted mt-3">
+              {{'TUTORIA.SEM_TUTORIA' | translate}}
+            </h6>
+            <table *ngIf="this.comunidade[setTables.comunidade?'tutores': 'alunos']?.length>0" mat-table
+              [dataSource]="setTables.comunidade ? this.comunidade.tutores : this.comunidade.alunos">
+              <!-- Se inscrever Column -->
+              <ng-container matColumnDef=" ">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element" style="font-size: 20px;">
+                  <span style="cursor: pointer;" *ngIf="setTables.comunidade"
+                    (click)="conectAlunoTutor(element.materia?.idMateriaBase,element.tutor?.id,'aluno')"
+                    [mdbTooltip]="lang=='pt-BR'? 'Pedir ajuda' : 'Ask help'">
+                    <i class="far fa-hand-paper"></i>
+                  </span>
+                  <span style="cursor: pointer;" *ngIf="!setTables.comunidade"
+                    (click)="conectAlunoTutor(element.materia?.idMateriaBase,element.aluno?.id, 'tutor')"
+                    [mdbTooltip]="lang=='pt-BR'? 'Oferecer ajuda' : 'Ofer help'">
+                    <i class="far fa-handshake"></i>
+                  </span>
+                </td>
+              </ng-container>
+              <!-- Matéria Column -->
+              <ng-container matColumnDef="materia">
+                <th mat-header-cell *matHeaderCellDef> {{'LOGED.MATERIA' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.materia.nomeMateria}} </td>
+              </ng-container>
+              <!-- Tutor/Aluno Column -->
+              <ng-container matColumnDef="otherUser">
+                <th mat-header-cell *matHeaderCellDef>{{'TUTORIA.'+(setTables.comunidade ? "TUTOR" : "ALUNO") | translate}}</th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="setTables.comunidade">
+                    {{element.tutor?.nome}}
+                  </span>
+                  <span *ngIf="!setTables.comunidade">
+                    {{element.aluno?.nome}}
+                  </span>
+                </td>
+              </ng-container>
+              <!-- Nota Column -->
+              <ng-container matColumnDef="notaOtherUser">
+                <th mat-header-cell *matHeaderCellDef>{{(setTables.comunidade ? "TUTOR" : "ALUNO")+"_NOTA" | translate}}</th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="setTables.comunidade">
+                    <star-rating id="nota_user" value="{{element.tutor.nota}}" totalstars="5" checkedcolor="#31d0aa"
+                      uncheckedcolor="#19647e" size="20px" disabled readOnly="true"></star-rating>
+                  </span>
+                  <span *ngIf="!setTables.comunidade">
+                    <star-rating id="nota_user" value="{{element.aluno.nota}}" totalstars="5" checkedcolor="#31d0aa"
+                      uncheckedcolor="#19647e" size="20px" disabled readOnly="true"></star-rating>
+                  </span>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="[' ', 'materia', 'otherUser', 'notaOtherUser']"></tr>
+              <tr mat-row *matRowDef="let row; columns: [' ', 'materia', 'otherUser', 'notaOtherUser'];"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

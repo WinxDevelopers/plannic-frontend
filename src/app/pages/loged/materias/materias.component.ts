@@ -38,7 +38,7 @@ export class MateriasComponent implements AfterViewInit {
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 4000,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -175,7 +175,7 @@ export class MateriasComponent implements AfterViewInit {
               }
             });
           },
-          err => { console.log(err) }
+          (err) => { console.log(err) }
         )
         this.materiaService.delete(idMateria).subscribe(
           () => {
@@ -207,7 +207,6 @@ export class MateriasComponent implements AfterViewInit {
   idMateria: string;
   //Definir materia que vai ser associada a nota nova
   setIdMateria(idMateria) {
-    console.log(idMateria)
     this.idMateria = idMateria
   }
   saveNota() {
@@ -322,17 +321,23 @@ export class MateriasComponent implements AfterViewInit {
   /* MATERIAIS */
   currentMateria: any;
   arquivos: File[] = [];
-  displayedColumnsMateriais: string[] = ["nome", " "]
+  displayedColumnsMateriais: string[] = ["nome", " "];
+  fileSizeOK = true;
   getFiles(event, idMateria) {
+    this.fileSizeOK = true;
     this.currentMateria = idMateria;
 
     const selecionados = <FileList>event.srcElement.files;
+
+    console.log(selecionados[0])
 
     let label = []
     this.arquivos;
     for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
-      this.arquivos.push(selecionados[s])
+      this.arquivos.push(selecionados[s]);
+      if(selecionados[s].size>10485760)
+        this.fileSizeOK = false;
     }
     document.getElementById(`customFileLabel_${idMateria}`).innerHTML = label.join("; ");
   }
@@ -341,22 +346,19 @@ export class MateriasComponent implements AfterViewInit {
     this.arquivos.forEach(file => {
       var name = file.name;
       var type = file.type;
-      var publico = false;
-      console.log(name)
-      console.log(type)
 
       this.readFile(file).then((result) => {
         var material = result;
         let idMat;
 
-        Object.keys(this.userMaterias).forEach((id) => {
+        Object.values(this.userMaterias).forEach(({id}) => {
           if (this.currentMateria === id) {
             idMat = parseInt(id);
             return;
           }
         })
         if (this.arquivos && this.arquivos.length > 0) {
-          this.materiaService.newMaterial(idMat, material, name, type, publico).subscribe(
+          this.materiaService.newMaterial(idMat, material, name, type, false).subscribe(
             () => {
               this.alertSucess("material", "create");
               this.userMaterias = [];
@@ -391,17 +393,7 @@ export class MateriasComponent implements AfterViewInit {
     }
   }
 
-  materiaisPorMateria(idMateriaBase) {
-    this.materiaService.getAllMaterialPublico(idMateriaBase).subscribe(
-      (materiais) => {
-        console.log(materiais)
-      },
-      err => { this.alertError(err) }
-    )
-  }
-
   downloadFile(material) {
-    console.log(material)
     var file = this.dataURLtoFile(material.material, material.nomeMaterial)
 
     const blob = window.URL.createObjectURL(file);
@@ -473,8 +465,18 @@ export class MateriasComponent implements AfterViewInit {
             this.materiaService.getAllBase().subscribe(
               (stringData: string) => {
                 let data = JSON.parse(stringData)
-                this.dbMaterias = data.map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } });
-                this.dbMaterias.sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
+                for (let matUser of this.materias) {
+                  if (matUser.idMateriaBase != 0) {
+                    for (let i=0;i<data.length; i++) {
+                      if(data[i].idMateriaBase === matUser.idMateriaBase){
+                        data.splice(i, 1);
+                      }
+                    }
+                  }
+                }
+                this.dbMaterias = data
+                  .map(mat => { return { idMateriaBase: mat.idMateriaBase, nomeMateria: mat.materiaBase } })
+                  .sort((a, b) => { return a.nomeMateria.localeCompare(b.nomeMateria) })
                 this.loaded = true;
               }
             )
