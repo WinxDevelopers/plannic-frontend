@@ -33,7 +33,10 @@ Para encontrar o Backend do projeto, acesse: https://github.com/WinxDevelopers/p
 :heavy_check_mark: Criação e manutenção de Usuários;\
 :heavy_check_mark: Criação e manutenção de Matérias;\
 :heavy_check_mark: Criação e manutenção de Notas;\
-:heavy_check_mark: Geração do Perfil de Usuário;
+:heavy_check_mark: Geração do Perfil de Usuário;\
+:heavy_check_mark: Integração com API Telegram;\
+:heavy_check_mark: Criação de alarme de estudo com notificação através do Telegram;\
+:heavy_check_mark: Possibilidade de criação de tutoria de uma matéria entre os usuários;
 
 ## :rocket: Tecnologias ##
 
