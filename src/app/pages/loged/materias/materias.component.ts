@@ -321,17 +321,23 @@ export class MateriasComponent implements AfterViewInit {
   /* MATERIAIS */
   currentMateria: any;
   arquivos: File[] = [];
-  displayedColumnsMateriais: string[] = ["nome", " "]
+  displayedColumnsMateriais: string[] = ["nome", " "];
+  fileSizeOK = true;
   getFiles(event, idMateria) {
+    this.fileSizeOK = true;
     this.currentMateria = idMateria;
 
     const selecionados = <FileList>event.srcElement.files;
+
+    console.log(selecionados[0])
 
     let label = []
     this.arquivos;
     for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
-      this.arquivos.push(selecionados[s])
+      this.arquivos.push(selecionados[s]);
+      if(selecionados[s].size>10485760)
+        this.fileSizeOK = false;
     }
     document.getElementById(`customFileLabel_${idMateria}`).innerHTML = label.join("; ");
   }

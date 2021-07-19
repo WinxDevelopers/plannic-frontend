@@ -97,6 +97,8 @@
         "SEM_NOTAS": "There is no grade registered",
         "SEM_MATERIAIS": "There is no public material",
         "MATERIAIS": "Files",
+        "MATERIAIS_TAMANHO": "Files can have a maximum of 10mb",
+        "MATERIAIS-ERR": "Size limit exceeded",
         "PESQUISAR": "Public",
         "ESCOLHER": "Choose files",
         "FECHAR": "Close",

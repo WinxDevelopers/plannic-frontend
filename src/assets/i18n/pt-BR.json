@@ -97,6 +97,8 @@
         "SEM_NOTAS": "Não há nenhuma nota cadastrada",
         "SEM_MATERIAIS": "Não há nenhum material público",
         "MATERIAIS": "Materiais",
+        "MATERIAIS_TAMANHO": "Os arquivos podem ter no máximo 10mb",
+        "MATERIAIS-ERR": "Limite de tamanho ultrapassado",
         "PESQUISAR": "Públicos",
         "ESCOLHER": "Escolher arquivos",
         "FECHAR": "Fechar",
