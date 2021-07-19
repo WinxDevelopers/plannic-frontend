@@ -141,7 +141,7 @@ describe('UserService', () => {
   describe('getAvaliacoes', () => {
     it('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
-      service.getAvaliacoes().subscribe(res => {
+      service.getAvaliacoesPendentes().subscribe(res => {
         expect(res).toEqual;
       });
       const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');

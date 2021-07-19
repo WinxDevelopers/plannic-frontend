@@ -3,28 +3,28 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { TutoriaaService } from './tutoria.service';
+import { TutoriaService } from './tutoria.service';
 import { TranslateModule } from '@ngx-translate/core';
 
-describe('TutoriaaService', () => {
-  let service: TutoriaaService;
+describe('TutoriaService', () => {
+  let service: TutoriaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [TutoriaaService]
+      providers: [TutoriaService]
     });
-    service = TestBed.inject(TutoriaaService);
+    service = TestBed.inject(TutoriaService);
   });
 
   it('can load instance', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAllAlunos', () => {
+  describe('getSemTutorById', () => {
     it('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
-      service.getAllAlunos().subscribe(res => {
+      service.getSemTutorById().subscribe(res => {
         expect(res).toEqual;
       });
       const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
@@ -34,23 +34,10 @@ describe('TutoriaaService', () => {
     });
   });
 
-  describe('getAllTutores', () => {
+  describe('getSemAlunoById', () => {
     it('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
-      service.getAllTutores().subscribe(res => {
-        expect(res).toEqual;
-      });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
-      expect(req.request.method).toEqual('GET');
-      req.flush;
-      httpTestingController.verify();
-    });
-  });
-
-  describe('getAllTutoria', () => {
-    it('makes expected calls', () => {
-      const httpTestingController = TestBed.inject(HttpTestingController);
-      service.getAllTutoria().subscribe(res => {
+      service.getSemAlunoById().subscribe(res => {
         expect(res).toEqual;
       });
       const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
@@ -77,6 +64,32 @@ describe('TutoriaaService', () => {
     it('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
       service.getAllUserTutor().subscribe(res => {
+        expect(res).toEqual;
+      });
+      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      expect(req.request.method).toEqual('GET');
+      req.flush;
+      httpTestingController.verify();
+    });
+  });
+
+  describe('getAllAlunosProcurandoTutor', () => {
+    it('makes expected calls', () => {
+      const httpTestingController = TestBed.inject(HttpTestingController);
+      service.getAllAlunosProcurandoTutor().subscribe(res => {
+        expect(res).toEqual;
+      });
+      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      expect(req.request.method).toEqual('GET');
+      req.flush;
+      httpTestingController.verify();
+    });
+  });
+
+  describe('getTutoresProcurandoAluno', () => {
+    it('makes expected calls', () => {
+      const httpTestingController = TestBed.inject(HttpTestingController);
+      service.getTutoresProcurandoAluno().subscribe(res => {
         expect(res).toEqual;
       });
       const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
