@@ -8,6 +8,7 @@ import { Materia } from 'src/app/interface/materia';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import Swal from 'sweetalert2';
+import format from 'date-fns/format'
 
 @Component({
   selector: 'app-materias',
@@ -259,8 +260,10 @@ export class MateriasComponent implements AfterViewInit {
     this.notas.forEach((nota) => {
       if (nota.idNotaMateria === idNotaMateria) {
         this.notaToEdit = JSON.parse(JSON.stringify(nota))
-        let date = new Date(nota.dataNota)
-        this.notaToEdit.dataNota = `${date.getFullYear()}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}`
+        this.notaToEdit.dataNota = format(new Date(
+          parseInt(nota.dataNota.slice(6)),
+          parseInt(nota.dataNota.slice(3, 5))-1,
+          parseInt(nota.dataNota.slice(0, 2))), "yyyy-MM-dd")
       }
     })
   }
@@ -336,7 +339,7 @@ export class MateriasComponent implements AfterViewInit {
     for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
       this.arquivos.push(selecionados[s]);
-      if(selecionados[s].size>10485760)
+      if (selecionados[s].size > 10485760)
         this.fileSizeOK = false;
     }
     document.getElementById(`customFileLabel_${idMateria}`).innerHTML = label.join("; ");
@@ -351,7 +354,7 @@ export class MateriasComponent implements AfterViewInit {
         var material = result;
         let idMat;
 
-        Object.values(this.userMaterias).forEach(({id}) => {
+        Object.values(this.userMaterias).forEach(({ id }) => {
           if (this.currentMateria === id) {
             idMat = parseInt(id);
             return;
@@ -467,8 +470,8 @@ export class MateriasComponent implements AfterViewInit {
                 let data = JSON.parse(stringData)
                 for (let matUser of this.materias) {
                   if (matUser.idMateriaBase != 0) {
-                    for (let i=0;i<data.length; i++) {
-                      if(data[i].idMateriaBase === matUser.idMateriaBase){
+                    for (let i = 0; i < data.length; i++) {
+                      if (data[i].idMateriaBase === matUser.idMateriaBase) {
                         data.splice(i, 1);
                       }
                     }
@@ -488,8 +491,7 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   dateToString(date: Date) {
-    return `
-    ${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
+    return `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
   }
 
   openCreateNota() {
