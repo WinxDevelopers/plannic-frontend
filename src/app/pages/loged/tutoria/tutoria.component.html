@@ -75,8 +75,8 @@
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-5 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.AJUDA' | translate}}</label>
-                          <div class="col-sm-7">
+                          <label for="inputPassword" class="col-sm-2 col-form-label">{{'TUTORIA.CRIAR_TUTORIA.AJUDA' | translate}}</label>
+                          <div class="col-sm-10">
                             <select class="custom-select" [(ngModel)]="newTutoria.materia">
                               <option *ngFor="let mat of this.user.materias" value="{{mat.idMateriaBase}}">
                                 {{mat.nomeMateria}}</option>
