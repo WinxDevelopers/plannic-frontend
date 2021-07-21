@@ -20,6 +20,7 @@ export class CalendarioComponent implements OnInit {
 
   calendarVisible = true;
   materias: Materia[] = [];
+  hasTelegramId = true;
   newForm: any = {
     recorrencia: null,
     tipoEstudo: null,
@@ -450,6 +451,10 @@ export class CalendarioComponent implements OnInit {
             //groupId: StringConstructor
           }
         })
+        this.usuarioService.getTelegramID().subscribe(
+          (data)=>{
+            this.hasTelegramId = data!="" ? true : false;
+          })
       })
   }
 

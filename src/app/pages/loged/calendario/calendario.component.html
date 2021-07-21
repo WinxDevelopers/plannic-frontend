@@ -138,7 +138,8 @@
                                     <div class="form-group">
                                         <div class="row justify-content-between">
                                             <div class="col-6">
-                                                <select [(ngModel)]="newForm.notificacao" class="form-control">
+                                                <select [(ngModel)]="newForm.notificacao" class="form-control"
+                                                    [disabled]="!hasTelegramId">
                                                     <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
                                                     <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}
                                                     </option>
@@ -249,11 +250,12 @@
                         <!-- NOTIFICAÇÃO -->
                         <div class="form-row">
                             <div class="col-md-12">
-                                <div class="form-group">                                    
+                                <div class="form-group">
                                     <label class="small mb-1">{{'AGENDAMENTOS.NOTIFICACAO' | translate}}</label>
                                     <div class="row justify-content-between">
                                         <div class="col-6">
-                                            <select [(ngModel)]="this.editForm.notificacao" class="form-control">
+                                            <select [(ngModel)]="this.editForm.notificacao" class="form-control"
+                                                [disabled]="!hasTelegramId">
                                                 <option value="N">{{'AGENDAMENTOS.NUNCA' | translate}}</option>
                                                 <option value="300">{{'AGENDAMENTOS.NOTIF_SELECT.NOT1' | translate}}
                                                 </option>
@@ -406,6 +408,9 @@
 <div class="card shadow" style="min-height: 20rem;">
     <div class="card-body">
         <div class='demo-app-main'>
+            <p *ngIf="!this.hasTelegramId" class="font-weight-bold"  style="color: red; ">
+                {{'AGENDAMENTOS.TELEGRAM1' | translate}} <a href="../dashboard/configuracoes">Telegram</a> {{'AGENDAMENTOS.TELEGRAM2' | translate}}
+            </p>
             <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
         </div>
     </div>

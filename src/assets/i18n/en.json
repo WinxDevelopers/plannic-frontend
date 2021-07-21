@@ -181,6 +181,8 @@
         "SEMANALMENTE": "Weekly",
         "MENSALMENTE": "Monthly",
         "VEZES": "times",
+        "TELEGRAM1": "Connect with your",
+        "TELEGRAM2": "to receive appointment notifications",
         "NOTIFICACAO": "Notification",
         "NOTIF_SELECT":{
             "NOT1":"5 minutes before",

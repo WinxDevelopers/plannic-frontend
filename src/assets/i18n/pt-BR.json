@@ -181,6 +181,8 @@
         "SEMANALMENTE": "Semanalmente",
         "MENSALMENTE": "Mensalmente",
         "VEZES": "vezes",
+        "TELEGRAM1": "Vincule seu",
+        "TELEGRAM2": "para receber as notificações de agendamentos",
         "NOTIFICACAO": "Notificação",
         "NOTIF_SELECT": {
             "NOT1": "5 minutos antes",
