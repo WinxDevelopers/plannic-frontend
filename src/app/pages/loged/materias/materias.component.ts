@@ -233,7 +233,7 @@ export class MateriasComponent implements AfterViewInit {
           },
           err => {
             this.alertError(err);
-          }
+           } 
         );
       } else {
         if (!(this.newNota.nota >= 0 && this.newNota.nota <= 10)) {
@@ -330,12 +330,10 @@ export class MateriasComponent implements AfterViewInit {
     this.fileSizeOK = true;
     this.currentMateria = idMateria;
 
-    const selecionados = <FileList>event.srcElement.files;
-
-    console.log(selecionados[0])
+    let selecionados = <FileList>event.srcElement.files;
 
     let label = []
-    this.arquivos;
+    this.arquivos = [];
     for (let s = 0; s < selecionados.length; s++) {
       label.push(selecionados[s].name);
       this.arquivos.push(selecionados[s]);
@@ -389,7 +387,10 @@ export class MateriasComponent implements AfterViewInit {
       this.confDel().then((result) => {
         if (result.isConfirmed) {
           this.materiaService.deleteMaterial(idMaterial).subscribe(
-            () => { this.alertSucess("material", "delete") },
+            () => {
+              this.alertSucess("material", "delete")
+              this.refresh()
+            },
             err => { this.alertError(err) })
         }
       })
@@ -451,6 +452,7 @@ export class MateriasComponent implements AfterViewInit {
         //Materiais do Usuário
         this.materiaService.getAllMaterial().subscribe(
           (materiaisData) => {
+            this.materiais = null;
             this.userMaterias = [];
             this.materiais = JSON.parse(materiaisData)
             //Matérias do Usuario
