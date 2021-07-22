@@ -108,43 +108,11 @@ describe('CalendarioComponent', () => {
     });
   });
 
-  describe('handleEventClick', () => {
-    it('makes expected calls', () => {
-      const eventClickArgStub: EventClickArg = <any>{};
-      spyOn(component, 'setInfos').and.callThrough();
-      component.handleEventClick(eventClickArgStub);
-      expect(component.setInfos).toHaveBeenCalled();
-    });
-  });
-
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      spyOn(component, 'refresh').and.callThrough();
+      spyOn(component, 'refresh');
       component.ngOnInit();
       expect(component.refresh).toHaveBeenCalled();
-    });
-  });
-
-  describe('edit', () => {
-    it('makes expected calls', () => {
-      const agendamentoServiceStub: AgendamentoService = fixture.debugElement.injector.get(
-        AgendamentoService
-      );
-      spyOn(component, 'refresh').and.callThrough();
-      spyOn(agendamentoServiceStub, 'update').and.callThrough();
-      component.edit();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(agendamentoServiceStub.update).toHaveBeenCalled();
-    });
-  });
-
-  describe('countAgendamento', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'save').and.callThrough();
-      spyOn(component, 'DateToString').and.callThrough();
-      component.countAgendamento();
-      expect(component.save).toHaveBeenCalled();
-      expect(component.DateToString).toHaveBeenCalled();
     });
   });
 

@@ -32,36 +32,4 @@ describe('BadgesComponent', () => {
   it(`sejaTutor has default value`, () => {
     expect(component.sejaTutor).toEqual(false);
   });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'notaMenor').and.callThrough();
-      spyOn(component, 'notaMaior').and.callThrough();
-      component.ngOnInit();
-      expect(component.notaMenor).toHaveBeenCalled();
-      expect(component.notaMaior).toHaveBeenCalled();
-    });
-  });
-
-  describe('notaMenor', () => {
-    it('makes expected calls', () => {
-      const graficosServiceStub: GraficosService = fixture.debugElement.injector.get(
-        GraficosService
-      );
-      spyOn(graficosServiceStub, 'notaMenor').and.callThrough();
-      component.notaMenor();
-      expect(graficosServiceStub.notaMenor).toHaveBeenCalled();
-    });
-  });
-
-  describe('notaMaior', () => {
-    it('makes expected calls', () => {
-      const graficosServiceStub: GraficosService = fixture.debugElement.injector.get(
-        GraficosService
-      );
-      spyOn(graficosServiceStub, 'notaMaior').and.callThrough();
-      component.notaMaior();
-      expect(graficosServiceStub.notaMaior).toHaveBeenCalled();
-    });
-  });
 });

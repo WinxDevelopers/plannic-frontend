@@ -7,10 +7,11 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('NotasMateriaComponent', () => {
   let component: NotasMateriaComponent;
   let fixture: ComponentFixture<NotasMateriaComponent>;
+  let notas = JSON.stringify([{notaMateria: 10, nomeMateria: 'teste'}]);
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaMateria: () => ({ subscribe: f => f({}) })
+      notaMateria: () => ({ subscribe: f => notas })
     });
     TestBed.configureTestingModule({
       imports:[TranslateModule.forRoot()],
@@ -32,7 +33,7 @@ describe('NotasMateriaComponent', () => {
   });
 
   it(`chartColors has default value`, () => {
-    expect(component.chartColors).toEqual([]);
+    expect(component.chartColors.length).toBeGreaterThan(0);
   });
 
   it(`loaded has default value`, () => {

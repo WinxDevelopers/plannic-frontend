@@ -9,12 +9,11 @@ import { NavbarComponent } from './navbar.component';
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-
+  let user = JSON.stringify({idfuncao: 1});
   beforeEach(() => {
     const userServiceStub = () => ({
-      userType: () => ({ subscribe: f => f({}) })
+      userType: () => ({ subscribe: f => user })
     });
-    const routerStub = () => ({ navigate: array => ({}) });
     const translateServiceStub = () => ({});
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
@@ -22,7 +21,6 @@ describe('NavbarComponent', () => {
       declarations: [NavbarComponent],
       providers: [
         { provide: UserService, useFactory: userServiceStub },
-        { provide: Router, useFactory: routerStub },
         { provide: TranslateService, useFactory: translateServiceStub }
       ]
     });

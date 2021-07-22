@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { NotaService } from './nota.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('NotaService', () => {
   let service: NotaService;
@@ -27,7 +28,7 @@ describe('NotaService', () => {
       service.getAll().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}nota`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

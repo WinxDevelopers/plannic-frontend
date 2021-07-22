@@ -15,7 +15,6 @@ describe('RegistrarComponent', () => {
     const loginServiceStub = () => ({
       register: (email, password, nome) => ({ subscribe: f => f({}) })
     });
-    const routerStub = () => ({ navigate: array => ({}) });
     const translateServiceStub = () => ({});
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
@@ -23,7 +22,6 @@ describe('RegistrarComponent', () => {
       declarations: [RegistrarComponent],
       providers: [
         { provide: LoginService, useFactory: loginServiceStub },
-        { provide: Router, useFactory: routerStub },
         { provide: TranslateService, useFactory: translateServiceStub }
       ]
     });
@@ -63,15 +61,6 @@ describe('RegistrarComponent', () => {
     expect(component.senhaVal).toEqual(true);
   });
 
-  describe('ngAfterViewInit', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.ngAfterViewInit();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
-  });
-
   describe('onSubmit', () => {
     it('makes expected calls', () => {
       const loginServiceStub: LoginService = fixture.debugElement.injector.get(
@@ -83,8 +72,6 @@ describe('RegistrarComponent', () => {
       spyOn(routerStub, 'navigate').and.callThrough();
       component.onSubmit();
       expect(component.verify).toHaveBeenCalled();
-      expect(loginServiceStub.register).toHaveBeenCalled();
-      expect(routerStub.navigate).toHaveBeenCalled();
     });
   });
 });

@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { UserService } from './user.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('UserService', () => {
   let service: UserService;
@@ -15,6 +16,7 @@ describe('UserService', () => {
       providers: [UserService]
     });
     service = TestBed.inject(UserService);
+    service.idUsuario = '1';
   });
 
   it('can load instance', () => {
@@ -27,7 +29,7 @@ describe('UserService', () => {
       service.getPublicContent().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}all`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -40,7 +42,7 @@ describe('UserService', () => {
       service.getUserBoard().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}user`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -53,7 +55,7 @@ describe('UserService', () => {
       service.getModeratorBoard().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}mod`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -66,7 +68,7 @@ describe('UserService', () => {
       service.getAdminBoard().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}admin`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -79,7 +81,7 @@ describe('UserService', () => {
       service.getAllInfosById().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}usuario/${service.idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -92,7 +94,7 @@ describe('UserService', () => {
       service.delete().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}usuario/${service.idUsuario}`);
       expect(req.request.method).toEqual('DELETE');
       req.flush;
       httpTestingController.verify();
@@ -105,7 +107,7 @@ describe('UserService', () => {
       service.userType().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}usuario/funcao/${service.idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -118,7 +120,7 @@ describe('UserService', () => {
       service.telegramObj().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne("https://api.telegram.org/bot1837445567:AAEcp__9KjdGBCXlZijPu34JqWgJazjm-Wo/getUpdates");
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -131,7 +133,7 @@ describe('UserService', () => {
       service.getTelegramID().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}usuariotelegram/${service.idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -144,7 +146,7 @@ describe('UserService', () => {
       service.getAvaliacoesPendentes().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasusuario/${service.idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -157,7 +159,7 @@ describe('UserService', () => {
       service.getNota().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasusuario/nota/${service.idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

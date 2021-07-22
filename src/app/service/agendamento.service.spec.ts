@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import {  HttpClientTestingModule,  HttpTestingController} from '@angular/common/http/testing';
 import { AgendamentoService } from './agendamento.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('AgendamentoService', () => {
   let service: AgendamentoService;
@@ -27,7 +25,9 @@ describe('AgendamentoService', () => {
       service.getAll().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+
+      const url = `${environment.API_URL}agendamento`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

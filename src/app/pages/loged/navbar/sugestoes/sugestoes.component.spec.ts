@@ -7,15 +7,19 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('SugestoesComponent', () => {
   let component: SugestoesComponent;
   let fixture: ComponentFixture<SugestoesComponent>;
+  let sugestoes = [{
+    faltaVotar: 'teste_teste',
+    idSugestoesMateria: 10
+  }];
 
   beforeEach(() => {
     const materiaServiceStub = () => ({
-      getAllSugestao: () => ({ subscribe: f => f({}) }),
+      getAllSugestao: () => ({ subscribe: f => sugestoes }),
       updateSugestao: sug => ({ subscribe: f => f({}) })
     });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [SugestoesComponent, TranslateModule.forRoot()],
+      declarations: [SugestoesComponent],
       providers: [{ provide: MateriaService, useFactory: materiaServiceStub }]
     });
     fixture = TestBed.createComponent(SugestoesComponent);

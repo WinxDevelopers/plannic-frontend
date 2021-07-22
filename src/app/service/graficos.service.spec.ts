@@ -5,9 +5,11 @@ import {
 } from '@angular/common/http/testing';
 import { GraficosService } from './graficos.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('GraficosService', () => {
   let service: GraficosService;
+  let idUsuario = '1';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,6 +17,7 @@ describe('GraficosService', () => {
       providers: [GraficosService]
     });
     service = TestBed.inject(GraficosService);
+    service.idUsuario = idUsuario;
   });
 
   it('can load instance', () => {
@@ -27,7 +30,7 @@ describe('GraficosService', () => {
       service.notaTipo().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/notastipo/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -40,7 +43,7 @@ describe('GraficosService', () => {
       service.notaEstudo().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/notasvstipo/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -53,7 +56,7 @@ describe('GraficosService', () => {
       service.notaMateria().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/notasvsMateria/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -66,7 +69,7 @@ describe('GraficosService', () => {
       service.notaHora().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/horasvsnota/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -79,7 +82,7 @@ describe('GraficosService', () => {
       service.notaMaior().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/notamaior/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -92,7 +95,7 @@ describe('GraficosService', () => {
       service.notaMenor().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const req = httpTestingController.expectOne(`${environment.API_URL}notasMateria/notamenor/${idUsuario}`);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

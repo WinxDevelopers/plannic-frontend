@@ -5,16 +5,19 @@ import {
 } from '@angular/common/http/testing';
 import { NotaMateriaService } from './notaMateria.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('NotaMateriaService', () => {
   let service: NotaMateriaService;
-
+  let id = '1';
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [NotaMateriaService]
     });
     service = TestBed.inject(NotaMateriaService);
+    service.IdUsuario = id;
+    
   });
 
   it('can load instance', () => {
@@ -27,7 +30,8 @@ describe('NotaMateriaService', () => {
       service.getAll().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}notasMateria/1`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

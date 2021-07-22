@@ -8,13 +8,16 @@ import { ArrayType } from '@angular/compiler';
 describe('NotasTipoComponent', () => {
   let component: NotasTipoComponent;
   let fixture: ComponentFixture<NotasTipoComponent>;
+  let nota = JSON.stringify([{ nota: 10, tipo_nota: 'teste' }]);
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaTipo: () => ({ subscribe: f => f({}) })
+      notaTipo: () => ({
+        subscribe: f => f((nota))
+      })
     });
     TestBed.configureTestingModule({
-      imports:[TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NotasTipoComponent],
       providers: [{ provide: GraficosService, useFactory: graficosServiceStub }]

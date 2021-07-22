@@ -1,30 +1,48 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AgendamentoService } from 'src/app/service/agendamento.service';
 import { UserService } from 'src/app/service/user.service';
 import { MateriaService } from 'src/app/service/materia.service';
 import { NotaMateriaService } from 'src/app/service/notaMateria.service';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfigComponent } from './config.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 describe('ConfigComponent', () => {
   let component: ConfigComponent;
   let fixture: ComponentFixture<ConfigComponent>;
+  let userService: UserService;
+
+  let userInfos = [{ email: 'teste@teste.com', nome: 'teste da silva' }];
+  let telegramIni = { idTelegram: 'teste' };
+  let result = {
+    result: [{
+      message: {
+        chat: {
+          id: 10
+        }
+      }
+    }]
+  };
 
   beforeEach(() => {
     const agendamentoServiceStub = () => ({
       delete: idAgendamento => ({ toPromise: () => ({}) })
     });
     const userServiceStub = () => ({
-      telegramObj: () => ({ subscribe: f => f({}) }),
+      telegramObj: () => (of(result)),
       addTelegramID: (chatId, username) => ({ subscribe: f => f({}) }),
-      getAllInfosById: () => ({ subscribe: f => f({}) }),
-      getTelegramID: () => ({ subscribe: f => f({}) }),
-      changePass: senha => ({ subscribe: f => f({}) }),
-      edit: (nome, email, arg2) => ({ subscribe: f => f({}) }),
-      delete: () => ({ subscribe: f => f({}) })
+      getAllInfosById: () => (of(
+        JSON.stringify(userInfos)
+      )),
+      getTelegramID: () => (of(
+        JSON.stringify(telegramIni)
+      )),
+      changePass: senha => (of()),
+      edit: (nome, email, arg2) => (of({})),
+      delete: () => (of())
     });
     const materiaServiceStub = () => ({
       delete: idMateria => ({ toPromise: () => ({}) })
@@ -34,7 +52,7 @@ describe('ConfigComponent', () => {
     });
     const routerStub = () => ({ navigate: array => ({}) });
     TestBed.configureTestingModule({
-      imports: [FormsModule, TranslateModule.forRoot()],
+      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [ConfigComponent],
       providers: [
@@ -47,6 +65,7 @@ describe('ConfigComponent', () => {
     });
     fixture = TestBed.createComponent(ConfigComponent);
     component = fixture.componentInstance;
+    userService = TestBed.inject(UserService);
   });
 
   it('can load instance', () => {
@@ -57,102 +76,16 @@ describe('ConfigComponent', () => {
     expect(component.passMinOk).toEqual(true);
   });
 
-  describe('auth', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'verifyTelegramObg').and.callThrough();
-      component.auth();
-      expect(component.verifyTelegramObg).toHaveBeenCalled();
-    });
+  it('makes expected calls - verifyTelegramObg', () => {
+    const spy = spyOn(userService, 'addTelegramID');
+    component.verifyTelegramObg();
+    expect(spy).toHaveBeenCalled();
   });
 
-  describe('verifyTelegramObg', () => {
-    it('makes expected calls', () => {
-      const userServiceStub: UserService = fixture.debugElement.injector.get(
-        UserService
-      );
-      spyOn(userServiceStub, 'telegramObj').and.callThrough();
-      spyOn(userServiceStub, 'addTelegramID').and.callThrough();
-      component.verifyTelegramObg();
-      expect(userServiceStub.telegramObj).toHaveBeenCalled();
-      expect(userServiceStub.addTelegramID).toHaveBeenCalled();
-    });
-  });
+  it('makes expected calls -alterarInfos', () => {
+    const spy = spyOn(component, 'alertSucess');
+    component.alterarInfos();
 
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const userServiceStub: UserService = fixture.debugElement.injector.get(
-        UserService
-      );
-      spyOn(component, 'alertError').and.callThrough();
-      spyOn(userServiceStub, 'getAllInfosById').and.callThrough();
-      spyOn(userServiceStub, 'getTelegramID').and.callThrough();
-      component.ngOnInit();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(userServiceStub.getAllInfosById).toHaveBeenCalled();
-      expect(userServiceStub.getTelegramID).toHaveBeenCalled();
-    });
-  });
-
-  describe('alterarSenha', () => {
-    it('makes expected calls', () => {
-      const userServiceStub: UserService = fixture.debugElement.injector.get(
-        UserService
-      );
-      spyOn(component, 'alertSucess').and.callThrough();
-      spyOn(component, 'alertError').and.callThrough();
-      spyOn(userServiceStub, 'changePass').and.callThrough();
-      component.alterarSenha();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(userServiceStub.changePass).toHaveBeenCalled();
-    });
-  });
-
-  describe('alterarInfos', () => {
-    it('makes expected calls', () => {
-      const userServiceStub: UserService = fixture.debugElement.injector.get(
-        UserService
-      );
-      spyOn(component, 'alertSucess').and.callThrough();
-      spyOn(component, 'alertError').and.callThrough();
-      spyOn(userServiceStub, 'edit').and.callThrough();
-      component.alterarInfos();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(userServiceStub.edit).toHaveBeenCalled();
-    });
-  });
-
-  describe('deleteUser', () => {
-    it('makes expected calls', () => {
-      const agendamentoServiceStub: AgendamentoService = fixture.debugElement.injector.get(
-        AgendamentoService
-      );
-      const userServiceStub: UserService = fixture.debugElement.injector.get(
-        UserService
-      );
-      const materiaServiceStub: MateriaService = fixture.debugElement.injector.get(
-        MateriaService
-      );
-      const notaMateriaServiceStub: NotaMateriaService = fixture.debugElement.injector.get(
-        NotaMateriaService
-      );
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(component, 'alertSucess').and.callThrough();
-      spyOn(component, 'alertError').and.callThrough();
-      spyOn(agendamentoServiceStub, 'delete').and.callThrough();
-      spyOn(userServiceStub, 'delete').and.callThrough();
-      spyOn(materiaServiceStub, 'delete').and.callThrough();
-      spyOn(notaMateriaServiceStub, 'delete').and.callThrough();
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.deleteUser();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(agendamentoServiceStub.delete).toHaveBeenCalled();
-      expect(userServiceStub.delete).toHaveBeenCalled();
-      expect(materiaServiceStub.delete).toHaveBeenCalled();
-      expect(notaMateriaServiceStub.delete).toHaveBeenCalled();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
+    expect(spy).toHaveBeenCalled();
   });
 });
