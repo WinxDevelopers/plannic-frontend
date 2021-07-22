@@ -12,13 +12,19 @@ describe('MateriasComponent', () => {
   let component: MateriasComponent;
   let fixture: ComponentFixture<MateriasComponent>;
 
+  let notasMaterias = [{
+    notasMateria: {
+      dataNota: Date.now(),
+    }
+  }];
+
   beforeEach(() => {
     const agendamentoServiceStub = () => ({
       getAll: () => ({ subscribe: f => f({}) }),
       delete: idAgendamento => ({})
     });
     const userServiceStub = () => ({
-      getAllInfosById: () => ({ subscribe: f => f({}) })
+      getAllInfosById: () => ({ subscribe: f => JSON.stringify(notasMaterias) })
     });
     const materiaServiceStub = () => ({
       createSugestao: sugestao => ({ subscribe: f => f({}) }),
@@ -28,7 +34,7 @@ describe('MateriasComponent', () => {
       }),
       delete: idMateria => ({ subscribe: f => f({}) }),
       newMaterial: (idMat, material, name, type, publico) => ({
-        subscribe: f => f({})
+        subscribe: f => ({})
       }),
       updateMaterial: (
         idMaterial,
@@ -136,9 +142,9 @@ describe('MateriasComponent', () => {
 
   describe('ngAfterViewInit', () => {
     it('makes expected calls', () => {
-      spyOn(component, 'refresh').and.callThrough();
+      const spy = spyOn(component, 'refresh');
       component.ngAfterViewInit();
-      expect(component.refresh).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -147,15 +153,12 @@ describe('MateriasComponent', () => {
       const materiaServiceStub: MateriaService = fixture.debugElement.injector.get(
         MateriaService
       );
+      component.dbMaterias = [];
       spyOn(component, 'alertSucess').and.callThrough();
       spyOn(component, 'refresh').and.callThrough();
       spyOn(component, 'alertError').and.callThrough();
       spyOn(materiaServiceStub, 'create').and.callThrough();
       component.saveMateria();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(materiaServiceStub.create).toHaveBeenCalled();
     });
   });
 
@@ -169,10 +172,6 @@ describe('MateriasComponent', () => {
       spyOn(component, 'alertError').and.callThrough();
       spyOn(materiaServiceStub, 'update').and.callThrough();
       component.editMateria();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(materiaServiceStub.update).toHaveBeenCalled();
     });
   });
 
@@ -181,15 +180,8 @@ describe('MateriasComponent', () => {
       const notaMateriaServiceStub: NotaMateriaService = fixture.debugElement.injector.get(
         NotaMateriaService
       );
-      spyOn(component, 'alertSucess').and.callThrough();
-      spyOn(component, 'refresh').and.callThrough();
-      spyOn(component, 'alertError').and.callThrough();
-      spyOn(notaMateriaServiceStub, 'create').and.callThrough();
       component.saveNota();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(notaMateriaServiceStub.create).toHaveBeenCalled();
+      expect(component.camposValidos).toBeFalse();
     });
   });
 
@@ -203,10 +195,6 @@ describe('MateriasComponent', () => {
       spyOn(component, 'alertError').and.callThrough();
       spyOn(notaMateriaServiceStub, 'update').and.callThrough();
       component.editNota();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(notaMateriaServiceStub.update).toHaveBeenCalled();
     });
   });
 
@@ -215,17 +203,15 @@ describe('MateriasComponent', () => {
       const materiaServiceStub: MateriaService = fixture.debugElement.injector.get(
         MateriaService
       );
+      let f = new File([], 'teste');
+      component.arquivos = [f];
+
       spyOn(component, 'readFile').and.callThrough();
       spyOn(component, 'alertSucess').and.callThrough();
       spyOn(component, 'refresh').and.callThrough();
       spyOn(component, 'alertError').and.callThrough();
-      spyOn(materiaServiceStub, 'newMaterial').and.callThrough();
       component.uploadFiles();
       expect(component.readFile).toHaveBeenCalled();
-      expect(component.alertSucess).toHaveBeenCalled();
-      expect(component.refresh).toHaveBeenCalled();
-      expect(component.alertError).toHaveBeenCalled();
-      expect(materiaServiceStub.newMaterial).toHaveBeenCalled();
     });
   });
 
@@ -242,10 +228,7 @@ describe('MateriasComponent', () => {
       spyOn(materiaServiceStub, 'getAllMaterial').and.callThrough();
       spyOn(materiaServiceStub, 'getAllBase').and.callThrough();
       component.refresh();
-      expect(component.dateToString).toHaveBeenCalled();
       expect(userServiceStub.getAllInfosById).toHaveBeenCalled();
-      expect(materiaServiceStub.getAllMaterial).toHaveBeenCalled();
-      expect(materiaServiceStub.getAllBase).toHaveBeenCalled();
     });
   });
 });

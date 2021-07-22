@@ -28,22 +28,4 @@ describe('IndexComponent', () => {
   it(`isPortugues has default value`, () => {
     expect(component.isPortugues).toEqual(true);
   });
-
-  describe('ngAfterViewInit', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.ngAfterViewInit();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
-  });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.ngOnInit();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
-  });
 });

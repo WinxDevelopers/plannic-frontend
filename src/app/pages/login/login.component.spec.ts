@@ -11,15 +11,17 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let router: Router;
 
   beforeEach(() => {
     const loginServiceStub = () => ({
-      login: (email, password) => ({ subscribe: f => f({}) })
+      login: (email, password) => { subscribe: f => f() }
     });
+
     const activatedRouteStub = () => ({
-      queryParams: { subscribe: f => f({}) }
+      queryParams: { subscribe: f => f() }
     });
-    const routerStub = () => ({ navigate: array => ({}) });
+
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
@@ -27,11 +29,11 @@ describe('LoginComponent', () => {
       providers: [
         { provide: LoginService, useFactory: loginServiceStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Router, useFactory: routerStub }
       ]
     });
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
   });
 
   it('can load instance', () => {
@@ -52,28 +54,5 @@ describe('LoginComponent', () => {
 
   it(`loading has default value`, () => {
     expect(component.loading).toEqual(false);
-  });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.ngOnInit();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
-  });
-
-  describe('onSubmit', () => {
-    it('makes expected calls', () => {
-      const loginServiceStub: LoginService = fixture.debugElement.injector.get(
-        LoginService
-      );
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(loginServiceStub, 'login').and.callThrough();
-      spyOn(routerStub, 'navigate').and.callThrough();
-      component.onSubmit();
-      expect(loginServiceStub.login).toHaveBeenCalled();
-      expect(routerStub.navigate).toHaveBeenCalled();
-    });
   });
 });

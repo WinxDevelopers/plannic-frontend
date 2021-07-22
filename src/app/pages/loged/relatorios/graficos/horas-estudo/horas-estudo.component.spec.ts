@@ -3,14 +3,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GraficosService } from 'src/app/service/graficos.service';
 import { HorasEstudoComponent } from './horas-estudo.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 describe('HorasEstudoComponent', () => {
   let component: HorasEstudoComponent;
   let fixture: ComponentFixture<HorasEstudoComponent>;
+  let notaMock = {nomeMateria: 'teste', minEstudo: 50};
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaHora: () => ({ subscribe: f => f({}) })
+      notaHora: () => (of(
+        JSON.stringify(notaMock)
+      ))
     });
     TestBed.configureTestingModule({
       imports:[TranslateModule.forRoot()],
@@ -31,14 +35,6 @@ describe('HorasEstudoComponent', () => {
     expect(component.chartType).toEqual(`pie`);
   });
 
-  it(`chartColors has default value`, () => {
-    expect(component.chartColors).toEqual([]);
-  });
-
-  it(`loaded has default value`, () => {
-    expect(component.loaded).toEqual(true);
-  });
-
   describe('constructor', () => {
     it('makes expected calls', () => {
       expect(HorasEstudoComponent.prototype.getNotas).toHaveBeenCalled();
@@ -50,10 +46,10 @@ describe('HorasEstudoComponent', () => {
       const graficosServiceStub: GraficosService = fixture.debugElement.injector.get(
         GraficosService
       );
-      spyOn(graficosServiceStub, 'notaHora').and.callThrough();
+      
       (<jasmine.Spy>component.getNotas).and.callThrough();
       component.getNotas();
-      expect(graficosServiceStub.notaHora).toHaveBeenCalled();
+      expect(component.notas).toEqual(notaMock);
     });
   });
 });

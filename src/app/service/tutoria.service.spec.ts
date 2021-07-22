@@ -5,9 +5,11 @@ import {
 } from '@angular/common/http/testing';
 import { TutoriaService } from './tutoria.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 describe('TutoriaService', () => {
   let service: TutoriaService;
+  let idUsuario = '1';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,6 +17,7 @@ describe('TutoriaService', () => {
       providers: [TutoriaService]
     });
     service = TestBed.inject(TutoriaService);
+    service.idUsuario = idUsuario;
   });
 
   it('can load instance', () => {
@@ -27,7 +30,8 @@ describe('TutoriaService', () => {
       service.getSemTutorById().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/alunos/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -40,7 +44,8 @@ describe('TutoriaService', () => {
       service.getSemAlunoById().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/tutores/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -53,7 +58,8 @@ describe('TutoriaService', () => {
       service.getAllUserAluno().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/cadastro/aluno/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -66,7 +72,8 @@ describe('TutoriaService', () => {
       service.getAllUserTutor().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/cadastro/tutor/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -79,7 +86,8 @@ describe('TutoriaService', () => {
       service.getAllAlunosProcurandoTutor().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/aluno/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();
@@ -92,7 +100,8 @@ describe('TutoriaService', () => {
       service.getTutoresProcurandoAluno().subscribe(res => {
         expect(res).toEqual;
       });
-      const req = httpTestingController.expectOne('HTTP_ROUTE_GOES_HERE');
+      const url = `${environment.API_URL}tutoria/tutor/${idUsuario}`;
+      const req = httpTestingController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush;
       httpTestingController.verify();

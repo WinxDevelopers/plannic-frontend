@@ -7,10 +7,11 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('NotasEstudoComponent', () => {
   let component: NotasEstudoComponent;
   let fixture: ComponentFixture<NotasEstudoComponent>;
+  let estudos = JSON.stringify([{nota: 10, tipoEstudo: 'teste'}]);
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaEstudo: () => ({ subscribe: f => f({}) })
+      notaEstudo: () => ({ subscribe: f => estudos })
     });
     TestBed.configureTestingModule({
       imports:[TranslateModule.forRoot()],
@@ -29,10 +30,6 @@ describe('NotasEstudoComponent', () => {
 
   it(`chartType has default value`, () => {
     expect(component.chartType).toEqual(`bar`);
-  });
-
-  it(`chartColors has default value`, () => {
-    expect(component.chartColors).toEqual([]);
   });
 
   it(`loaded has default value`, () => {

@@ -9,13 +9,15 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('NotasEvolucaoComponent', () => {
   let component: NotasEvolucaoComponent;
   let fixture: ComponentFixture<NotasEvolucaoComponent>;
+  let notas = JSON.stringify([{notaMateria: 10, dataNota : '10-07-2021'}]);
+  let materias = JSON.stringify([{idMateria: 10, nomeMateria : 'teste'}]);
 
   beforeEach(() => {
     const graficosServiceStub = () => ({
-      notaEvolucao: idMateria => ({ subscribe: f => f({}) })
+      notaEvolucao: idMateria => ({ subscribe: f => notas })
     });
     const userServiceStub = () => ({
-      getAllInfosById: () => ({ subscribe: f => f({}) })
+      getAllInfosById: () => ({ subscribe: f => materias })
     });
     TestBed.configureTestingModule({
       imports: [FormsModule, TranslateModule.forRoot()],
@@ -43,19 +45,11 @@ describe('NotasEvolucaoComponent', () => {
   });
 
   it(`chartColors has default value`, () => {
-    expect(component.chartColors).toEqual([]);
+    expect(component.chartColors.length).toBeGreaterThan(0);
   });
 
   it(`loaded has default value`, () => {
     expect(component.loaded).toEqual(true);
-  });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'refresh').and.callThrough();
-      component.ngOnInit();
-      expect(component.refresh).toHaveBeenCalled();
-    });
   });
 
   describe('refresh', () => {
@@ -66,7 +60,6 @@ describe('NotasEvolucaoComponent', () => {
       spyOn(component, 'getNotas').and.callThrough();
       spyOn(userServiceStub, 'getAllInfosById').and.callThrough();
       component.refresh();
-      expect(component.getNotas).toHaveBeenCalled();
       expect(userServiceStub.getAllInfosById).toHaveBeenCalled();
     });
   });
@@ -79,7 +72,6 @@ describe('NotasEvolucaoComponent', () => {
       spyOn(component, 'dateToString').and.callThrough();
       spyOn(graficosServiceStub, 'notaEvolucao').and.callThrough();
       component.getNotas();
-      expect(component.dateToString).toHaveBeenCalled();
       expect(graficosServiceStub.notaEvolucao).toHaveBeenCalled();
     });
   });
