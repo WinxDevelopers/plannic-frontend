@@ -172,6 +172,10 @@ export class TutoriaComponent implements OnInit {
   }
 
   refresh() {
+    this.comunidade  = {
+      alunos: [],
+      tutores: []
+    }
     this.loading = true;
     /* USUARIO */
     this.userService.getAllInfosById().subscribe(
