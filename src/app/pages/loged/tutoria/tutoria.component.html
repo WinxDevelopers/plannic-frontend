@@ -246,7 +246,7 @@
               </ng-container>
               <!-- Nota Column -->
               <ng-container matColumnDef="notaOtherUser">
-                <th mat-header-cell *matHeaderCellDef>{{(setTables.comunidade ? "TUTOR" : "ALUNO")+"_NOTA" | translate}}</th>
+                <th mat-header-cell *matHeaderCellDef>{{"TUTORIA."+(setTables.comunidade ? "TUTOR" : "ALUNO")+"_NOTA" | translate}}</th>
                 <td mat-cell *matCellDef="let element">
                   <span *ngIf="setTables.comunidade">
                     <star-rating id="nota_user" value="{{element.tutor.nota}}" totalstars="5" checkedcolor="#31d0aa"
