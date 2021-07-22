@@ -223,7 +223,7 @@ export class MateriasComponent implements AfterViewInit {
         (this.newNota.nota >= 0 && this.newNota.nota <= 10) &&
         (new Date(this.newNota.data) <= new Date())
       ) {
-        this.notaMateriaService.create(this.newNota.idMateria, this.newNota.nota, this.newNota.tipoNota, this.newNota.data + "T00:00:00").subscribe(
+        this.notaMateriaService.create(this.newNota.idMateria, this.newNota.nota, this.newNota.tipoNota, this.newNota.data + "T03:00:00").subscribe(
           () => {
             this.alertSucess("nota", "create");
             document.getElementById("closeModal_createNota").click();
@@ -278,7 +278,7 @@ export class MateriasComponent implements AfterViewInit {
         (this.notaToEdit.notaMateria >= 0 && this.notaToEdit.notaMateria <= 10) &&
         (new Date(this.notaToEdit.dataNota) <= new Date())
       ) {
-        this.notaMateriaService.update(this.notaToEdit.idNotaMateria, this.notaToEdit.idMateria, this.notaToEdit.notaMateria, this.notaToEdit.tipoNota, this.notaToEdit.dataNota + "T00:00:00").subscribe(
+        this.notaMateriaService.update(this.notaToEdit.idNotaMateria, this.notaToEdit.idMateria, this.notaToEdit.notaMateria, this.notaToEdit.tipoNota, this.notaToEdit.dataNota + "T03:00:00").subscribe(
           () => {
             this.alertSucess("nota", "update");
             this.refresh();
