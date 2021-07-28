@@ -82,8 +82,8 @@
         "SALVAR": "Save",
         "ERROS": {
             "CAMPOS": "Please complete all required text fields",
-            "DATA": "Invalid date",
-            "NOTA": "Invalid grade"
+            "DATA": "Date greater than current",
+            "NOTA": "Grade can only be between 0 and 10"
         }
     },
     "MATERIAS": {

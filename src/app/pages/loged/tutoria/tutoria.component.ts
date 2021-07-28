@@ -319,7 +319,7 @@ export class TutoriaComponent implements OnInit {
         engTitle += " created"
         break;
       case "conclude":
-        portTitle += "concluída"
+        portTitle += " concluída"
         engTitle += " concluded"
         break;
       case "delete":

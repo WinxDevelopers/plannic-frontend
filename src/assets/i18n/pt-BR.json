@@ -82,8 +82,8 @@
         "SALVAR": "Salvar",
         "ERROS": {
             "CAMPOS": "Preencha todos os campos",
-            "DATA": "Data inválida",
-            "NOTA": "Nota inválida"
+            "DATA": "Data superior a atual",
+            "NOTA": "Nota só pode estar entre 0 e 10"
         }
     },
     "MATERIAS": {

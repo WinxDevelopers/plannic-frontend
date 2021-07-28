@@ -16,6 +16,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router
   ) {
+    console.log(localStorage.getItem('lang'))
     this.lang = localStorage.getItem('lang') || 'pt-BR';
   }
 
@@ -30,6 +31,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     document.getElementById("body").classList.remove("pag_login");
     document.getElementById("body").classList.add("pag_inicial");
+    let l = localStorage.getItem("lang");
+    if (!localStorage.getItem("lang"))
+      localStorage.setItem("lang", "pt-BR");
     if (localStorage.getItem("token")) {
       if(tokenVerify.isTokenExpired(localStorage.getItem("token"))){        
         localStorage.clear()
@@ -42,7 +46,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.router.navigate(['../']);
     }
     if (!localStorage.getItem("lang"))
-      localStorage.setItem("lang", "pt-BR");
+      localStorage.setItem("lang", l);
   }
 
 }

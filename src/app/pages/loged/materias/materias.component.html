@@ -413,8 +413,7 @@
                   <div class="form-group">
                     <label class="small mb-1" for="nota">{{'LOGED.NOTA' | translate}}</label>
                     <input [ngStyle]="{'border-color': (!camposValidos || !notaValida) ? 'red' : null}"
-                      [(ngModel)]="newNota.nota" class="form-control" id="nota" name="nota" type="number"
-                      placeholder="Nota">
+                      [(ngModel)]="newNota.nota" class="form-control" id="nota" name="nota" type="number">
                   </div>
                 </div>
               </div>
@@ -437,7 +436,7 @@
               <button (click)="this.saveNota()" type="button" class="btn btn-info">
                 {{'CRUD-GERAL.SALVAR' | translate}}
               </button>
-              <button id="closeModal_createNota" type="button" class="btn btn-secondary"
+              <button (click)="closeModal()" id="closeModal_createNota" type="button" class="btn btn-secondary"
                 data-dismiss="modal">{{'MATERIAS.FECHAR' | translate}}</button>
             </div>
           </div>

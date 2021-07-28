@@ -260,11 +260,19 @@ export class MateriasComponent implements AfterViewInit {
     this.notas.forEach((nota) => {
       if (nota.idNotaMateria === idNotaMateria) {
         this.notaToEdit = JSON.parse(JSON.stringify(nota))
-        this.notaToEdit.dataNota = format(new Date(
-          parseInt(nota.dataNota.slice(6)),
-          parseInt(nota.dataNota.slice(3, 5))-1,
-          parseInt(nota.dataNota.slice(0, 2))), "yyyy-MM-dd")
-      }
+        if(this.lang === "pt-BR"){
+          this.notaToEdit.dataNota = format(new Date(
+            parseInt(nota.dataNota.slice(6)),
+            parseInt(nota.dataNota.slice(3, 5))-1,
+            parseInt(nota.dataNota.slice(0, 2))), "yyyy-MM-dd")
+        }else{
+          this.notaToEdit.dataNota = format(new Date(
+            parseInt(nota.dataNota.slice(6)),
+            parseInt(nota.dataNota.slice(0, 2))-1,
+            parseInt(nota.dataNota.slice(3, 5))
+            ), "yyyy-MM-dd")
+        }
+        }
     })
   }
 
@@ -493,7 +501,11 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   dateToString(date: Date) {
-    return `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
+    if(this.lang==="pt-BR"){
+      return `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getFullYear()}`;
+    }else{
+      return `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}-${date.getFullYear()}`;
+    }
   }
 
   openCreateNota() {
@@ -501,7 +513,10 @@ export class MateriasComponent implements AfterViewInit {
   }
 
   closeModal() {
-    this.newMateria = {}
+    this.newMateria = {};
+    this.newNota = {};
+    this.notaToEdit = {};
+    this.materiaToEdit = {};
   }
 
   alertSucess(type, crud) {

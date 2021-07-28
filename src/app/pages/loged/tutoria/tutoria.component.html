@@ -15,7 +15,7 @@
               {{'TUTORIA.MODAL_AVALIAÇÃO.TITULO' | translate}}
             </h3>
             <span class="text-muted">
-              {{'TUTORIA.MODAL_AVALIAÇÃO.TEXTO1' | translate}} {{notaAtual?.nomeAvaliado}} {{'AGENDAMENTOS.MODAL_AVALIAÇÃO.TEXTO2' | translate}} {{notaAtual?.nomeMateria}}
+              {{'TUTORIA.MODAL_AVALIAÇÃO.TEXTO1' | translate}} {{notaAtual?.nomeAvaliado}} {{'TUTORIA.MODAL_AVALIAÇÃO.TEXTO2' | translate}} {{notaAtual?.nomeMateria}}
             </span>
             <star-rating value={{notaAtual?.anterior}} totalstars={{5}} checkedcolor="#31d0aa" uncheckedcolor="#19647e"
               size="40px" readonly="false" (rate)="onRate($event)"></star-rating>

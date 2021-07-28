@@ -78,7 +78,8 @@
                     </div>
                   </div>
                   <div class="form-row ">
-                    <button *ngIf="telegramInicial===null;else ja_cadastrado" (click)="auth()" type="button" class="btn" style="background-color: #54a9eb;color: white;">
+                    <button *ngIf="telegramInicial===null;else ja_cadastrado" (click)="auth()" type="button" class="btn"
+                      style="background-color: #54a9eb;color: white;">
                       <i class="fab fa-telegram-plane"></i>
                       {{'CONFIGURACOES.TELEGRAMCONNECT' | translate}}
                     </button>
@@ -130,6 +131,9 @@
                       </div>
                     </div>
                   </div>
+                  <span class="text-muted">
+                    <small>{{'CRUD-USUARIO.SENHA-ERR2' | translate}}</small>
+                  </span>
                   <p class="m-0" *ngIf="senha!=senhaConf" style="color: red">
                     {{'CRUD-USUARIO.SENHA-ERR' | translate}}
                   </p>

@@ -40,6 +40,9 @@
                                         name="password" [(ngModel)]="this.confPass" id="exampleRepeatSenhaInput"
                                         placeholder="{{'CRUD-USUARIO.SENHA2' | translate}}">
                                 </div>
+                                <span *ngIf="camposVal" class="text-muted">
+                                    <small>{{'CRUD-USUARIO.SENHA-ERR2' | translate}}</small>
+                                </span>
                             </div>
 
                             <style>
