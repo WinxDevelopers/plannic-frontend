@@ -109,6 +109,7 @@ export class MateriasComponent implements AfterViewInit {
         () => {
           document.getElementById("closeModal_criarMat").click();
           this.alertSucess("materia", "create");
+          this.newMateria.camposVal = true;
           this.userMaterias = [];
           this.refresh();
         },

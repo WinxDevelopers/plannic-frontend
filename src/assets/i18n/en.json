@@ -82,7 +82,7 @@
         "SALVAR": "Save",
         "ERROS": {
             "CAMPOS": "Please complete all required text fields",
-            "DATA": "Date greater than current",
+            "DATA": "Date lower than the current one",
             "NOTA": "Grade can only be between 0 and 10"
         }
     },

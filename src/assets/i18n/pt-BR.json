@@ -82,7 +82,7 @@
         "SALVAR": "Salvar",
         "ERROS": {
             "CAMPOS": "Preencha todos os campos",
-            "DATA": "Data superior a atual",
+            "DATA": "Data menor do que a atual",
             "NOTA": "Nota só pode estar entre 0 e 10"
         }
     },
